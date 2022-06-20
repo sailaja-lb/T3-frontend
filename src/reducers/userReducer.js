@@ -5,24 +5,30 @@ export const REGISTER_START = 'REGISTER_START'
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export const REGISTER_FAILURE = 'REGISTER_FAILURE'
 export const REGISTER_USER = 'REGISTER_USER'
-export const REGISTER_OWNER = 'REGISTER_USER'
 export const REGISTER_CREDENTIALS = 'REGISTER_CREDENTIALS'
 export const REGISTER_CANCEL = 'REGISTER_CANCEL'
-export const USERS = 'USERS'
+export const GET_ALL_USERS = 'GET_ALL_USERS'
+export const DELETE_USER = 'DELETE_USER'
+export const EDIT_ROLE = 'EDIT_ROLE'
 export const UPDATE_CREDENTIALS = 'UPDATE_CREDENTIALS'
 export const CANCEL = 'CANCEL'
 export const LOGOUT = 'LOGOUT'
 
-// InitialState
+
 const initialState = {
     isLoggedIn: false,
     isRegister: false,
     loginPending: false,
     registerPending: false,
+    loggedInUser: null,
+    loggedInRole: null,
     successfulRegisterMessage: false,
     loginErrorMessage: false,
     credentials: {username: '', password: '', role: ''},
-    newUser: {username: '', password: '', role: ''},
+    addNewUser: {username: '', password: '', role: ''},
+    users: [],
+    isEditRole: false,
+    deleteUserSuccess: false
 }
 
 export default function userReducer(state = initialState, action) {
@@ -33,16 +39,16 @@ export default function userReducer(state = initialState, action) {
                 isLoggedIn: false,
                 loginPending: true
             }
-
         case LOGIN_SUCCESS:
             return {
                 ...state,
                 isLoggedIn: true,
                 loginPending: false,
                 loginErrorMessage: false,
-                successfulRegisterMessage: false
+                successfulRegisterMessage: false,
+                loggedInUser: state.credentials.username,
+                // loggedInRole: state.credentials.role
             }
-
         case LOGIN_FAILURE:
             return {
                 ...state,
@@ -51,7 +57,6 @@ export default function userReducer(state = initialState, action) {
                 loginErrorMessage: true,
                 successfulRegisterMessage: false
             }
-
         case UPDATE_CREDENTIALS:
             return {
                 ...state,
@@ -64,20 +69,18 @@ export default function userReducer(state = initialState, action) {
         case REGISTER_USER:
             return {
                 ...state,
-                newUser: {
+                addNewUser: {
                     username: action.payload.username,
                     password: action.payload.password,
                     role: action.payload.role
-                },
-                successfulRegisterMessage: true,
-                isRegister: false,
-                isLoggedIn: false,
+                }
             }
         case REGISTER_START:
             return {
                 ...state,
-                isRegister: false,
+                isRegister: true,
                 registerPending: true,
+                isLoggedIn: false
             }
         case REGISTER_SUCCESS:
             return {
@@ -100,11 +103,26 @@ export default function userReducer(state = initialState, action) {
         case LOGOUT:
             return {
                 ...state,
+                isLoggedIn: false
+            }
+        case GET_ALL_USERS:
+            return {
+                ...state,
+                users: [...state.users, {...action.user}],
+            }
+        case EDIT_ROLE:
+            return {
+                ...state,
+                isEditRole: true,
                 credentials: {
-                    username: '',
-                    password: '',
-                    role: ''
+                    role: action.payload.role
                 }
+            }
+        case DELETE_USER:
+            return {
+                ...state,
+                users: action.payload.users,
+                deleteUserSuccess: true
             }
         default:
             return {...state}
@@ -114,9 +132,9 @@ export default function userReducer(state = initialState, action) {
 export function initiateLogin(_fetch=fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: LOGIN_START})
-        const {username, password, role} = getState().userReducer.credentials
-        const url = `http://localhost:8080/login?username=${username}&password=${password}&role=${role}`
-        const response = await _fetch(url, {mode : 'no-cors'})
+        const {username, password} = getState().userReducer.credentials
+        const url = `http://localhost:8081/user/login?username=${username}&password=${password}`
+        const response = await _fetch(url)
         if (response.ok) {
             dispatch({type: LOGIN_SUCCESS})
         } else
@@ -126,14 +144,22 @@ export function initiateLogin(_fetch=fetch) {
 
 export function initiateRegister(_fetch=fetch) {
     return async function createRegister(dispatch, getState) {
-        dispatch({type: REGISTER_START})
-        const {username, password, role} = getState().userReducer.newUser;
-        const registerUrl = `http://localhost:8080/register`
+        // dispatch({type: REGISTER_START})
+        const {username, password, role} = getState().userReducer.addNewUser;
+        let registerUrl = ``
+        if (role === "Admin") {
+            registerUrl = "http://localhost:8081/user/registerAdmin"
+        } else if (role === "Recruiter") {
+            registerUrl = "http://localhost:8081/user/registerRecruiter"
+        } else {
+            registerUrl = "http://localhost:8081/user/registerApplicant"
+        }
         const response = await _fetch(registerUrl, {
-            method: 'POST', headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'
-            }, body: JSON.stringify({
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
                 username: `${username}`,
                 password: `${password}`,
                 role: `${role}`
