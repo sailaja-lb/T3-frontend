@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import {Button, Form} from "react-bootstrap";
+import {assignQuiz} from "../reducers/userReducer";
 
 function AssignQuizToApplicant() {
     const users = useSelector(state => state.userReducer.users)
     const quizzes = useSelector(state => state.userReducer.quizzes)
     const [userID, setUserID] = useState(users[0]?.id)
-    const [assignQuizID, setAssignQuizID] = useState(quizzes[0]?.id)
+    const [assignQuizID, setAssignQuizID] = useState(quizzes[0]?.quizId)
 
 
     return <div>
@@ -21,13 +22,13 @@ function AssignQuizToApplicant() {
                 <Form.Label> Select quiz you like to assigned
                     <Form.Select onChange={e => setAssignQuizID(e.target.value)}>
                         {quizzes.map((quiz, index) =>
-                            <option value={quiz?.id} key={index}>{quiz}</option>)}
+                            <option value={quiz?.quizId} key={index}>{quiz}</option>)}
                     </Form.Select>
                 </Form.Label>
             </Form>
         </div>
         <div className={'d-flex justify-content-center'}>
-            <Button>Assign quiz</Button>
+            <Button onClick={() => assignQuiz(assignQuizID, userID)}>Assign quiz</Button>
         </div>
     </div>
 
