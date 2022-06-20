@@ -27,6 +27,7 @@ const initialState = {
     credentials: {username: '', password: '', role: ''},
     addNewUser: {username: '', password: '', role: ''},
     users: [],
+    quizzes: [],
     isEditRole: false,
     deleteUserSuccess: false
 }
@@ -96,7 +97,7 @@ export default function userReducer(state = initialState, action) {
                 registerPending: false
             }
         case REGISTER_CANCEL:
-            return{
+            return {
                 ...state,
                 isRegister: false,
             }
@@ -129,7 +130,7 @@ export default function userReducer(state = initialState, action) {
     }
 }
 
-export function initiateLogin(_fetch=fetch) {
+export function initiateLogin(_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: LOGIN_START})
         const {username, password} = getState().userReducer.credentials
@@ -142,7 +143,7 @@ export function initiateLogin(_fetch=fetch) {
     }
 }
 
-export function initiateRegister(_fetch=fetch) {
+export function initiateRegister(_fetch = fetch) {
     return async function createRegister(dispatch, getState) {
         // dispatch({type: REGISTER_START})
         const {username, password, role} = getState().userReducer.addNewUser;

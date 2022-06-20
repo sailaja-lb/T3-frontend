@@ -1,7 +1,8 @@
+import AssignQuizToApplicant from "./components/AssignQuizToApplicant";
 
 function App() {
   return<div>
-      team 3 are winners
+        <AssignQuizToApplicant/>
     </div>
 }
 
