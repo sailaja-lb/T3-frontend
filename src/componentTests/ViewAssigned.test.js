@@ -1,6 +1,5 @@
 import {render, screen} from "@testing-library/react";
-import ViewAssigned from "./ViewAssigned";
-import userEvent from "@testing-library/user-event";
+import ViewAssigned from "../components/Applicant/ViewAssigned";
 
 
 it('should show 3 quizzes', function () {

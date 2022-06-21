@@ -20,7 +20,6 @@ export default function ViewAssigned({
 
     function handleUpdate() {
         dispatch(getAssigned())
-
     }
 
     return <div>
