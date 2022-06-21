@@ -16,7 +16,7 @@ export default function GetQuiz({
         quizId, quizQuestion, questionNumber,
         questionType, quizTemplateId,
     } = quiz ? quiz : {}
-    console.log(quiz)
+ 
     function handleDeleteQuiz() {
         dispatch(_initiatedeleteQuiz(quizTemplateId))
         setShow(false)

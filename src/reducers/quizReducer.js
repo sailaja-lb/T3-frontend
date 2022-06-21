@@ -185,7 +185,6 @@ export default function reducer(state = initialState, action) {
                 getResponses:'',
             }
         case ADD_QUIZ_DETAILS:
-            console.log(action.payload)
             return {
                 ...state,
                 addQuizDetails: {
@@ -219,8 +218,15 @@ export function initiateAddQuiz(_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: ADD_QUIZ_START})
         const {quizTemplateId, questionNumber, questions,questionType} = getState().quizReducer.addQuizDetails
-        const url = `http://localhost:8081/createQuiz?quizTemId=${quizTemplateId}&questionNumber=${questionNumber}&quizQuestion=${questions}&questionType=${questionType}`
-        const response = await _fetch(url)
+ //       const url = `http://localhost:8081/createQuiz?quizTemId=${quizTemplateId}&questionNumber=${questionNumber}&quizQuestion=${questions}&questionType=${questionType}`
+        const url = `http://localhost:8081/createQuiz`
+        const response = await _fetch(url,{
+            method:'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({quizTemplateId, questionNumber, quizQuestion:questions,questionType})
+        })
         if (response.ok) {
             const addResult = await response.json()
             dispatch({type: ADD_QUIZ_SUCCESS,payload:addResult})
@@ -244,8 +250,12 @@ export function initiateGetAllQuizzes(_fetch = fetch) {
 export function initiatedeleteQuiz(quizTemplateId,_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: DELETE_QUIZ_START})
-        const url = `http://localhost:8081/deleteQuiz?quizTemplateId=${quizTemplateId}`
-        const response = await _fetch(url)
+        const url=`http://localhost:8081/deleteQuiz/${quizTemplateId}`
+        console.log(url)
+ //       const url = `http://localhost:8081/deleteQuiz?quizTemplateId=${quizTemplateId}`
+        const response = await _fetch(url,{
+            method:"DELETE"
+        })
         if (response.ok) {
             const result = await response.json()
             dispatch({type: DELETE_QUIZ_SUCCESS,payload:result})
