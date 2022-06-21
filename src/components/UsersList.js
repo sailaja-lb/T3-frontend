@@ -1,16 +1,17 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Card, Col, Row} from "react-bootstrap";
 
-import {DELETE_USER, EDIT_ROLE, UPDATE_CREDENTIALS} from "../reducers/userReducer";
-import {BsFillTrash2Fill, BsPencilSquare} from "react-icons/all";
+import {DELETE_USER_DONE, EDIT_ROLE} from "../reducers/userReducer";
+import {BsFillTrash2Fill, BsPencilSquare} from "react-icons/bs";
+import {useEffect} from "react";
 
 export default function UsersList({_useSelector = useSelector, _useDispatch = useDispatch}) {
     const dispatch = _useDispatch()
     const loggedInUser = _useSelector(state => state.userReducer.loggedInUser)
     const users = _useSelector(state => state.userReducer.users)
-    const credentials = _useSelector(state => state.userReducer.credentials)
+
     function updateRole(role) {
-        dispatch({type: UPDATE_CREDENTIALS, payload: {...credentials, role}})
+        dispatch({type: EDIT_ROLE, payload: {credentials: {...role}}})
     }
 
     return (
@@ -31,7 +32,7 @@ export default function UsersList({_useSelector = useSelector, _useDispatch = us
                             </Col>
                             <Col xs='auto'>
                                 <Button title='Delete' variant={"outline-danger"} size='sm'
-                                        onClick={() => dispatch({type: DELETE_USER})}>
+                                        onClick={() => dispatch({type: DELETE_USER_DONE})}>
                                     DELETE
                                     <BsFillTrash2Fill />
                                 </Button>
