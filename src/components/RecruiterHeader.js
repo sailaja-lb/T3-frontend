@@ -20,11 +20,11 @@ export default function RecruiterHeader({
 
     return <div className='my-3 d-flex justify-content-between'>
         <Badge bg={'secondary'} className={'d-flex flex-column justify-content-center w-25'}>Welcome,Recruiter</Badge>
-        <Button title='Create Quiz/Questions' onClick={() => dispatch({type: ADD_QUIZZES})}
+        <Button title='Create Quizzes/Questions' onClick={() => dispatch({type: ADD_QUIZZES})}
                 variant={"outline-primary"}>Create Quizzes/Questions</Button>
         <Button title='Get All Quizzes' onClick={handleGetAllProc}
                 variant={"outline-primary"}>Get All Quizzes</Button>
-        <Button title='Assign Quiz To User'
+        <Button title='Assign Quiz to Users'
           /*      onClick={handleGetAllFollowings}*/
                 variant={"outline-primary"}>Assign Quiz to Users</Button>
         <Button title='Grade Completed Quizzes'
