@@ -1,11 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Card, Col, Row} from "react-bootstrap";
-import User from "./User";
 import {BsFillTrash2Fill, BsPencilSquare} from "react-icons/bs";
 import {deleteUser, EDIT_ROLE_START, editUser} from "../reducers/userReducer";
 
 
-export default function UsersList({_useSelector = useSelector, _useDispatch = useDispatch, UserC= User}) {
+export default function UsersList({_useSelector = useSelector, _useDispatch = useDispatch}) {
     const loggedInUser = _useSelector(state => state.userReducer.loggedInUser)
     const users = _useSelector(state => state.userReducer.users)
 
@@ -42,9 +41,10 @@ export default function UsersList({_useSelector = useSelector, _useDispatch = us
                                 </Button>
                             </Col>
                         </Row>
-                        {/*<UserC user={user}/>*/}
                     </div>: null)}
             </Card.Body>
         </Card>
     )
 }
+
+//handleEditRole(user.role)
