@@ -228,6 +228,8 @@ export function assignQuiz(_fetch = fetch, assignmentId, quizId) {
             console.log("passed")
         else
             console.log("failed")
+    }
+}
 
 export function initiateAddQuiz(_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {

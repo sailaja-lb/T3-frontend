@@ -5,7 +5,7 @@ import {assignQuiz} from "../reducers/quizReducer";
 
 function AssignQuizToApplicant() {
     const users = useSelector(state => state.userReducer.users)
-    const quizzes = useSelector(state => state.quizReducer.quizzes)
+    const quizzes = useSelector(state => state.quizReducer.getallQuizresult)
     const [userID, setUserID] = useState(users[0]?.id)
     const [assignQuizID, setAssignQuizID] = useState(quizzes[0]?.quizId)
 
