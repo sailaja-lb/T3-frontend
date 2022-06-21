@@ -24,7 +24,7 @@ const initialState = {
     quizToAdd: {
         quizTemplateId: '',
         questionNumber:null,
-        questions: '',
+        questionText: '',
         questionType: '',
 
 
@@ -35,7 +35,7 @@ const initialState = {
     addQuizDetails:  {
         quizTemplateId: '',
         questionNumber: '',
-        questions: '',
+        questionText: '',
         questionType: '',
 
     },
@@ -44,7 +44,7 @@ const initialState = {
         quizTemplateId: '',
         questionType: '',
         questionNumber: '',
-        questions: '',
+        questionText: '',
     },
     deleteId:null,
     quizToEdit:  {
@@ -52,7 +52,7 @@ const initialState = {
         quizTemplateId: '',
         questionType: '',
         questionNumber: '',
-        questions: '',
+        questionText: '',
     },
     isApplicant:false,
     isGetApplicant:false,
@@ -108,6 +108,7 @@ export default function reducer(state = initialState, action) {
                 isGetAllQuiz: true,
             }
         case GET_ALL_QUIZZES_SUCCESS:
+            console.log(action.payload)
             return {
                 ...state,
                 recruiterPending: false,
@@ -162,7 +163,7 @@ export default function reducer(state = initialState, action) {
                 quizToAdd: {
                     quizTemplateId: '',
                     questionNumber: '',
-                    questions: '',
+                    questionText: '',
                     questionType: '',
 
                 },
@@ -190,7 +191,7 @@ export default function reducer(state = initialState, action) {
                 addQuizDetails: {
                     quizTemplateId: action.payload.quizTemplateId,
                     questionNumber: action.payload.questionNumber,
-                    questions: action.payload.questions,
+                    questionText: action.payload.questionText,
                     questionType: action.payload.questionType,
 
                 },
@@ -233,15 +234,15 @@ export function assignQuiz(_fetch = fetch, assignmentId, quizId) {
 export function initiateAddQuiz(_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: ADD_QUIZ_START})
-        const {quizTemplateId, questionNumber, questions,questionType} = getState().quizReducer.addQuizDetails
+        const {quizTemplateId, questionNumber, questionText,questionType} = getState().quizReducer.addQuizDetails
  //       const url = `http://localhost:8081/createQuiz?quizTemId=${quizTemplateId}&questionNumber=${questionNumber}&quizQuestion=${questions}&questionType=${questionType}`
-        const url = `http://localhost:8081/createQuiz`
+        const url = `http://localhost:8081/createQuizA`
         const response = await _fetch(url,{
             method:'POST',
             headers:{
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({quizTemplateId, questionNumber, quizQuestion:questions,questionType})
+            body: JSON.stringify({quizTemplateId, questionNumber, questionText,questionType})
         })
         if (response.ok) {
             const addResult = await response.json()
@@ -254,7 +255,7 @@ export function initiateAddQuiz(_fetch = fetch) {
 export function initiateGetAllQuizzes(_fetch = fetch) {
     return async function sideEffect(dispatch) {
         dispatch({type: GET_ALL_QUIZZES_START})
-        const url = `http://localhost:8081/getallQuizzes`
+        const url = `http://localhost:8081/getAllQuizzes`
         const response = await _fetch(url)
         if (response.ok) {
             const result = await response.json()
@@ -280,10 +281,10 @@ export function initiatedeleteQuiz(quizTemplateId,_fetch = fetch) {
     }
 }
 
-export function initiatedeleteQuestion(quizId,_fetch = fetch) {
+export function initiatedeleteQuestion(questionId,_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: DELETE_QUESTION_START})
-        const url = `http://localhost:8081/deleteQuestion?quizId=${quizId}`
+        const url = `http://localhost:8081/deleteQuestion?questionId=${questionId}`
         const response = await _fetch(url)
         if (response.ok) {
             const result = await response.json()

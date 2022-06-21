@@ -3,7 +3,7 @@ import RecruiterHeader from "./components/RecruiterHeader";
 import {useSelector} from "react-redux";
 import {Container} from "react-bootstrap";
 import GetAllQuizzes from "./components/GetAllQuizzes";
-import AssignQuizToApplicant from "./components/AssignQuizToApplicant";
+//import AssignQuizToApplicant from "./components/AssignQuizToApplicant";
 
 import GetCompletedQuizzes from "./components/GetCompletedQuizzes";
 export default function App({

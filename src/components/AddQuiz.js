@@ -26,8 +26,8 @@ export default function AddQuiz({
         dispatch({type: ADD_QUIZ_DETAILS, payload: {...addQuizDetails, questionNumber}})
     }
 
-    function setQuestions(questions) {
-        dispatch({type: ADD_QUIZ_DETAILS, payload: {...addQuizDetails, questions}})
+    function setQuestions(questionText) {
+        dispatch({type: ADD_QUIZ_DETAILS, payload: {...addQuizDetails, questionText}})
     }
 
     function handleSubmit(event) {
