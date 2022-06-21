@@ -1,8 +1,9 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Card, Form, InputGroup, Row} from "react-bootstrap";
 import {
+    ADMIN_CANCEL,
     CANCEL,
-    initiateRegister, REGISTER_CREDENTIALS, REGISTER_USER, UPDATE_CREDENTIALS, USERS,
+    initiateRegister, REGISTER_USER
 } from "../reducers/userReducer";
 import {BsLock, BsPerson} from "react-icons/bs";
 
@@ -52,7 +53,12 @@ export default function Register({_useSelector = useSelector, _useDispatch=useDi
                 <Row className={'p-3'}>
                     <Button type={"submit"} variant={"primary"}>Register</Button>
                 </Row>
-                <Button title='Cancel' variant={"primary"} onClick={() =>  dispatch({type:CANCEL})}>Cancel</Button>
+                <Row className={'p-3'}>
+                    <Button title='Cancel' variant={"primary"} onClick={() =>  dispatch({type:CANCEL})}>Cancel</Button>
+                </Row>
+                <Row className={'p-3'}>
+                    <Button title='Cancel' variant={"primary"} onClick={() =>  dispatch({type:ADMIN_CANCEL})}>GO BACK TO ADMIN</Button>
+                </Row>
             </Form>
         </Card.Body>
     </Card>
