@@ -8,6 +8,7 @@ import quizReducer from "./reducers/quizReducer";
 import responseReducer from "./reducers/responseReducer";
 import lengReducer from './reducers/lengReducer'
 import {Provider} from "react-redux";
+import {Container} from "react-bootstrap";
 
 const handleAsync = storeAPI => next => action => {
     if (typeof action === 'function')
@@ -24,9 +25,11 @@ const store = createStore(
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-      <Provider store={store}>
-          <App />
-      </Provider>
-  </React.StrictMode>
+    <React.StrictMode>
+        <Provider store={store}>
+            <Container>
+                <App/>
+            </Container>
+        </Provider>
+    </React.StrictMode>
 );

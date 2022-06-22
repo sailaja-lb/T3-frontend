@@ -1,9 +1,8 @@
 // Action
-import {GET_ALL_QUIZZES_START, GET_ALL_QUIZZES_SUCCESS} from "./quizReducer";
-
-export const TOGGLE_ASSIGN_QUIZ = 'TOGGLE_ASSIGN_QUIZ'
-export const GET_ALL_QUIZZES = 'GET_ALL_QUIZZES'
-export const GET_ALL_RESPONSES = 'GET_ALL_RESPONSES'
+export const TOGGLE_ASSIGN_QUIZ = '/TOGGLE_ASSIGN_QUIZ'
+export const GET_ALL_QUIZZES = '/GET_ALL_QUIZZES'
+export const GET_ALL_RESPONSES = '/GET_ALL_RESPONSES'
+export const TOGGLE_GRADE_QUIZ = '/TOGGLE_GRADE_QUIZ'
 
 // init state
 const initialState = {
@@ -12,7 +11,7 @@ const initialState = {
             "questionId": 1,
             "questionText": "Do you like apple?",
             "questionNumber": 2,
-            "quizTemplateId": 3,
+            'quizTemplateId': 3,
             "questionType": "some type"
         },
         {
@@ -23,8 +22,7 @@ const initialState = {
             "questionType": "some type"
         }
     ],
-    applicants: [],
-    toggleAssignQuiz: false,
+    applicants: [{id: 1}],
     responses: [
         {
             'assignmentId': 1,
@@ -48,11 +46,15 @@ const initialState = {
             'completed': false,
         }
     ],
+    toggleAssignQuiz: false,
+    toggleGradeQuiz: false,
 }
 
 // Reducer
-export default function quizReducer(state = initialState, action) {
+export default function lengReducer(state = initialState, action) {
     switch (action?.type) {
+        case TOGGLE_GRADE_QUIZ:
+            return {...state, toggleGradeQuiz: !state.toggleGradeQuiz}
         case TOGGLE_ASSIGN_QUIZ:
             return {...state, toggleAssignQuiz: !state.toggleAssignQuiz}
         case GET_ALL_QUIZZES:

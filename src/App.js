@@ -6,6 +6,7 @@ import GetAllQuizzes from "./components/GetAllQuizzes";
 import AssignQuizToApplicant from "./components/AssignQuizToApplicant";
 import GradeCompletedQuiz from "./components/GradeCompletedQuiz";
 import GradeCompletedQuizzes from "./components/GradeCompletedQuizzes";
+import LengEntryPoint from "./components/LengEntryPoint";
 
 export default function App({
                                 _useSelector = useSelector,
@@ -17,7 +18,7 @@ export default function App({
     const isGetAllQuiz = _useSelector(state => state.quizReducer.isGetAllQuiz)
     //   if (isRecruiter) {
     if (true)
-        return <Container><GradeCompletedQuizzes/></Container>
+        return <Container><LengEntryPoint/></Container>
     else
         return <div className={'d-flex justify-content-center'}>
             <Container>
