@@ -11,7 +11,7 @@ import {
     InputGroup
 } from "react-bootstrap";
 import {BsFileEarmarkPlus} from "react-icons/bs";
-import {CANCEL_EDIT_QUIZ, EDIT_QUIZ, initiateUpdateQuiz} from "../reducers/quizReducer";
+import {CANCEL_EDIT_QUIZ, EDIT_QUIZ, initiateUpdateQuiz} from "../../reducers/quizReducer";
 
 
 
@@ -53,7 +53,7 @@ export default function EditQuiz({
             <option value="response Type">{questionType}</option>
             <option value="Boolean">Boolean</option>
             <option value="Text">Text</option>
-            <option value="Multiple Choice">Multiple Choice</option>
+        {/*    <option value="Multiple Choice">Multiple Choice</option>*/}
         </select>
 
         <Form.Control type='text' value={questionText}
