@@ -1,12 +1,11 @@
 import {useDispatch, useSelector} from "react-redux";
-import FauxQuiz from "./FauxQuiz";
 import {Button} from "react-bootstrap";
 import {getAssigned} from "../../reducers/responseReducer";
 
 
 export default function ViewAssigned({
                                          _useSelector = useSelector,
-                                         _FauxQuiz = FauxQuiz,
+                                         // _FauxQuiz = FauxQuiz,
                                          _useDispatch = useDispatch
 
 }) {
