@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Admin from "./components/Admin";
 import {Container} from "react-bootstrap";
+import Recruiter from "./components/Recruiter";
 //import Applicant from "./components/Applicant";
 
 function App({LoginC=Login, AdminC = Admin, RegisterC = Register, _useSelector = useSelector,
