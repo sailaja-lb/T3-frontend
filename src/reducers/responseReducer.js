@@ -1,3 +1,4 @@
+
 export const GET_ASSIGNMENTS_START = 'responseReducer/GET_ASSIGNMENTS_START'
 export const GET_ASSIGNMENTS_SUCCESS = 'responseReducer/GET_ASSIGNMENTS_SUCCESS'
 export const GET_ASSIGNMENTS_FAILURE = 'responseReducer/GET_ASSIGNMENTS_FAILURE'
@@ -18,23 +19,15 @@ const initialState = {
 
     user: {username: 'ssss', password: 'ssss'},
 
-    sendResponsePending: false,
-    isTakingQuiz: false,
-    quizToTake: null,
-    getGradesPending: false,
 
-    responseToAdd: {
-        quizTemplateId: null,
-        questionNumber: null,
-        questions: null,
-        questionType: null,
-        answer: '',
-    }
+
+const initialState = {
 
 }
 
 export default function responseReducer(state = initialState, action) {
     switch (action?.type) {
+
 
         case GET_ASSIGNMENTS_START:
             return {
@@ -110,9 +103,11 @@ export default function responseReducer(state = initialState, action) {
             }
 
 
+
         default:
             return {...state}
     }
+
 }
 
 
@@ -168,3 +163,6 @@ export function getGrades(_fetch = fetch) {
         }
     }
 }
+
+}
+

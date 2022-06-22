@@ -3,6 +3,7 @@ import {initLoadAllUsers, LOGOUT, REGISTER_START} from "../reducers/userReducer"
 import {Button, Col, Row, Spinner} from "react-bootstrap";
 import UsersList from "./UsersList";
 import {useEffect} from "react";
+import EditUserRole from "./EditUserRole";
 
 
 export default function Admin({_useDispatch = useDispatch, _useSelector = useSelector, UsersListC = UsersList}) {
@@ -35,6 +36,7 @@ export default function Admin({_useDispatch = useDispatch, _useSelector = useSel
                     {loading ? <Spinner animation="grow" /> : <UsersListC />}
                 </Col>
             </Row>
+            <EditUserRole />
         </>
     )
 }

@@ -1,3 +1,4 @@
+
 import responseReducer, {
     GET_ASSIGNMENTS_FAILURE,
     GET_ASSIGNMENTS_START, GET_ASSIGNMENTS_SUCCESS,
@@ -259,4 +260,8 @@ it('should dispatch SEND_RESPONSE_START and SEND_RESPONSE_FAILURE when sendRespo
     expect(_url).toBe(url)
     expect(dispatch).toHaveBeenCalledWith({type: SEND_RESPONSE_START})
     expect(dispatch).toHaveBeenCalledWith({type: SEND_RESPONSE_FAILURE})
+});
+=======
+it('should ', function () {
+
 });

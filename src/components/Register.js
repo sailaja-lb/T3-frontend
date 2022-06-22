@@ -56,9 +56,9 @@ export default function Register({_useSelector = useSelector, _useDispatch=useDi
                 <Row className={'p-3'}>
                     <Button title='Cancel' variant={"primary"} onClick={() =>  dispatch({type:CANCEL})}>Cancel</Button>
                 </Row>
-                <Row className={'p-3'}>
-                    <Button title='Cancel' variant={"primary"} onClick={() =>  dispatch({type:ADMIN_CANCEL})}>GO BACK TO ADMIN</Button>
-                </Row>
+                {/*<Row className={'p-3'}>*/}
+                {/*    <Button title='Cancel' variant={"primary"} onClick={() =>  dispatch({type:ADMIN_CANCEL})}>GO BACK TO ADMIN</Button>*/}
+                {/*</Row>*/}
             </Form>
         </Card.Body>
     </Card>
