@@ -18,11 +18,6 @@ const initialState = {
     getAssignmentsPending: false,
 
     user: {username: 'ssss', password: 'ssss'},
-
-
-
-const initialState = {
-
 }
 
 export default function responseReducer(state = initialState, action) {
@@ -162,7 +157,5 @@ export function getGrades(_fetch = fetch) {
             dispatch({type: GET_GRADES_FAILURE})
         }
     }
-}
-
 }
 
