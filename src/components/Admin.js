@@ -1,12 +1,20 @@
 import {useDispatch, useSelector} from "react-redux";
-import {LOGOUT, REGISTER_START, REGISTER_USER} from "../reducers/userReducer";
-import {Button, Col, Row} from "react-bootstrap";
+import {initLoadAllUsers, LOGOUT, REGISTER_START} from "../reducers/userReducer";
+import {Button, Col, Row, Spinner} from "react-bootstrap";
 import UsersList from "./UsersList";
+import {useEffect} from "react";
+import EditUserRole from "./EditUserRole";
 
 
 export default function Admin({_useDispatch = useDispatch, _useSelector = useSelector, UsersListC = UsersList}) {
     const dispatch = _useDispatch()
     const loggedInUser = _useSelector(state => state.userReducer.credentials.username)
+    const loading = _useSelector(state => state.loading)
+
+    useEffect(() => {
+        dispatch(initLoadAllUsers());
+    }, []);
+
 
     function handleRegister() {
         dispatch({type: REGISTER_START})
@@ -25,9 +33,10 @@ export default function Admin({_useDispatch = useDispatch, _useSelector = useSel
             </Row>
             <Row>
                 <Col xs lg="2">
-                    <UsersListC />
+                    {loading ? <Spinner animation="grow" /> : <UsersListC />}
                 </Col>
             </Row>
+            <EditUserRole />
         </>
     )
 }
