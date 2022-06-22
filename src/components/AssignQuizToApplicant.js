@@ -4,8 +4,8 @@ import {Button, Form} from "react-bootstrap";
 import {assignQuiz} from "../reducers/quizReducer";
 
 function AssignQuizToApplicant() {
-    const users = useSelector(state => state.userReducer.users)
-    const quizzes = useSelector(state => state.quizReducer.getallQuizresult)
+    const users = useSelector(state => state.lengReducer.applicants)
+    const quizzes = useSelector(state => state.lengReducer.quizzes)
     const [userID, setUserID] = useState(users[0]?.id)
     const [assignQuizID, setAssignQuizID] = useState(quizzes[0]?.quizId)
 
