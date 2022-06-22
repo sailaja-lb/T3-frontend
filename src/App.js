@@ -25,7 +25,7 @@ function App({LoginC=Login, AdminC = Admin, RegisterC = Register, _useSelector =
         }
         else if (loggedInRole === 'Recruiter') {
             return <Container>
-                <Recruiter/>
+                <RecruiterC/>
             </Container>
         }
 /*        else if (loggedInRole === 'Applicant') {
