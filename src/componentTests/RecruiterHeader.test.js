@@ -1,5 +1,5 @@
 import {ADD_QUIZZES, initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../reducers/quizReducer";
-import RecruiterHeader from "../components/RecruiterHeader";
+import RecruiterHeader from "../components/QuizFrontend/RecruiterHeader";
 import {render,screen} from "@testing-library/react";
 
 it('should dispatch LOGOUT when LOGOUT button is clicked', () => {

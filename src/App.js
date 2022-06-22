@@ -1,12 +1,12 @@
-import AddQuiz from "./components/AddQuiz";
-import RecruiterHeader from "./components/RecruiterHeader";
+import AddQuiz from "./components/QuizFrontend/AddQuiz";
+import RecruiterHeader from "./components/QuizFrontend/RecruiterHeader";
 import {useSelector} from "react-redux";
 import {Container} from "react-bootstrap";
-import GetAllQuizzes from "./components/GetAllQuizzes";
+import GetAllQuizzes from "./components/QuizFrontend/GetAllQuizzes";
 import AssignQuizToApplicant from "./components/AssignQuizToApplicant";
 
 import GetCompletedQuizzes from "./components/GetCompletedQuizzes";
-import EditQuiz from "./components/EditQuiz";
+import EditQuiz from "./components/QuizFrontend/EditQuiz";
 export default function App({
                                 _useSelector = useSelector,
                                 RecruiterHeaderC=RecruiterHeader,

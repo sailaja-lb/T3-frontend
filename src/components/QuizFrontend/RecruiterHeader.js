@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Badge, Button, Card, Col, Form, Row} from "react-bootstrap";
-import {ADD_QUIZZES,initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../reducers/quizReducer";
+import {ADD_QUIZZES,initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../../reducers/quizReducer";
 
 
 
