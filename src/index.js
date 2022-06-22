@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import userReducer from "./reducers/userReducer";
 import quizReducer from "./reducers/quizReducer";
 import responseReducer from "./reducers/responseReducer";
+import lengReducer from './reducers/lengReducer'
 import {Provider} from "react-redux";
 
 const handleAsync = storeAPI => next => action => {
@@ -18,7 +19,7 @@ const handleAsync = storeAPI => next => action => {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose()
 
 const store = createStore(
-    combineReducers({userReducer, quizReducer, responseReducer}),
+    combineReducers({userReducer, quizReducer, responseReducer, lengReducer}),
     composeEnhancers(applyMiddleware(handleAsync)))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
