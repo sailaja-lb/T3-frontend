@@ -1,6 +1,6 @@
-export const GET_QUIZ_START = 'responseReducer/GET_QUIZ'
-export const GET_QUIZ_SUCCESS = 'responseReducer/GET_SUCCESS'
-export const GET_QUIZ_FAILURE = 'responseReducer/GET_QUIZ_FAILURE'
+export const GET_ASSIGNMENTS_START = 'responseReducer/GET_ASSIGNMENTS_START'
+export const GET_ASSIGNMENTS_SUCCESS = 'responseReducer/GET_ASSIGNMENTS_SUCCESS'
+export const GET_ASSIGNMENTS_FAILURE = 'responseReducer/GET_ASSIGNMENTS_FAILURE'
 export const TAKE_QUIZ = 'responseReducer/TAKE_QUIZ'
 export const SEND_RESPONSE_START = 'responseReducer/SEND_RESPONSE_START'
 export const SEND_RESPONSE_SUCCESS = 'responseReducer/SEND_RESPONSE_SUCCESS'
@@ -14,7 +14,7 @@ const initialState = {
     responses: [],
     quizzes: [],
     grades: [],
-    getQuizPending: false,
+    getAssignmentsPending: false,
 
     user: {username: 'ssss', password: 'ssss'},
 
@@ -36,23 +36,23 @@ const initialState = {
 export default function responseReducer(state = initialState, action) {
     switch (action?.type) {
 
-        case GET_QUIZ_START:
+        case GET_ASSIGNMENTS_START:
             return {
                 ...state,
-                getQuizPending: true
+                getAssignmentsPending: true
             }
 
-        case GET_QUIZ_SUCCESS:
+        case GET_ASSIGNMENTS_SUCCESS:
             return {
                 ...state,
-                getQuizPending: false,
+                getAssignmentsPending: false,
                 quizzes: action.payload
             }
 
-        case GET_QUIZ_FAILURE:
+        case GET_ASSIGNMENTS_FAILURE:
             return {
                 ...state,
-                getQuizPending: false
+                getAssignmentsPending: false
             }
 
         case TAKE_QUIZ:
@@ -119,17 +119,17 @@ export default function responseReducer(state = initialState, action) {
 //TODO
 export function getAssigned(_fetch = fetch) {
     return async function getAssignedSE(dispatch) {
-        dispatch({type: GET_QUIZ_START})
+        dispatch({type: GET_ASSIGNMENTS_START})
         //TODO get url
-        const url = ``
+        const url = `http://localhost:8082/getAllAssignments`
         const response = await _fetch(url)
 
         if (response.ok) {
             const assigned = await response.json()
-            dispatch({type: GET_QUIZ_SUCCESS, payload: assigned})
+            dispatch({type: GET_ASSIGNMENTS_SUCCESS, payload: assigned})
         }
         else {
-            dispatch({type: GET_QUIZ_FAILURE})
+            dispatch({type: GET_ASSIGNMENTS_FAILURE})
         }
     }
 }
@@ -156,7 +156,7 @@ export function getGrades(_fetch = fetch) {
     return async function getGradesSE(dispatch) {
         dispatch({type: GET_GRADES_START})
         //TODO get url
-        const url = ``
+        const url = `http://localhost:8082/getAllGradedResponses`
         const response = await _fetch(url)
 
         if (response.ok) {
