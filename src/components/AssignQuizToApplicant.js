@@ -6,6 +6,7 @@ import {TOGGLE_ASSIGN_QUIZ} from "../reducers/lengReducer";
 // import {assignQuiz} from "../reducers/quizReducer";
 
 function AssignQuizToApplicant() {
+    // this will grab users not applicant
     const users = useSelector(state => state.lengReducer.applicants)
     const quizzes = useSelector(state => state.lengReducer.quizzes)
     const [userID, setUserID] = useState(users[0]?.id)

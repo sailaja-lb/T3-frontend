@@ -8,6 +8,7 @@ import AssignQuizToApplicant from "./AssignQuizToApplicant";
 import GetCompletedQuizzes from "./GetCompletedQuizzes";
 import EditQuiz from "./QuizFrontend/EditQuiz";
 import GradeCompletedQuizzes from "./GradeCompletedQuizzes";
+import SelectApplicantQuiz from "./SelectApplicantQuiz";
 
 export default function Recruiter({
                                       _useSelector = useSelector,
@@ -28,7 +29,7 @@ export default function Recruiter({
     if (toggleAssignQuiz)
         return <AssignQuizToApplicant/>
     else if (toggleGradeQuiz)
-        return <GradeCompletedQuizzes/>
+        return <SelectApplicantQuiz/>
     else
         return <div className={'d-flex justify-content-center'}>
             <Container>
