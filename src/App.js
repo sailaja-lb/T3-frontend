@@ -1,33 +1,53 @@
-import AddQuiz from "./components/AddQuiz";
-import RecruiterHeader from "./components/RecruiterHeader";
+
 import {useSelector} from "react-redux";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Admin from "./components/Admin";
 import {Container} from "react-bootstrap";
-import GetAllQuizzes from "./components/GetAllQuizzes";
-import AssignQuizToApplicant from "./components/AssignQuizToApplicant";
-import GradeCompletedQuiz from "./components/GradeCompletedQuiz";
-import GradeCompletedQuizzes from "./components/GradeCompletedQuizzes";
-import LengEntryPoint from "./components/LengEntryPoint";
+import Recruiter from "./components/Recruiter";
+//import Applicant from "./components/Applicant";
 
-export default function App({
-                                _useSelector = useSelector,
-                                RecruiterHeaderC = RecruiterHeader,
-                                GetAllQuizzesC = GetAllQuizzes,
-                                AddQuizC = AddQuiz,
-                            }) {
-    const isAddQuiz = _useSelector(state => state.quizReducer.isAddQuiz)
-    const isGetAllQuiz = _useSelector(state => state.quizReducer.isGetAllQuiz)
-    //   if (isRecruiter) {
-    if (true)
-        return <Container><LengEntryPoint/></Container>
-    else
-        return <div className={'d-flex justify-content-center'}>
-            <Container>
-                <RecruiterHeaderC/>
-                {isGetAllQuiz && <GetAllQuizzesC/>}
-                {isAddQuiz && <AddQuizC/>}
-                {/*                {isEditProc && <EditProcessC/>}*/}
+function App({LoginC=Login, AdminC = Admin, RegisterC = Register, _useSelector = useSelector,
+                 RecruiterC = Recruiter,
+//                 ApplicantC = Applicant
+}) {
+
+    const isLoggedIn = _useSelector(state => state.userReducer.isLoggedIn);
+    const isRegister = _useSelector(state => state.userReducer.isRegister);
+    const loggedInRole = _useSelector(state => state.userReducer.loggedInRole);
+
+
+    if (isLoggedIn) {
+        if (loggedInRole === 'Admin') {
+            return <Container>
+                <AdminC/>
             </Container>
-        </div>
-//    }
+        }
+        else if (loggedInRole === 'Recruiter') {
+            return <Container>
+                <RecruiterC/>
+            </Container>
+        }
+/*        else if (loggedInRole === 'Applicant') {
+            return <Container>
+                <ApplicantC/>
+            </Container>
+        }*/
 
+    } else if (isRegister) {
+        return <div style={{
+            position: 'absolute', left: '50%', top: '30%',
+            transform: 'translate(-50%, -50%)'
+        }}>
+            <RegisterC/>
+        </div>
+    } else {
+        return <div style={{
+            position: 'absolute', left: '50%', top: '30%',
+            transform: 'translate(-50%, -50%)'
+        }}>
+            <LoginC/>
+        </div>
+    }
 }
+export default App;

@@ -6,13 +6,15 @@ export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export const REGISTER_FAILURE = 'REGISTER_FAILURE'
 export const REGISTER_USER = 'REGISTER_USER'
 export const REGISTER_CREDENTIALS = 'REGISTER_CREDENTIALS'
-export const REGISTER_CANCEL = 'REGISTER_CANCEL'
-export const GET_ALL_USERS = 'GET_ALL_USERS'
-export const DELETE_USER = 'DELETE_USER'
+export const GET_ALL_USERS_DONE = 'GET_ALL_USERS_DONE'
+export const DELETE_USER_DONE = 'DELETE_USER_DONE'
+export const EDIT_ROLE_START = 'EDIT_ROLE_START'
 export const EDIT_ROLE = 'EDIT_ROLE'
 export const UPDATE_CREDENTIALS = 'UPDATE_CREDENTIALS'
 export const CANCEL = 'CANCEL'
+export const ADMIN_CANCEL = 'ADMIN_CANCEL'
 export const LOGOUT = 'LOGOUT'
+export const GET_ALL_USERS_START = 'GET_ALL_USERS_START'
 
 
 const initialState = {
@@ -28,7 +30,9 @@ const initialState = {
     addNewUser: {username: '', password: '', role: ''},
     users: [],
     isEditRole: false,
-    deleteUserSuccess: false
+    deleteUserSuccess: false,
+    loading: false,
+    editUserId: null
 }
 
 export default function userReducer(state = initialState, action) {
@@ -46,8 +50,9 @@ export default function userReducer(state = initialState, action) {
                 loginPending: false,
                 loginErrorMessage: false,
                 successfulRegisterMessage: false,
+                token: action.payload.token,
                 loggedInUser: state.credentials.username,
-                // loggedInRole: state.credentials.role
+                loggedInRole: state.credentials.role
             }
         case LOGIN_FAILURE:
             return {
@@ -95,20 +100,40 @@ export default function userReducer(state = initialState, action) {
                 isRegister: false,
                 registerPending: false
             }
-        case REGISTER_CANCEL:
-            return {
+        case CANCEL:
+            return{
                 ...state,
                 isRegister: false,
+                registerPending: false,
+                isLoggedIn: false
+            }
+        case ADMIN_CANCEL:
+            return {
+                ...state,
+                loggedInRole: state.credentials.role,
+                isLoggedIn: true,
             }
         case LOGOUT:
             return {
                 ...state,
                 isLoggedIn: false
             }
-        case GET_ALL_USERS:
+        case GET_ALL_USERS_START:
             return {
                 ...state,
-                users: [...state.users, {...action.user}],
+                loading: true
+            }
+
+        case GET_ALL_USERS_DONE:
+            return {
+                ...state,
+                //users: [...state.users, {...action.user}],
+                users: action.payload.allUsers
+            }
+        case EDIT_ROLE_START:
+            return {
+                ...state,
+                editUserId: action.payload.userId
             }
         case EDIT_ROLE:
             return {
@@ -118,10 +143,11 @@ export default function userReducer(state = initialState, action) {
                     role: action.payload.role
                 }
             }
-        case DELETE_USER:
+        case DELETE_USER_DONE:
             return {
                 ...state,
-                users: action.payload.users,
+                // users: action.payload.user,
+                users: [...action.payload.users],
                 deleteUserSuccess: true
             }
         default:
@@ -129,31 +155,30 @@ export default function userReducer(state = initialState, action) {
     }
 }
 
-
-export function initiateLogin(_fetch = fetch) {
+export function initiateLogin(_fetch=fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: LOGIN_START})
-        const {username, password} = getState().userReducer.credentials
-        const url = `http://localhost:8081/user/login?username=${username}&password=${password}`
+        const {username, password, role} = getState().userReducer.credentials
+        const url = `http://localhost:8080/user/login?username=${username}&password=${password}&role=${role}`
         const response = await _fetch(url)
         if (response.ok) {
-            dispatch({type: LOGIN_SUCCESS})
+            const token = await response.json()
+            dispatch({type: LOGIN_SUCCESS, payload: {token}})
         } else
             dispatch({type: LOGIN_FAILURE})
     }
 }
 
-export function initiateRegister(_fetch = fetch) {
+export function initiateRegister(_fetch=fetch) {
     return async function createRegister(dispatch, getState) {
-        // dispatch({type: REGISTER_START})
         const {username, password, role} = getState().userReducer.addNewUser;
         let registerUrl = ``
         if (role === "Admin") {
-            registerUrl = "http://localhost:8081/user/registerAdmin"
+            registerUrl = "http://localhost:8080/user/registerAdmin"
         } else if (role === "Recruiter") {
-            registerUrl = "http://localhost:8081/user/registerRecruiter"
+            registerUrl = "http://localhost:8080/user/registerRecruiter"
         } else {
-            registerUrl = "http://localhost:8081/user/registerApplicant"
+            registerUrl = "http://localhost:8080/user/registerApplicant"
         }
         const response = await _fetch(registerUrl, {
             method: 'POST',
@@ -170,6 +195,69 @@ export function initiateRegister(_fetch = fetch) {
             dispatch({type: REGISTER_SUCCESS})
         } else
             dispatch({type: REGISTER_FAILURE})
+    }
+}
+
+export function initLoadAllUsers(_fetch=fetch) {
+    return async function allUsers(dispatch, getState) {
+        const token = getState().userReducer.token
+        dispatch({type: GET_ALL_USERS_START})
+        const url = `http://localhost:8080/user/getAll?token=${token}`
+        const response = await _fetch(url)
+
+        if (response.ok) {
+            const allUsers = await response.json()
+            dispatch({type: GET_ALL_USERS_DONE, payload: {allUsers}})
+        }
+    }
+}
+
+export function editUser(userRole, _fetch=fetch) {
+    return async function editUser(dispatch, getState) {
+        const state = getState()
+        const token = getState().userReducer.token
+        const user = state.userReducer.credentials
+        const role = state.userReducer.credentials.role
+        if (user.role === userRole) {
+            const users = [...state.userReducer.users]
+            const url = `http://localhost:8080/user/editUser?token=${token}&role=${role}`
+            const response = await _fetch(url, {
+                method: 'PUT',
+                body: JSON.stringify(role),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+            if (response.ok) {
+                const result = await response.json()
+                const userIndex = users.findIndex(each => each.role === userRole)
+                if (userIndex >= 0) {
+                    users[userIndex] = result
+                }
+                dispatch({type: EDIT_ROLE, payload: {credentials: {role}}})
+            }
+        }
+    }
+}
+
+export function deleteUser(userId, _fetch=fetch) {
+    return async function deleteUser(dispatch, getState) {
+        const state = getState()
+        const token = state.userReducer.token
+        const url = `http://localhost:8080/user/deleteUser?token=${token}`
+        const response = await _fetch(url, {
+            method: 'DELETE'
+        })
+
+        if (response.ok) {
+            const users = [...state.userReducer.users]
+            const deleteUserIndex = users.findIndex((each) => each.id === userId)
+            if (deleteUserIndex >= 0) {
+                users.splice(deleteUserIndex, 1)
+            }
+            dispatch({type: DELETE_USER_DONE, payload: {users}})
+        }
     }
 }
 
