@@ -22,7 +22,7 @@ function AssignQuizToApplicant() {
     });
 
     const [userID, setUserID] = useState(users[0]?.id)
-    const [assignQuizID, setAssignQuizID] = useState(quizzes[0]?.quizTemplateId)
+    const [assignQuizID, setAssignQuizID] = useState(uniqueQuizzesId[0]?.quizTemplateId)
     const dispatch = useDispatch()
 
     useEffect(() => {
