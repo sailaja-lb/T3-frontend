@@ -26,7 +26,10 @@ export default function RecruiterHeader({
         <Button title='Get All Quizzes' onClick={handleGetAllProc}
                 variant={"outline-primary"}>Get All Quizzes</Button>
         <Button title='Assign Quiz to Users'
-                onClick={() => dispatch({type: TOGGLE_ASSIGN_QUIZ})}
+                onClick={() => {
+                    dispatch(initiateGetAllQuizzes())
+                    dispatch({type: TOGGLE_ASSIGN_QUIZ})
+                }}
                 variant={"outline-primary"}>Assign Quiz to Users</Button>
         <Button title='Grade Completed Quizzes'
                 onClick={() => dispatch({type: TOGGLE_GRADE_QUIZ})}

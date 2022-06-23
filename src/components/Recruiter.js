@@ -7,7 +7,6 @@ import AssignQuizToApplicant from "./AssignQuizToApplicant";
 
 import GetCompletedQuizzes from "./GetCompletedQuizzes";
 import EditQuiz from "./QuizFrontend/EditQuiz";
-import GradeCompletedQuizzes from "./GradeCompletedQuizzes";
 import SelectApplicantQuiz from "./SelectApplicantQuiz";
 import {useEffect} from "react";
 import {initLoadAllUsers} from "../reducers/userReducer";
