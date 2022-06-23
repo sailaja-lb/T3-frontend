@@ -12,12 +12,19 @@ export const GET_GRADES_FAILURE = 'responseReducer/GET_GRADES_FAILURE'
 export const SET_RESPONSE = 'responseReducer/SET_RESPONSE'
 
 const initialState = {
+    assignments: [],
+    assignment: {
+        assignment_id: null,
+        assigned_to: null,
+        quizTemplateId: null
+    },
     responses: [],
-    quizzes: [],
     grades: [],
     getAssignmentsPending: false,
+    isTakingQuiz: false,
+    quizToTake: null,
+    viewingGrades: false
 
-    user: {username: 'ssss', password: 'ssss'},
 }
 
 export default function responseReducer(state = initialState, action) {
@@ -34,7 +41,7 @@ export default function responseReducer(state = initialState, action) {
             return {
                 ...state,
                 getAssignmentsPending: false,
-                quizzes: action.payload
+                assignments: action.payload
             }
 
         case GET_ASSIGNMENTS_FAILURE:

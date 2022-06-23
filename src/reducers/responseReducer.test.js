@@ -261,7 +261,3 @@ it('should dispatch SEND_RESPONSE_START and SEND_RESPONSE_FAILURE when sendRespo
     expect(dispatch).toHaveBeenCalledWith({type: SEND_RESPONSE_START})
     expect(dispatch).toHaveBeenCalledWith({type: SEND_RESPONSE_FAILURE})
 });
-=======
-it('should ', function () {
-
-});
