@@ -1,6 +1,6 @@
 import AddQuiz from "./QuizFrontend/AddQuiz";
 import RecruiterHeader from "./QuizFrontend/RecruiterHeader";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Container} from "react-bootstrap";
 import GetAllQuizzes from "./QuizFrontend/GetAllQuizzes";
 import AssignQuizToApplicant from "./AssignQuizToApplicant";
@@ -9,6 +9,8 @@ import GetCompletedQuizzes from "./GetCompletedQuizzes";
 import EditQuiz from "./QuizFrontend/EditQuiz";
 import GradeCompletedQuizzes from "./GradeCompletedQuizzes";
 import SelectApplicantQuiz from "./SelectApplicantQuiz";
+import {useEffect} from "react";
+import {initLoadAllUsers} from "../reducers/userReducer";
 
 export default function Recruiter({
                                       _useSelector = useSelector,
@@ -25,6 +27,10 @@ export default function Recruiter({
 
     const toggleAssignQuiz = useSelector(state => state.lengReducer.toggleAssignQuiz)
     const toggleGradeQuiz = useSelector(state => state.lengReducer.toggleGradeQuiz)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(initLoadAllUsers());
+    }, []);
 
     if (toggleAssignQuiz)
         return <AssignQuizToApplicant/>

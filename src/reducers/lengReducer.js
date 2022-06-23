@@ -26,7 +26,7 @@ const initialState = {
             "questionType": "some type"
         }
     ],
-    applicants: [{id: 1, username: "leng"}, {id: 3, username: "jack"}],
+    applicants: [{id: 1, username: "leng"}, {id: 7, username: "jack"}],
     responses: [
         {
             'assignmentId': 1,
