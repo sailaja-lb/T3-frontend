@@ -12,9 +12,7 @@ export default function Login({_useSelector=useSelector, _useDispatch=useDispatc
     const credentials = _useSelector(state => state.userReducer.credentials)
     const successfulRegisterMessage = _useSelector(state => state.userReducer.successfulRegisterMessage)
     const loginErrorMessage = _useSelector(state => state.userReducer.loginErrorMessage)
-    // const [username, setUsername] = useState('')
-    // const [password, setPassword] = useState('')
-    // const [submit, setSubmit] = useState(false)
+    
     const dispatch = _useDispatch()
 
     function updateUsername(username) {
