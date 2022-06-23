@@ -1,21 +1,27 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Button} from "react-bootstrap";
 import {getAssigned} from "../../reducers/responseReducer";
+import StaticQuiz from "./StaticQuiz";
+
 
 
 export default function ViewAssigned({
                                          _useSelector = useSelector,
-                                         // _FauxQuiz = FauxQuiz,
-                                         _useDispatch = useDispatch
+                                         _useDispatch = useDispatch,
+                                         StaticQuizX = StaticQuiz
 
 }) {
     const dispatch = _useDispatch()
 
     //TODO change const username
-    const username = _useSelector(state => state.user.username)
-    const getQuizPending = _useSelector(state => state.getQuizPending)
-    const quizList = _useSelector(state => state.responseReducer.quizzes)
-    const assigned = quizList.filter(quiz => quiz.username === username)
+    const id = _useSelector(state => state.user.loggedInUser.id)
+    const assignments = _useSelector(state => state.responseReducer.assignments)
+    const quizzes = _useSelector(state => state.quizReducer.getallQuizresult)
+    const getQuizPending = _useSelector(state => state.quizReducer.recruiterPending)
+    const assignedTo = assignments.filter(assignment => assignment.assigned_to === id)
+    const assignedQuizzes = quizzes.filter((quiz) =>
+        assignedTo.find(({quizTemplateId}) => quiz.quizTemplateId === quizTemplateId))
+
 
     function handleUpdate() {
         dispatch(getAssigned())
@@ -23,17 +29,13 @@ export default function ViewAssigned({
 
     return <div>
         {<Button disabled={getQuizPending} onClick={handleUpdate}>Update</Button>}
-        {assigned.map((quiz) => (
-            <div>
-                <div>
-                    {quiz.title}
-                </div>
-                <div>
-                    {quiz.username}
-                </div>
-            </div>
-        ))}
-            </div>
+        {assignedQuizzes.map(
+            (staticQuiz, index) => <div key={index}>
+                <StaticQuizX staticQuiz={staticQuiz.quizTemplateId}/>
+                <StaticQuizX staticQuiz={staticQuiz.questions}/>
+            </div>)
+        }
+    </div>
 }
 
 
