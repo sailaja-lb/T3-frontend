@@ -3,7 +3,7 @@ import {Button, Card, Col, Modal, Table} from "react-bootstrap";
 import {BsFillArchiveFill, BsPencil, BsTrash} from "react-icons/bs";
 
 import {useState} from "react";
-import {EDIT_QUIZ, initiatedeleteQuestion, initiatedeleteQuiz} from "../reducers/quizReducer";
+import {EDIT_QUIZ, initiatedeleteQuestion, initiatedeleteQuiz} from "../../reducers/quizReducer";
 
 export default function GetQuiz({
                                        quiz,_initiatedeleteQuiz=initiatedeleteQuiz,_usedispatch=useDispatch,
@@ -66,7 +66,7 @@ export default function GetQuiz({
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant={"outline-secondary"} onClick={handleClose}>Cancel</Button>
-                                    <Button variant={"outline-primary"} onClick={handleDeleteQuiz}>Confirm</Button>
+                                    <Button title='Confirm' variant={"outline-primary"} onClick={handleDeleteQuiz}>Confirm</Button>
                                 </Modal.Footer>
                             </Modal></td>
                         </tr>

@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Alert, Button, Col, Dropdown, DropdownButton, Form, FormGroup, Row} from "react-bootstrap";
 import {BsFileEarmarkPlus} from "react-icons/bs";
 
-import {ADD_QUIZ_DETAILS, CANCEL_ADD_QUIZ, initiateAddQuiz} from "../reducers/quizReducer";
+import {ADD_QUIZ_DETAILS, CANCEL_ADD_QUIZ, initiateAddQuiz} from "../../reducers/quizReducer";
 
 
 export default function AddQuiz({
@@ -48,12 +48,12 @@ export default function AddQuiz({
             <option value="Text">Text</option>
       {/*  <option value="Multiple Choice">Multiple Choice</option>*/}
         </select>
-        <Form.Control type='text' required  placeholder='Enter question number here'
+        <Form.Control type='text' required  placeholder="Enter question number here"
                       onChange={e => setquestionNum(e.target.value)}/>
                     <Form.Control.Feedback type="invalid">
                         Question Number cannot be blank
                     </Form.Control.Feedback>
-        <Form.Control type='text' required  placeholder='Enter  question here'
+        <Form.Control type='text' required  placeholder="Enter question here"
                       onChange={e => setQuestions(e.target.value)}/>
         <Form.Control.Feedback type="invalid">
             Question cannot be blank

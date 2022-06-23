@@ -17,6 +17,9 @@ export const DELETE_QUESTION_FAILURE = 'quizReducer/DELETE_QUESTION_FAILURE'
 export const GET_ALL_QUIZZES_START = 'quizReducer/GET_ALL_QUIZZES_START'
 export const GET_ALL_QUIZZES_SUCCESS = 'quizReducer/GET_ALL_QUIZZES_SUCCESS'
 export const GET_ALL_QUIZZES_FAILURE = 'quizReducer/GET_ALL_QUIZZES_FAILURE'
+export const UPDATE_QUIZ_START = 'quizReducer/UPDATE_QUIZ_START'
+export const UPDATE_QUIZ_SUCCESS = 'quizReducer/UPDATE_QUIZ_SUCCESS'
+export const UPDATE_QUIZ_FAILURE = 'quizReducer/UPDATE_QUIZ_FAILURE'
 
 const initialState = {
     getallQuizresult: [],
@@ -48,7 +51,7 @@ const initialState = {
     },
     deleteId:null,
     quizToEdit:  {
-        quizId:'',
+        questionId:'',
         quizTemplateId: '',
         questionType: '',
         questionNumber: '',
@@ -71,7 +74,7 @@ export default function reducer(state = initialState, action) {
         case ADD_QUIZ_START:
         case DELETE_QUIZ_START:
         case DELETE_QUESTION_START:
- //       case UPDATE_PROCESS_START:
+        case UPDATE_QUIZ_START:
  //       case GET_FOLLOWINGS_START:
  //       case DELETE_FOLLOWINGS_START:
             return {
@@ -89,16 +92,16 @@ export default function reducer(state = initialState, action) {
                 getallQuizresult: action.payload,
                 isGetAllQuiz: true,
             }
-       /* case UPDATE_PROCESS_SUCCESS:
+        case UPDATE_QUIZ_SUCCESS:
             return {
                 ...state,
-                editProcDetails: null,
-                processToEdit: null,
-                isEditProc: false,
-                pending:false,
-                getallProcessresult: action.payload,
-                isGetAllProc: true,
-            }*/
+ //               editQuizDetails: null,
+                quizToEdit: null,
+                isEditQuiz: false,
+                recruiterPending:false,
+                getallQuizresult: action.payload,
+                isGetAllQuiz: true,
+            }
         case DELETE_QUIZ_SUCCESS:
         case DELETE_QUESTION_SUCCESS:
             return {
@@ -108,7 +111,6 @@ export default function reducer(state = initialState, action) {
                 isGetAllQuiz: true,
             }
         case GET_ALL_QUIZZES_SUCCESS:
-            console.log(action.payload)
             return {
                 ...state,
                 recruiterPending: false,
@@ -132,9 +134,9 @@ export default function reducer(state = initialState, action) {
             }*/
 
         case ADD_QUIZ_FAILURE:
+        case UPDATE_QUIZ_FAILURE:
 /*        case DELETE_PROCESS_FAILURE:
         case DELETE_STAGE_FAILURE:
-        case UPDATE_PROCESS_FAILURE:
         case GET_FOLLOWINGS_FAILURE:
         case DELETE_FOLLOWINGS_FAILURE:
         case GET_ALL_PROCESSES_FAILURE:*/
@@ -154,7 +156,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 quizToEdit: null,
-                editQuizDetails: null,
+//                editQuizDetails: null,
                 isEditQuiz: false,
             }
         case ADD_QUIZZES:
@@ -236,7 +238,7 @@ export function initiateAddQuiz(_fetch = fetch) {
         dispatch({type: ADD_QUIZ_START})
         const {quizTemplateId, questionNumber, questionText,questionType} = getState().quizReducer.addQuizDetails
  //       const url = `http://localhost:8081/createQuiz?quizTemId=${quizTemplateId}&questionNumber=${questionNumber}&quizQuestion=${questions}&questionType=${questionType}`
-        const url = `http://localhost:8081/createQuizA`
+        const url = `http://localhost:8081/createQuiz`
         const response = await _fetch(url,{
             method:'POST',
             headers:{
@@ -268,7 +270,7 @@ export function initiatedeleteQuiz(quizTemplateId,_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: DELETE_QUIZ_START})
         const url=`http://localhost:8081/deleteQuiz/${quizTemplateId}`
-        console.log(url)
+
  //       const url = `http://localhost:8081/deleteQuiz?quizTemplateId=${quizTemplateId}`
         const response = await _fetch(url,{
             method:"DELETE"
@@ -284,12 +286,27 @@ export function initiatedeleteQuiz(quizTemplateId,_fetch = fetch) {
 export function initiatedeleteQuestion(questionId,_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: DELETE_QUESTION_START})
-        const url = `http://localhost:8081/deleteQuestion?questionId=${questionId}`
-        const response = await _fetch(url)
+        const url=`http://localhost:8081/deleteQuestion/${questionId}`
+ //       const url = `http://localhost:8081/deleteQuestion?questionId=${questionId}`
+        const response = await _fetch(url,{
+            method:"DELETE"})
         if (response.ok) {
             const result = await response.json()
             dispatch({type: DELETE_QUESTION_SUCCESS,payload:result})
         } else
             dispatch({type: DELETE_QUESTION_FAILURE})
+    }
+}
+export function initiateUpdateQuiz(_fetch = fetch) {
+    return async function sideEffect(dispatch, getState) {
+        dispatch({type: UPDATE_QUIZ_START})
+        const { questionId, quizTemplateId, questionType, questionText} = getState().quizReducer.quizToEdit
+        const url = `http://localhost:8081/editQuiz?questionId=${questionId}&questionText=${questionText}&questionType=${questionType}`
+        const response = await _fetch(url)
+        if (response.ok) {
+            const updateResult = await response.json()
+            dispatch({type: UPDATE_QUIZ_SUCCESS,payload:updateResult})
+        } else
+            dispatch({type: UPDATE_QUIZ_FAILURE})
     }
 }
