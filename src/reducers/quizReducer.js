@@ -289,7 +289,8 @@ export function initiatedeleteQuestion(questionId,_fetch = fetch) {
         const url=`http://localhost:8081/deleteQuestion/${questionId}`
  //       const url = `http://localhost:8081/deleteQuestion?questionId=${questionId}`
         const response = await _fetch(url,{
-            method:"DELETE"})
+            method:"DELETE"
+        })
         if (response.ok) {
             const result = await response.json()
             dispatch({type: DELETE_QUESTION_SUCCESS,payload:result})
