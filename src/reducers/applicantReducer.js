@@ -63,6 +63,7 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 applicantLoginpending: false,
                 isTakeQuiz: false,
+                savecount: 0,
                 //               isGetFollow: false,
             }
 
@@ -86,7 +87,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 responseToAdd: null,
-//                isTakeQuiz:false,
+                isTakeQuiz:false,
                 savecount: 0
             }
         case EDIT_APPLICANT_INPUT:
