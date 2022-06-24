@@ -17,28 +17,22 @@ export default function ViewAssigned({
 
     //TODO change const username
     const users = _useSelector(state => state.userReducer.users)
-    console.log(users)
 
     const assignments = _useSelector(state => state.responseReducer.assignments)
-    console.log(assignments)
 
     const quizzes = _useSelector(state => state.quizReducer.getallQuizresult)
-    console.log(quizzes)
 
-    const username = _useSelector(state => state.userReducer.loggedInUser)
-    console.log(username)
+    const credentials = _useSelector(state => state.userReducer.credentials)
 
-    const userObj = users.find(element => element.username === username)
-    console.log(userObj)
+    const userObj = users.find(element => element.username === credentials.username
+        && element.role === credentials.role)
 
     const getQuizPending = _useSelector(state => state.quizReducer.recruiterPending)
 
     const assignedTo = assignments.filter(assignment => assignment.assignedTo === userObj.id)
-    console.log(assignedTo)
 
     const assignedQuizzes = quizzes.filter((quiz) =>
         assignedTo.find(({quizTemplateId}) => quiz.quizTemplateId === quizTemplateId))
-    console.log(assignedQuizzes)
 
 
 

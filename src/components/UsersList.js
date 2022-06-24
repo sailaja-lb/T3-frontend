@@ -1,13 +1,12 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Card, Col, Row} from "react-bootstrap";
 import {BsFillTrash2Fill, BsPencilSquare} from "react-icons/bs";
-import {deleteUser, EDIT_ROLE_START, editUser} from "../reducers/userReducer";
+import {deleteUser, EDIT_ROLE_START, IMPERSONATE_START} from "../reducers/userReducer";
 
 
 export default function UsersList({_useSelector = useSelector, _useDispatch = useDispatch}) {
     const loggedInUser = _useSelector(state => state.userReducer.loggedInUser)
     const users = _useSelector(state => state.userReducer.users)
-
     const dispatch = _useDispatch();
 
     function handleEditRole(userId) {
@@ -16,6 +15,10 @@ export default function UsersList({_useSelector = useSelector, _useDispatch = us
     function handleDeleteUser(userId) {
         dispatch(deleteUser(userId))
     }
+    function switchToImpersonate(user) {
+        dispatch({type: IMPERSONATE_START, payload: {user}})
+    }
+
 
     return (
         <Card>
@@ -24,19 +27,19 @@ export default function UsersList({_useSelector = useSelector, _useDispatch = us
                 {users.map((user, index) => (loggedInUser !== user.username) ?
                     <div key={index}>
                         <Row>
-                            <Col>{user.username}</Col>
+                            <Col>
+                                <Button onClick={() => switchToImpersonate(user)} variant="link">{user.username}</Button>
+                            </Col>
                             <Col>{user.role}</Col>
-                            <Col xs='auto'>
+                            <Col>
                                 <Button title='Edit' variant={"outline-secondary"} size='sm'
                                         onClick = {e => handleEditRole(user.id)} >
-                                    EDIT
                                     <BsPencilSquare />
                                 </Button>
                             </Col>
-                            <Col xs='auto'>
+                            <Col>
                                 <Button title='Delete' variant={"outline-danger"} size='sm'
                                         onClick={() => handleDeleteUser(user.id)}>
-                                    DELETE
                                     <BsFillTrash2Fill />
                                 </Button>
                             </Col>
@@ -46,5 +49,3 @@ export default function UsersList({_useSelector = useSelector, _useDispatch = us
         </Card>
     )
 }
-
-//handleEditRole(user.role)
