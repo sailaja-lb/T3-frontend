@@ -15,7 +15,8 @@ const initialState = {
 
     //not needed
     quizzes: [],
-    applicants: [{id: 1, username: "leng"}, {id: 7, username: "jack"}],
+    // not needed
+    applicants: [],
 
     //not needed
     responses: [],

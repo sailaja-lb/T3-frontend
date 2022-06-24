@@ -5,9 +5,9 @@ import {Button, ListGroup} from "react-bootstrap";
 import {CHOSEN_APPLICANT_ID, TOGGLE_GRADE_QUIZ} from "../reducers/lengReducer";
 
 function SelectApplicantQuiz() {
-    // will change to grab from users reducer
-    const users = useSelector(state => state.lengReducer.applicants)
+    const users = useSelector(state => state.userReducer.users)
     const dispatch = useDispatch()
+    
     const chosenApplicant = useSelector(state => state.lengReducer.chosenApplicantId)
 
     if (chosenApplicant)
