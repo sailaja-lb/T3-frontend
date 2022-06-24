@@ -7,8 +7,8 @@ import {CANCEL_APPLICANT_ID} from "../reducers/lengReducer";
 function GradeCompletedQuizzes() {
     // will change to grab from assignment table
     const responses = useSelector(state => state.lengReducer.responses)
+    const userId = useSelector(state => state.userReducer.users)
     const dispatch = useDispatch()
-    const userId = useSelector(state => state.lengReducer.chosenApplicantId)
 
 
     return <div>
