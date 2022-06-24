@@ -14,6 +14,7 @@ export const EDIT_ROLE_CHANGE = 'EDIT_ROLE_CHANGE'
 export const EDIT_ROLE_SUCCESS = 'EDIT_ROLE_SUCCESS'
 export const UPDATE_CREDENTIALS = 'UPDATE_CREDENTIALS'
 export const CANCEL = 'CANCEL'
+export const ADMIN_CANCEL_START = 'ADMIN_CANCEL_START'
 export const ADMIN_CANCEL = 'ADMIN_CANCEL'
 export const IMPERSONATE_START = 'IMPERSONATE_START'
 export const IMPERSONATE_DONE = 'IMPERSONATE_DONE'
@@ -39,7 +40,10 @@ const initialState = {
     editUserId: null,
     newRole: null,
     isAddNewUser: false,
-    isImpersonate: false
+    isImpersonate: false,
+    impersonateDetails: {},
+    authMessage : false,
+    failRegisterMessage: false
 }
 
 export default function userReducer(state = initialState, action) {
@@ -93,22 +97,25 @@ export default function userReducer(state = initialState, action) {
                 isRegister: true,
                 registerPending: true,
                 isLoggedIn: false,
-                // isAddNewUser: true
+                isAddNewUser: true,
+                authMessage: false,
+                failRegisterMessage: false
             }
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                isRegister: true,
+                isRegister: false,
                 registerPending: false,
                 loginPending: false,
-                isLoggedIn: false,
+                isLoggedIn: state.loggedInRole ? true : false,
                 successfulRegisterMessage: true
             }
         case REGISTER_FAILURE:
             return {
                 ...state,
                 isRegister: false,
-                registerPending: false
+                registerPending: false,
+                failRegisterMessage: true
             }
         case CANCEL:
             return{
@@ -120,14 +127,21 @@ export default function userReducer(state = initialState, action) {
         case ADMIN_CANCEL:
             return {
                 ...state,
-                loggedInRole: state.credentials.role,
-                isLoggedIn: true
+                //loggedInRole: state.credentials.role,
+                isLoggedIn: state.loggedInRole ? true : false,
+                isAddNewUser: false,
+                authMessage: true
+                //isLoggedIn: true
 
             }
         case LOGOUT:
             return {
                 ...state,
-                isLoggedIn: false
+                isLoggedIn: false,
+                isAddNewUser: false,
+                authMessage: false,
+                loggedInRole: false,
+                isRegister: false
             }
         case GET_ALL_USERS_START:
             return {
@@ -138,15 +152,13 @@ export default function userReducer(state = initialState, action) {
         case GET_ALL_USERS_DONE:
             return {
                 ...state,
-                //users: [...state.users, {...action.user}],
-                users: action.payload.allUsers
+                users: action.payload.allUsers,
+                loading: false
             }
         case EDIT_ROLE_START:
             return {
                 ...state,
                 editUserId: action.payload.userId,
-                // editUserRole: action.payload.role
-                // newRole: state.loggedInRole
             }
         case EDIT_ROLE_CHANGE:
             return {
@@ -174,8 +186,8 @@ export default function userReducer(state = initialState, action) {
         case IMPERSONATE_START:
             return {
                 ...state,
-                isImpersonate: true
-                // isLoggedIn: true
+                isImpersonate: true,
+                impersonateDetails: action.payload.user
             }
         case IMPERSONATE_DONE:
             return {
@@ -205,6 +217,7 @@ export function initiateLogin(_fetch=fetch) {
 
 export function initiateRegister(_fetch=fetch) {
     return async function createRegister(dispatch, getState) {
+        dispatch({type: REGISTER_START})
         const {username, password, role} = getState().userReducer.addNewUser;
         let registerUrl = ``
         if (role === "Admin") {
