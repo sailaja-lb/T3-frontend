@@ -2,17 +2,20 @@ import {Alert, Button, Card, Form, InputGroup, Row} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {
     initiateLogin,
-    REGISTER_START, REGISTER_USER,
+    REGISTER_START,
     UPDATE_CREDENTIALS
 } from "../reducers/userReducer";
 import {BsLock, BsPerson} from "react-icons/bs";
+import {useState} from "react";
 
 
 export default function Login({_useSelector=useSelector, _useDispatch=useDispatch}) {
     const credentials = _useSelector(state => state.userReducer.credentials)
     const successfulRegisterMessage = _useSelector(state => state.userReducer.successfulRegisterMessage)
     const loginErrorMessage = _useSelector(state => state.userReducer.loginErrorMessage)
-    
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [submit, setSubmit] = useState(false)
     const dispatch = _useDispatch()
 
     function updateUsername(username) {
@@ -27,7 +30,7 @@ export default function Login({_useSelector=useSelector, _useDispatch=useDispatc
     }
     function handleSubmit(event) {
         event.preventDefault()
-        // setSubmit(true)
+        setSubmit(true)
         dispatch(initiateLogin())
     }
     function handleRegister() {
@@ -40,18 +43,18 @@ export default function Login({_useSelector=useSelector, _useDispatch=useDispatc
             {successfulRegisterMessage ? (<Alert variant={"success"}>
                 Successfully Registered. Please login</Alert>) : null}
             {loginErrorMessage ? (<Alert variant={"danger"}>
-                Failed to login</Alert>) : null}
+                Failed to login. Please try again.</Alert>) : null}
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <InputGroup className="mb-2">
                         <InputGroup.Text><BsPerson/></InputGroup.Text>
-                        <Form.Control placeholder='Username' onChange={e => updateUsername(e.target.value)}/>
+                        <Form.Control placeholder='Username' onChange={e => updateUsername(e.target.value)} isInvalid={submit && !username}/>
                     </InputGroup>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <InputGroup>
                         <InputGroup.Text><BsLock/></InputGroup.Text>
-                        <Form.Control placeholder='Password' onChange={e => updatePassword(e.target.value)}/>
+                        <Form.Control placeholder='Password' onChange={e => updatePassword(e.target.value)} isInvalid={submit && !password}/>
                     </InputGroup>
                 </Form.Group>
                 <Form.Group className="mb-3">
