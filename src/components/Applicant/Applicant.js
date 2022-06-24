@@ -19,7 +19,7 @@ function Applicant({
     if (isTakeQuiz) {
        return <QuizzesForApplicantsX/>
     }
-//    if (quizInProcess) {
+ //   if (quizInProcess) {
         return <div>
             <ApplicantHeader/>
         </div>

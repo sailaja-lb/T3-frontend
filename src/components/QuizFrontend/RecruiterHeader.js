@@ -2,7 +2,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {Badge, Button, Card, Col, Form, Row} from "react-bootstrap";
 import {ADD_QUIZZES, initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../../reducers/quizReducer";
 import {TOGGLE_ASSIGN_QUIZ, TOGGLE_GRADE_QUIZ} from "../../reducers/lengReducer";
-import {ADD_QUIZZES,initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../../reducers/quizReducer";
 import {LOGOUT} from "../../reducers/userReducer";
 
 

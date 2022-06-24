@@ -21,8 +21,7 @@ const handleAsync = storeAPI => next => action => {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose()
 
 const store = createStore(
-    combineReducers({userReducer, quizReducer, responseReducer, lengReducer}),
-    combineReducers({userReducer, quizReducer, responseReducer,applicantReducer}),
+    combineReducers({userReducer, quizReducer, responseReducer, lengReducer,applicantReducer}),
     composeEnhancers(applyMiddleware(handleAsync)))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
