@@ -12,9 +12,11 @@ export default function TakeQuiz({
 
     const [response, setResponse] = useState({
         quizTemplateId: quiz.quizTemplateId,
-        questionType: quiz.questionType,
-        questions: quiz.questions,
-        answer: ''
+        questionId: quiz.questionId,
+        questionText: quiz.questionText,
+        answer: '',
+        user: '',
+        assignmentID: ''
     })
 
     function updateAnswer(event) {
@@ -33,6 +35,7 @@ export default function TakeQuiz({
         <Form.Group>
             <Form.Control type= 'input' placeholder= 'Answer' onChange={updateAnswer}/>
             <Button type='submit' disabled={sendResponsePending}>Submit</Button>
+            <Button>Save</Button>
         </Form.Group>
 
     </Form>
