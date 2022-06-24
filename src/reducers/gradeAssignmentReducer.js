@@ -2,7 +2,7 @@
 
 export const TOGGLE_ASSIGN_QUIZ = '/TOGGLE_ASSIGN_QUIZ'
 export const GET_ALL_QUIZZES = '/GET_ALL_QUIZZES'
-export const GET_ALL_RESPONSES = '/GET_ALL_RESPONSES'
+export const GET_ALL_COMPLETED_ASSIGN = '/GET_ALL_COMPLETED_ASSIGN'
 export const TOGGLE_GRADE_QUIZ = '/TOGGLE_GRADE_QUIZ'
 export const ASSIGN_QUIZ_SUCCESSFUL = '/ASSIGN_QUIZ_SUCCESSFUL'
 export const ASSIGN_QUIZ_FAILED = '/ASSIGN_QUIZ_FAILED'
@@ -23,80 +23,10 @@ const initialState = {
     // not needed
     applicants: [],
 
-    //not needed
-    responses: [
-        {
-            "assignmentId": 23,
-            "grade": null,
-            "gradedBy": null,
-            "assignedTo": 1,
-            "quizTemplateId": 1,
-            "completed": true,
-            "responses": []
-        },
-        {
-            "assignmentId": 32,
-            "grade": null,
-            "gradedBy": null,
-            "assignedTo": 2,
-            "quizTemplateId": 1,
-            "completed": true,
-            "responses": [
-                {
-                    "id": 45,
-                    "questionId": 1,
-                    "questionText": "text",
-                    "response": "response"
-                },
-                {
-                    "id": 46,
-                    "questionId": 2,
-                    "questionText": "text",
-                    "response": "response"
-                },
-                {
-                    "id": 47,
-                    "questionId": 3,
-                    "questionText": "text",
-                    "response": "response"
-                }
-            ]
-        },
-        {
-            "assignmentId": 39,
-            "grade": null,
-            "gradedBy": null,
-            "assignedTo": 42,
-            "quizTemplateId": 1,
-            "completed": true,
-            "responses": [
-                {
-                    "id": 41,
-                    "questionId": 1,
-                    "questionText": "text",
-                    "response": "response"
-                },
-                {
-                    "id": 42,
-                    "questionId": 2,
-                    "questionText": "text",
-                    "response": "response"
-                },
-                {
-                    "id": 43,
-                    "questionId": 3,
-                    "questionText": "text",
-                    "response": "response"
-                },
-                {
-                    "id": 44,
-                    "questionId": 4,
-                    "questionText": "text",
-                    "response": "response"
-                }
-            ]
-        }
-    ],
+    // not needed
+    responses: [],
+
+    assignments: [],
     toggleAssignQuiz: false,
     toggleGradeQuiz: false,
     messages: undefined,
@@ -149,7 +79,7 @@ export default function gradeAssignmentReducer(state = initialState, action) {
             return {...state, toggleAssignQuiz: !state.toggleAssignQuiz, messages: undefined}
         case GET_ALL_QUIZZES: // not needed
             return {...state, quizzes: action.payload}
-        case GET_ALL_RESPONSES: // not needed
+        case GET_ALL_COMPLETED_ASSIGN: // not needed
             return {...state, responses: action.payload}
         case ASSIGN_QUIZ_SUCCESSFUL:
             return {...state, messages: 'Quiz assigned successful'}
@@ -186,13 +116,13 @@ export function addAssignment(_fetch = fetch) {
     }
 }
 
-export function getResponses(_fetch = fetch) {
+export function getAssignment(_fetch = fetch) {
     return async function sideEffect(dispatch) {
-        const url = `http://localhost:8081/getAllResponses`
+        const url = `http://localhost:8082/getAllCompletedAssignments?complete=true`
         const response = await _fetch(url)
         if (response.ok) {
             const result = await response.json()
-            dispatch({type: GET_ALL_RESPONSES, payload: result})
+            dispatch({type: GET_ALL_COMPLETED_ASSIGN, payload: result})
         }
     }
 }

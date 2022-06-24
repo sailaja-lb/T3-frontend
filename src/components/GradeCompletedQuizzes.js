@@ -8,7 +8,7 @@ function GradeCompletedQuizzes() {
 
     // will change to grab from assignment table, need for dummie data
     // then get give me all responses for chosenApplicantID
-    const assignments = useSelector(state => state.gradeAssignmentReducer.responses)
+    const assignments = useSelector(state => state.gradeAssignmentReducer.assignments)
 
     const chosenApplicantId = useSelector(state => state.gradeAssignmentReducer.chosenApplicantId)
     const responseQuestion = useSelector(state => state.gradeAssignmentReducer.responseQuestion)
