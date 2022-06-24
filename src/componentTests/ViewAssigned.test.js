@@ -8,8 +8,11 @@ import ViewAssigned from "../components/Applicant/ViewAssigned";
 it('should show 3 quizzes', function () {
     const state ={
         user: {loggedInUser: {
-            username: 'brady', id: 1
-            }},
+            username: 'brady', role: 'Applicant'
+            },
+            users: [{username: 'brady', password: 'mypass', role: 'Applicant', id: 1},
+                {username: 'leng', password: 'word', role: 'Applicant', id: 2},
+                {username: 'ryan', password: 'password', role: 'Applicant', id: 3}]},
         quizReducer: {
             getallQuizresult:
                 [{quizTemplateId: 1, questions: 'why?'},
@@ -39,8 +42,11 @@ it('should show 3 quizzes', function () {
 it('should filter out 1 quiz', function () {
     const state ={
         user: {loggedInUser: {
-                username: 'brady', id: 1
-            }},
+                username: 'brady', role: 'Applicant'
+            },
+            users: [{username: 'brady', password: 'mypass', role: 'Applicant', id: 1},
+                {username: 'leng', password: 'word', role: 'Applicant', id: 2},
+                {username: 'ryan', password: 'password', role: 'Applicant', id: 3}]},
         quizReducer: {
             getallQuizresult:
                 [{quizTemplateId: 1, questions: 'why?'},
@@ -49,7 +55,7 @@ it('should filter out 1 quiz', function () {
         responseReducer: {
             assignments: [
                 {assignment_id: 2, assigned_to: 1, quizTemplateId: 1},
-                {assignment_id: 2, assigned_to: 2, quizTemplateId: 2},
+                {assignment_id: 2, assigned_to: 3, quizTemplateId: 2},
                 {assignment_id: 2, assigned_to: 1, quizTemplateId: 3}
             ]
         }}
@@ -70,18 +76,20 @@ it('should filter out 1 quiz', function () {
 it('should enable Update button when recruiterPending false', function () {
     const state ={
         user: {loggedInUser: {
-                username: 'brady', id: 1
-            }},
+                username: 'brady', role: 'Applicant'
+            },
+            users: [{username: 'brady', password: 'mypass', role: 'Applicant', id: 1},
+                {username: 'leng', password: 'word', role: 'Applicant', id: 2},
+                {username: 'ryan', password: 'password', role: 'Applicant', id: 3}]},
         quizReducer: {
             getallQuizresult:
                 [{quizTemplateId: 1, questions: 'why?'},
                     {quizTemplateId: 2, questions: 'how?'},
-                    {quizTemplateId: 3, questions: 'when?'}],
-        recruiterPending: false},
+                    {quizTemplateId: 3, questions: 'when?'}]},
         responseReducer: {
             assignments: [
                 {assignment_id: 2, assigned_to: 1, quizTemplateId: 1},
-                {assignment_id: 2, assigned_to: 2, quizTemplateId: 2},
+                {assignment_id: 2, assigned_to: 1, quizTemplateId: 2},
                 {assignment_id: 2, assigned_to: 1, quizTemplateId: 3}
             ]
         }}
@@ -93,8 +101,11 @@ it('should enable Update button when recruiterPending false', function () {
 it('should disable Update button when recruiterPending true', function () {
     const state ={
         user: {loggedInUser: {
-                username: 'brady', id: 1
-            }},
+                username: 'brady', role: 'Applicant'
+            },
+            users: [{username: 'brady', password: 'mypass', role: 'Applicant', id: 1},
+                {username: 'leng', password: 'word', role: 'Applicant', id: 2},
+                {username: 'ryan', password: 'password', role: 'Applicant', id: 3}]},
         quizReducer: {
             getallQuizresult:
                 [{quizTemplateId: 1, questions: 'why?'},
@@ -104,7 +115,7 @@ it('should disable Update button when recruiterPending true', function () {
         responseReducer: {
             assignments: [
                 {assignment_id: 2, assigned_to: 1, quizTemplateId: 1},
-                {assignment_id: 2, assigned_to: 2, quizTemplateId: 2},
+                {assignment_id: 2, assigned_to: 1, quizTemplateId: 2},
                 {assignment_id: 2, assigned_to: 1, quizTemplateId: 3}
             ]
         }}

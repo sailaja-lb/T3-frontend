@@ -1,44 +1,34 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {getGrades} from "../../reducers/responseReducer";
+import {CANCEL_VIEW_GRADES, getGrades} from "../../reducers/responseReducer";
 import {Button, Card} from "react-bootstrap";
+import StaticGrade from "./StaticGrade";
 
 function ViewGrades({
                         _useDispatch = useDispatch,
                         _useSelector = useSelector,
+                        StaticGradeX = StaticGrade
                     }) {
 
     const dispatch = _useDispatch()
 
     const grades = _useSelector(state => state.responseReducer.grades)
-    const gradesPending = _useSelector(state => state.responseReducer.getGradesPending)
 
-    function handleGetGrades() {
-        dispatch(getGrades())
+    function cancelGrades() {
+        dispatch({type: CANCEL_VIEW_GRADES})
     }
 
 
     return <div>
-        {<Button disabled={gradesPending} onClick={handleGetGrades}>Get Grades</Button>}
-        {grades.map((grade) => (
-            <Card>
-                <Card.Header>
-                    <h2>{grade.assignedTo}</h2>
-                </Card.Header>
-
-                <Card.Body>
-                    <h4>{grade.quizTemplateId}</h4>
-                    <h4>{grade.grade}</h4>
-                </Card.Body>
-
-                <Card.Footer>
-                    <h5>{grade.gradedBy}</h5>
-                </Card.Footer>
-            </Card>
-        ))}
+        {grades.map(
+                (staticGrade, index) => <div key={index}>
+                    <StaticGradeX staticGrade={staticGrade}/>
+                </div>)
+            }
+        {<Button onClick={cancelGrades}>Back</Button>}
     </div>
 
-}
 
+}
 
     export default ViewGrades;
