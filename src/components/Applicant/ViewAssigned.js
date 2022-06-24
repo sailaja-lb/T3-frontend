@@ -42,9 +42,7 @@ export default function ViewAssigned({
         dispatch(initiateGetAllQuizzes())
     }
 
-    function handleLogout() {
-        dispatch({type: LOGOUT})
-    }
+
 
     return <div>
         {<Button disabled={getQuizPending} onClick={handleUpdate}>Update</Button>}
@@ -53,7 +51,6 @@ export default function ViewAssigned({
                 <StaticQuizX staticQuiz={staticQuiz}/>
             </div>)
         }
-        <Button onClick={handleLogout}>Logout</Button>
     </div>
 }
 
