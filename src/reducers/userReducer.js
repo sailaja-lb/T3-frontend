@@ -15,6 +15,8 @@ export const EDIT_ROLE_SUCCESS = 'EDIT_ROLE_SUCCESS'
 export const UPDATE_CREDENTIALS = 'UPDATE_CREDENTIALS'
 export const CANCEL = 'CANCEL'
 export const ADMIN_CANCEL = 'ADMIN_CANCEL'
+export const IMPERSONATE_START = 'IMPERSONATE_START'
+export const IMPERSONATE_DONE = 'IMPERSONATE_DONE'
 export const LOGOUT = 'LOGOUT'
 export const GET_ALL_USERS_START = 'GET_ALL_USERS_START'
 
@@ -36,7 +38,8 @@ const initialState = {
     loading: false,
     editUserId: null,
     newRole: null,
-    isAddNewUser: false
+    isAddNewUser: false,
+    isImpersonate: false
 }
 
 export default function userReducer(state = initialState, action) {
@@ -142,6 +145,7 @@ export default function userReducer(state = initialState, action) {
             return {
                 ...state,
                 editUserId: action.payload.userId,
+                // editUserRole: action.payload.role
                 // newRole: state.loggedInRole
             }
         case EDIT_ROLE_CHANGE:
@@ -166,6 +170,19 @@ export default function userReducer(state = initialState, action) {
                 ...state,
                 users: [...action.payload.users],
                 deleteUserSuccess: true
+            }
+        case IMPERSONATE_START:
+            return {
+                ...state,
+                isImpersonate: true
+                // isLoggedIn: true
+            }
+        case IMPERSONATE_DONE:
+            return {
+                ...state,
+                isImpersonate: false,
+                isLoggedIn: true,
+                token: action.payload.token
             }
         default:
             return {...state}
@@ -236,23 +253,23 @@ export function editUser(_fetch=fetch) {
         const user = state.userReducer.credentials
         const id = state.userReducer.editUserId
         const newRole = state.userReducer.newRole
-        if (user.role !== newRole) {
-            const users = [...state.userReducer.users]
-            const url = `http://localhost:8080/user/editUser?token=${token}&role=${newRole}&id=${id}`
-            const response = await _fetch(url, {
+        // if (user.role !== newRole) {
+        const users = [...state.userReducer.users]
+        const url = `http://localhost:8080/user/editUser?token=${token}&role=${newRole}&id=${id}`
+        const response = await _fetch(url, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json"
                 }
-            })
-            if (response.ok) {
-                const result = await response.json()
-                const userIndex = users.findIndex(each => each.id === id)
-                if (userIndex >= 0) {
-                    users[userIndex] = result
-                }
-                dispatch({type: EDIT_ROLE_SUCCESS, payload: {users, newRole}})
             }
+        )
+        if (response.ok) {
+            const result = await response.json()
+            const userIndex = users.findIndex(each => each.id === id)
+            if (userIndex >= 0) {
+                users[userIndex] = result
+            }
+            dispatch({type: EDIT_ROLE_SUCCESS, payload: {users, newRole}})
         }
     }
 }
@@ -261,7 +278,7 @@ export function deleteUser(userId, _fetch=fetch) {
     return async function deleteUser(dispatch, getState) {
         const state = getState()
         const token = state.userReducer.token
-        const url = `http://localhost:8083/user/deleteUser?token=${token}&id=${userId}`
+        const url = `http://localhost:8080/user/deleteUser?token=${token}&id=${userId}`
         const response = await _fetch(url, {
             method: 'DELETE'
         })
@@ -276,4 +293,3 @@ export function deleteUser(userId, _fetch=fetch) {
         }
     }
 }
-

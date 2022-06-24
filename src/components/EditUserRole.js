@@ -9,6 +9,8 @@ import {Form} from "react-bootstrap";
 export default function EditUserRole({_useSelector=useSelector, _useDispatch = useDispatch}) {
     const dispatch = _useDispatch()
     const editUserId = _useSelector(state => state.userReducer.editUserId)
+    // const users = _useSelector(state => state.userReducer.users)
+    // const loggedInUser = _useSelector(state => state.userReducer.loggedInUser)
 
     function handleClose() {
         dispatch({type: EDIT_ROLE_CANCEL})
@@ -29,11 +31,9 @@ export default function EditUserRole({_useSelector=useSelector, _useDispatch = u
             <Modal.Body>
                 <Form>
                     <Form.Group className="mb-3"  onChange={e => handleUpdateRole(e.target.value)} >
-                        <div>
-                            <Form.Check inline label="Admin" type="radio" value="Admin" name="user" />
-                            <Form.Check inline label="Recruiter" type="radio" value="Recruiter" name="user" />
-                            <Form.Check inline label="Applicant" type="radio" value="Applicant" name="user" />
-                        </div>
+                        <Form.Check inline label="Admin" type="radio" value="Admin" name="user" />
+                        <Form.Check inline label="Recruiter" type="radio" value="Recruiter" name="user" />
+                        <Form.Check inline label="Applicant" type="radio" value="Applicant" name="user" />
                     </Form.Group>
                 </Form>
             </Modal.Body>

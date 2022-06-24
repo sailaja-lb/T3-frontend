@@ -10,16 +10,13 @@ export const GET_GRADES_START = 'responseReducer/GET_GRADES_START'
 export const GET_GRADES_SUCCESS = 'responseReducer/GET_GRADES_SUCCESS'
 export const GET_GRADES_FAILURE = 'responseReducer/GET_GRADES_FAILURE'
 export const SET_RESPONSE = 'responseReducer/SET_RESPONSE'
+export const CANCEL_VIEW_GRADES = 'responseReducer/CANCEL_VIEW_GRADES'
 
 const initialState = {
     assignments: [],
-    assignment: {
-        assignment_id: null,
-        assigned_to: null,
-        quizTemplateId: null
-    },
     responses: [],
     grades: [],
+    getGradesPending: false,
     getAssignmentsPending: false,
     isTakingQuiz: false,
     quizToTake: null,
@@ -95,14 +92,24 @@ export default function responseReducer(state = initialState, action) {
 
         case GET_GRADES_SUCCESS:
             return {
+                ...state,
                 getGradesPending: false,
-                grades: action.payload
+                grades: action.payload,
+                viewingGrades: true
             }
 
         case GET_GRADES_FAILURE:
             return {
+                ...state,
                 getGradesPending: false
             }
+
+        case CANCEL_VIEW_GRADES:
+            return {
+                ...state,
+                viewingGrades: false
+            }
+
 
 
 
@@ -149,11 +156,11 @@ export function sendResponseInit(_fetch = fetch) {
     }
 }
 
-export function getGrades(_fetch = fetch) {
+export function getGrades(assignedUser, _fetch = fetch) {
     return async function getGradesSE(dispatch) {
         dispatch({type: GET_GRADES_START})
         //TODO get url
-        const url = `http://localhost:8082/getAllGradedResponses`
+        const url = `http://localhost:8082/getAllGradedAssignments?assignedTo=${assignedUser}`
         const response = await _fetch(url)
 
         if (response.ok) {
