@@ -12,8 +12,7 @@ function Applicant({
                        ViewAssignedC = ViewAssigned,
                        _useSelector = useSelector,
                        ViewGradesX = ViewGrades,
-                       TakeQuizX = TakeQuiz,
-                       _useDispatch = useDispatch
+                       _useDispatch = useDispatch,
                        QuizzesForApplicantsX=QuizzesForApplicants
                    }) {
 
@@ -25,37 +24,37 @@ function Applicant({
     const username = _useSelector(state => state.userReducer.loggedInUser)
     const users = _useSelector(state => state.userReducer.users)
     const assignedUser = users.find(element => element.username === username)
-
+    const isTakingQuiz = _useSelector(state=>state.responseReducer.isTakingQuiz)
     console.log(assignedUser)
 
     function viewGrades() {
         dispatch(getGrades(assignedUser.id))
     }
 
-    if (quizInProcess) {
-        return <TakeQuizX/>
-//    const viewingGrades = _useSelector(state => state.responseReducer.viewingGrades)
-    const isTakeQuiz = _useSelector(state=>state.applicantReducer.isTakeQuiz)
-    if (isTakeQuiz) {
-       return <QuizzesForApplicantsX/>
-    }
- //   if (quizInProcess) {
-        return <div>
-            <ApplicantHeader/>
-        </div>
-
- //   }
-/*    else if (viewingGrades === true) {
+/*    if (isTakingQuiz) {
+        return <QuizzesForApplicantsX/>
+    }*/
+    if (viewingGrades === true) {
         return <ViewGradesX/>
+
     }
     else {
-       return <>
-           <ViewAssignedC/>
-           <Button onClick={viewGrades}>Grades</Button>
-           </>
+        return <>
+            <ViewAssignedC/>
+
+            <Button onClick={viewGrades}>Grades</Button>
+        </>
     }
-        return <ViewAssignedC/>
-    }*/
+
+/*
+       return <div>
+            <ApplicantHeader/>
+        </div>
+*/
+
+ //   }
+
+
 
 
 }

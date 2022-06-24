@@ -20,11 +20,13 @@ function App({LoginC=Login, AdminC = Admin, RegisterC = Register, _useSelector =
 
     if (isLoggedIn) {
         if (loggedInRole === 'Admin') {
+
             return <Container>
                 <AdminC/>
             </Container>
         }
         else if (loggedInRole === 'Recruiter') {
+
             return <Container>
                 <RecruiterC/>
             </Container>

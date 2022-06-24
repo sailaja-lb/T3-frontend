@@ -5,8 +5,8 @@ import {Button, FormControl, Table} from "react-bootstrap";
 function GradeCompletedQuiz({responsed}) {
     //
     //move these out and pass in as props
-    // const applicants = useSelector(state => state.userReducer.users)
-    // const quizzes = useSelector(state => state.lengReducer.quizzes)
+   //  const applicants = useSelector(state => state.userReducer.users)
+   //  const quizzes = useSelector(state => state.lengReducer.quizzes)
     //
     const {questionId, questionText, response, assignmentId} = responsed
 

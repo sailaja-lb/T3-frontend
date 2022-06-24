@@ -13,7 +13,18 @@ export default function TakeQuiz({
 
     const dispatch = _useDispatch()
     const responseToAdd = _useSelector(state => state.quizReducer.responseToAdd)
-    const assignPayload = _useSelector(state=>state.applicantReducer.assignments)
+ //   const assignPayload = _useSelector(state=>state.applicantReducer.assignments)
+    const users = _useSelector(state => state.userReducer.users)
+    const credentials = _useSelector(state => state.userReducer.credentials)
+    const assignments = _useSelector(state => state.responseReducer.assignments)
+    const quiz = _useSelector(state=>state.responseReducer.quizToTake)
+    const userObj = users.find(element => element.username === credentials.username
+        && element.role === credentials.role)
+
+    const assignment = assignments.find(element => element.assignedTo === userObj.id
+        && element.quizTemplateId === quiz.quizTemplateId)
+
+    console.log(assignment.assignmentId)
     const {  questionId, questionNumber,questionText,
         questionType, quizTemplateId
     } = questionsToRespond ? questionsToRespond : {}
@@ -31,7 +42,6 @@ export default function TakeQuiz({
 
         dispatch({type:EDIT_APPLICANT_INPUT,responseToAdd:change})
     }
-
 
     return <Form>
         <Form.Group as={Row} className="mb-3">
@@ -62,19 +72,19 @@ export default function TakeQuiz({
                     label="True"
                     value="True"
                     type='radio'
-                    onChange={e => handleOnChange({...responseToAdd,assignmentId:1,questionId:questionId,questionText:questionText, responseText: e.target.value,completed:false})}/>
+                    onChange={e => handleOnChange({...responseToAdd,assignmentId:assignment.assignmentId,questionId:questionId,questionText:questionText, responseText: e.target.value,completed:false})}/>
                 <Form.Check
                     inline
                     name='radio 1'
                     label="False"
                     value="False"
                     type='radio'
-                    onChange={e => handleOnChange({...responseToAdd,assignmentId:1,questionId:questionId,questionText:questionText, responseText: e.target.value,completed:false})}/>
+                    onChange={e => handleOnChange({...responseToAdd,assignmentId:assignment.assignmentId,questionId:questionId,questionText:questionText, responseText: e.target.value,completed:false})}/>
             </div>
             }
             {questionType === "Text" &&
             <FormControl  as="textarea" rows={1} placeholder='Enter response here' required={true}
-                          onChange={e => onResponseTextChange({...responseToAdd,assignmentId:1,questionId:questionId,questionText:questionText, responseText: e.target.value,completed:false})}/>}
+                          onChange={e => onResponseTextChange({...responseToAdd,assignmentId:assignment.assignmentId,questionId:questionId,questionText:questionText, responseText: e.target.value,completed:false})}/>}
         </Form.Group>
 
         <Button title='Apply' variant={"outline-success"} size='sm'
