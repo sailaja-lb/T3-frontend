@@ -24,7 +24,6 @@ export default function Recruiter({
             <GetCompletedQuizzesC/>
         </div>
     }
- //   if (isRecruiter) {
         return <div className={'d-flex justify-content-center'}>
             <Container>
                 <RecruiterHeaderC/>

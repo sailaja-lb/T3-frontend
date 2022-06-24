@@ -63,10 +63,9 @@ it('should dispatch ADD_QUIZ_DETAILS when the user enters the quizTemplateId', (
 })
 
 it('should dispatch ADD_QUIZ_DETAILS when the user enters the questionNumber', () => {
-
+    const quizTemplateId = '1L'
     const questionText='some quest'
     const questionType = 'Text'
-    const quizTemplateId = '1L'
     const state = {
         quizReducer: {
             addQuizDetails:
@@ -81,9 +80,9 @@ it('should dispatch ADD_QUIZ_DETAILS when the user enters the questionNumber', (
     const dispatch =jest.fn()
     render(<AddQuiz _useDispatch={()=> dispatch} _initiateAddQuiz={dispatch}
                     _useSelector={fn => fn(state)}/>)
-    const questionNumberElement = screen.getByPlaceholderText('Enter question number here')
+    const quizTemplateIdElement = screen.getByPlaceholderText('Enter question number here')
     const questionNumber=1
-    userEvent.type(questionNumberElement, questionNumber)
+    userEvent.type(quizTemplateIdElement, questionNumber)
     expect(dispatch).toHaveBeenCalledWith({type: ADD_QUIZ_DETAILS, payload:{quizTemplateId,questionNumber,questionText,questionType}})
 })
 

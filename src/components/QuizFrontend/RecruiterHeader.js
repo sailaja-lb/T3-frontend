@@ -1,6 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Badge, Button, Card, Col, Form, Row} from "react-bootstrap";
 import {ADD_QUIZZES,initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../../reducers/quizReducer";
+import {LOGOUT} from "../../reducers/userReducer";
 
 
 
@@ -30,7 +31,7 @@ export default function RecruiterHeader({
         <Button title='Grade Completed Quizzes'
               /*  onClick={handleGetCompletedQuizzes}*/
                 variant={"outline-primary"}>Grade Completed Quizzes</Button>
-        <Col xs='auto'><Button title='Logout' onClick={() => dispatch({type: LOGOUT_RECRUITER})}
+        <Col xs='auto'><Button title='Logout' onClick={() => dispatch({type: LOGOUT})}
                                variant={"outline-secondary"}>
             LOGOUT</Button></Col>
     </div>
