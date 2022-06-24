@@ -47,7 +47,7 @@ function Applicant({
            <Button onClick={handleLogout}>Logout</Button>
            </>
     }
-
+<h1>hi</h1>
 
 }
 
