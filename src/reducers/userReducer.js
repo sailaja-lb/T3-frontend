@@ -193,7 +193,7 @@ export function initiateLogin(_fetch=fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: LOGIN_START})
         const {username, password, role} = getState().userReducer.credentials
-        const url = `http://localhost:8083/user/login?username=${username}&password=${password}&role=${role}`
+        const url = `http://localhost:8080/user/login?username=${username}&password=${password}&role=${role}`
         const response = await _fetch(url)
         if (response.ok) {
             const token = await response.json()
@@ -208,11 +208,11 @@ export function initiateRegister(_fetch=fetch) {
         const {username, password, role} = getState().userReducer.addNewUser;
         let registerUrl = ``
         if (role === "Admin") {
-            registerUrl = "http://localhost:8083/user/registerAdmin"
+            registerUrl = "http://localhost:8080/user/registerAdmin"
         } else if (role === "Recruiter") {
-            registerUrl = "http://localhost:8083/user/registerRecruiter"
+            registerUrl = "http://localhost:8080/user/registerRecruiter"
         } else {
-            registerUrl = "http://localhost:8083/user/registerApplicant"
+            registerUrl = "http://localhost:8080/user/registerApplicant"
         }
         const response = await _fetch(registerUrl, {
             method: 'POST',
@@ -236,7 +236,7 @@ export function initLoadAllUsers(_fetch=fetch) {
     return async function allUsers(dispatch, getState) {
         const token = getState().userReducer.token
         dispatch({type: GET_ALL_USERS_START})
-        const url = `http://localhost:8083/user/getAll?token=${token}`
+        const url = `http://localhost:8080/user/getAll?token=${token}`
         const response = await _fetch(url)
 
         if (response.ok) {
@@ -255,7 +255,7 @@ export function editUser(_fetch=fetch) {
         const newRole = state.userReducer.newRole
         // if (user.role !== newRole) {
         const users = [...state.userReducer.users]
-        const url = `http://localhost:8083/user/editUser?token=${token}&role=${newRole}&id=${id}`
+        const url = `http://localhost:8080/user/editUser?token=${token}&role=${newRole}&id=${id}`
         const response = await _fetch(url, {
                 method: 'PUT',
                 headers: {
