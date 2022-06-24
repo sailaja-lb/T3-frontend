@@ -5,9 +5,9 @@ import {deleteUser, EDIT_ROLE_START, IMPERSONATE_START} from "../reducers/userRe
 
 
 export default function UsersList({_useSelector = useSelector, _useDispatch = useDispatch}) {
-    const loggedInUser = _useSelector(state => state.userReducer.loggedInUser)
     const users = _useSelector(state => state.userReducer.users)
     const dispatch = _useDispatch();
+    const loggedInRole = _useSelector(state => state.userReducer.loggedInRole)
 
     function handleEditRole(userId) {
         dispatch({type: EDIT_ROLE_START, payload : {userId}})
@@ -19,12 +19,11 @@ export default function UsersList({_useSelector = useSelector, _useDispatch = us
         dispatch({type: IMPERSONATE_START, payload: {user}})
     }
 
-
     return (
         <Card>
             <Card.Header><h5>Users List</h5></Card.Header>
             <Card.Body>
-                {users.map((user, index) => (loggedInUser !== user.username) ?
+                {users.map((user, index) => (loggedInRole !== user.role) ?
                     <div key={index}>
                         <Row>
                             <Col>
