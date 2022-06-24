@@ -11,11 +11,6 @@ import responseReducer, {
 
 /** INITIAL STATE **/
 
-it('should start with quizzes empty', function () {
-    const state = responseReducer()
-    expect(state.quizzes.length).toBe(0)
-});
-
 it('should start with grades empty', function () {
     const state = responseReducer()
     expect(state.grades.length).toBe(0)
