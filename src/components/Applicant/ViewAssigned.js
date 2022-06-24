@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Button} from "react-bootstrap";
 import {getAssigned} from "../../reducers/responseReducer";
 import StaticQuiz from "./StaticQuiz";
-import {initLoadAllUsers} from "../../reducers/userReducer";
+import {initLoadAllUsers, LOGOUT} from "../../reducers/userReducer";
 import {initiateGetAllQuizzes} from "../../reducers/quizReducer";
 
 
@@ -42,6 +42,10 @@ export default function ViewAssigned({
         dispatch(initiateGetAllQuizzes())
     }
 
+    function handleLogout() {
+        dispatch({type: LOGOUT})
+    }
+
     return <div>
         {<Button disabled={getQuizPending} onClick={handleUpdate}>Update</Button>}
         {assignedQuizzes.map(
@@ -49,6 +53,7 @@ export default function ViewAssigned({
                 <StaticQuizX staticQuiz={staticQuiz}/>
             </div>)
         }
+        <Button onClick={handleLogout}>Logout</Button>
     </div>
 }
 
