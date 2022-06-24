@@ -4,7 +4,7 @@ import responseReducer, {
     GET_ASSIGNMENTS_START, GET_ASSIGNMENTS_SUCCESS,
     GET_GRADES_FAILURE,
     GET_GRADES_START, GET_GRADES_SUCCESS,
-    getAssigned, getGrades,
+    getAssigned,
     SEND_RESPONSE_FAILURE, SEND_RESPONSE_START, SEND_RESPONSE_SUCCESS, sendResponseInit,
     TAKE_QUIZ
 } from "./responseReducer";
