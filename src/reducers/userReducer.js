@@ -278,7 +278,7 @@ export function deleteUser(userId, _fetch=fetch) {
     return async function deleteUser(dispatch, getState) {
         const state = getState()
         const token = state.userReducer.token
-        const url = `http://localhost:8083/user/deleteUser?token=${token}&id=${userId}`
+        const url = `http://localhost:8080/user/deleteUser?token=${token}&id=${userId}`
         const response = await _fetch(url, {
             method: 'DELETE'
         })
