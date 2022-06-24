@@ -5,6 +5,7 @@ import ViewGrades from "./ViewGrades";
 import TakeQuiz from "./TakeQuiz";
 import {Button} from "react-bootstrap";
 import {getGrades, VIEW_GRADES} from "../../reducers/responseReducer";
+import {LOGOUT} from "../../reducers/userReducer";
 
 function Applicant({
                        ViewAssignedC = ViewAssigned,
@@ -29,6 +30,10 @@ function Applicant({
         dispatch(getGrades(assignedUser.id))
     }
 
+    function handleLogout() {
+        dispatch({type: LOGOUT})
+    }
+
     if (quizInProcess) {
         return <TakeQuizX/>
     }
@@ -39,6 +44,7 @@ function Applicant({
        return <>
            <ViewAssignedC/>
            <Button onClick={viewGrades}>Grades</Button>
+           <Button onClick={handleLogout}>Logout</Button>
            </>
     }
 
