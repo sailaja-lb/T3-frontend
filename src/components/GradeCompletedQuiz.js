@@ -1,12 +1,14 @@
 import React from 'react';
 import {Button, FormControl, Table} from "react-bootstrap";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {UPDATE_VIEW_RESPONSE} from "../reducers/gradeAssignmentReducer";
 
 function GradeCompletedQuiz({assignment}) {
 
-    const {quizTemplateId, assignmentId} = assignment
+    const {quizTemplateId, assignedTo} = assignment
     const dispatch = useDispatch()
+    const users = useSelector(state => state.userReducer.users)
+    const applicant = users.find(user => user?.id === assignedTo)
 
     return <div className={'d-flex flex-wrap justify-content-between'}>
         <Table striped bordered>
@@ -20,7 +22,7 @@ function GradeCompletedQuiz({assignment}) {
             </thead>
             <tbody>
             <tr>
-                <td> {assignmentId}</td>
+                <td> {applicant.username}</td>
                 <td> {quizTemplateId}</td>
                 <td><Button
                     onClick={() => dispatch({

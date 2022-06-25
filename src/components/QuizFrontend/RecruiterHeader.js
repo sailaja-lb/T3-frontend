@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Badge, Button, Col} from "react-bootstrap";
 import {ADD_QUIZZES, initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../../reducers/quizReducer";
-import {TOGGLE_ASSIGN_QUIZ, TOGGLE_GRADE_QUIZ} from "../../reducers/gradeAssignmentReducer";
+import {getAssignment, TOGGLE_ASSIGN_QUIZ, TOGGLE_GRADE_QUIZ} from "../../reducers/gradeAssignmentReducer";
 
 
 export default function RecruiterHeader({

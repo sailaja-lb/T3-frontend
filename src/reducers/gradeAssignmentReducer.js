@@ -29,7 +29,7 @@ const initialState = {
     assignments: [],
     toggleAssignQuiz: false,
     toggleGradeQuiz: false,
-    messages: undefined,
+    message: undefined,
     chosenApplicantId: undefined,
     assignUserId: undefined,
     assignQuizId: undefined,
@@ -79,12 +79,12 @@ export default function gradeAssignmentReducer(state = initialState, action) {
             return {...state, toggleAssignQuiz: !state.toggleAssignQuiz, messages: undefined}
         case GET_ALL_QUIZZES: // not needed
             return {...state, quizzes: action.payload}
-        case GET_ALL_COMPLETED_ASSIGN: // not needed
-            return {...state, responses: action.payload}
+        case GET_ALL_COMPLETED_ASSIGN:
+            return {...state, assignments: action.payload}
         case ASSIGN_QUIZ_SUCCESSFUL:
-            return {...state, messages: 'Quiz assigned successful'}
+            return {...state, message: 'Quiz assigned successful'}
         case ASSIGN_QUIZ_FAILED:
-            return {...state, messages: 'Quiz assigned FAILED'}
+            return {...state, message: 'Quiz assigned FAILED'}
         case CHOSEN_APPLICANT_ID:
             return {...state, chosenApplicantId: action?.id}
         case CANCEL_APPLICANT_ID:

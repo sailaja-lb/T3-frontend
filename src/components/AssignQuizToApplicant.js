@@ -6,6 +6,7 @@ import {ADD_ASSIGNMENT, addAssignment, TOGGLE_ASSIGN_QUIZ} from "../reducers/gra
 function AssignQuizToApplicant() {
     const users = useSelector(state => state.userReducer.users)
     const quizzes = useSelector(state => state.quizReducer.getallQuizresult)
+    const message = useSelector(state => state.gradeAssignmentReducer.message)
 
     let uniqueIds = [];
     const uniqueQuizzesId = quizzes.filter(element => {
@@ -36,6 +37,7 @@ function AssignQuizToApplicant() {
     function handleAddAssignment() {
         dispatch({type: ADD_ASSIGNMENT, payload: {userID, assignQuizID}})
         dispatch(addAssignment())
+        alert(message)
     }
 
     if (uniqueUsersId.length === 0 || uniqueQuizzesId.length === 0)
@@ -54,13 +56,13 @@ function AssignQuizToApplicant() {
             <Form className={'d-flex justify-content-around'}>
                 <Form.Label> Select applicant to assign quiz
                     <Form.Select onChange={e => setUserID(parseInt(e.target.value))}>
-                        {uniqueUsersId.map((user, index) =>
+                        {uniqueUsersId?.map((user, index) =>
                             <option value={user?.id} key={index}>{user?.username}</option>)}
                     </Form.Select>
                 </Form.Label>
                 <Form.Label> Select quiz you like to assigned
                     <Form.Select onChange={e => setAssignQuizID(parseInt(e.target.value))}>
-                        {uniqueQuizzesId.map((quiz, index) =>
+                        {uniqueQuizzesId?.map((quiz, index) =>
                             <option value={quiz?.quizTemplateId} key={index}>{quiz?.quizTemplateId}</option>)}
                     </Form.Select>
                 </Form.Label>
