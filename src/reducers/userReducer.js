@@ -28,6 +28,7 @@ const initialState = {
     registerPending: false,
     loggedInUser: null,
     loggedInRole: null,
+    loggedInId: null,
     successfulRegisterMessage: false,
     loginErrorMessage: false,
     credentials: {username: '', password: '', role: ''},
@@ -59,7 +60,8 @@ export default function userReducer(state = initialState, action) {
                 successfulRegisterMessage: false,
                 token: action.payload.token,
                 loggedInUser: state.credentials.username,
-                loggedInRole: state.credentials.role
+                loggedInRole: state.credentials.role,
+                loggedInId: state.credentials.id,
             }
         case LOGIN_FAILURE:
             return {
@@ -111,7 +113,7 @@ export default function userReducer(state = initialState, action) {
                 registerPending: false
             }
         case CANCEL:
-            return{
+            return {
                 ...state,
                 isRegister: false,
                 registerPending: false,
@@ -189,7 +191,7 @@ export default function userReducer(state = initialState, action) {
     }
 }
 
-export function initiateLogin(_fetch=fetch) {
+export function initiateLogin(_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: LOGIN_START})
         const {username, password, role} = getState().userReducer.credentials
@@ -203,7 +205,7 @@ export function initiateLogin(_fetch=fetch) {
     }
 }
 
-export function initiateRegister(_fetch=fetch) {
+export function initiateRegister(_fetch = fetch) {
     return async function createRegister(dispatch, getState) {
         const {username, password, role} = getState().userReducer.addNewUser;
         let registerUrl = ``
@@ -232,7 +234,7 @@ export function initiateRegister(_fetch=fetch) {
     }
 }
 
-export function initLoadAllUsers(_fetch=fetch) {
+export function initLoadAllUsers(_fetch = fetch) {
     return async function allUsers(dispatch, getState) {
         const token = getState().userReducer.token
         dispatch({type: GET_ALL_USERS_START})
@@ -246,7 +248,7 @@ export function initLoadAllUsers(_fetch=fetch) {
     }
 }
 
-export function editUser(_fetch=fetch) {
+export function editUser(_fetch = fetch) {
     return async function editUser(dispatch, getState) {
         const state = getState()
         const token = getState().userReducer.token
@@ -274,7 +276,7 @@ export function editUser(_fetch=fetch) {
     }
 }
 
-export function deleteUser(userId, _fetch=fetch) {
+export function deleteUser(userId, _fetch = fetch) {
     return async function deleteUser(dispatch, getState) {
         const state = getState()
         const token = state.userReducer.token

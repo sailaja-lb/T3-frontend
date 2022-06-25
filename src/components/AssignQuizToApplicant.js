@@ -52,7 +52,7 @@ function AssignQuizToApplicant() {
         </div>
         <div>
             <Form className={'d-flex justify-content-around'}>
-                <Form.Label> Select user to assign quiz
+                <Form.Label> Select applicant to assign quiz
                     <Form.Select onChange={e => setUserID(parseInt(e.target.value))}>
                         {uniqueUsersId.map((user, index) =>
                             <option value={user?.id} key={index}>{user?.username}</option>)}

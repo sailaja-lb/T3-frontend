@@ -30,9 +30,9 @@ export default function Recruiter({
     });
 
     if (toggleAssignQuiz)
-        return <AssignQuizToApplicant/>
+        return <div className={'mt-3'}><AssignQuizToApplicant/></div>
     else if (toggleGradeQuiz)
-        return <SelectApplicantQuiz/>
+        return <div className={'mt-3'}><SelectApplicantQuiz/></div>
     else
         return <div className={'d-flex justify-content-center'}>
             <Container>
