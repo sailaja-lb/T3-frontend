@@ -1,3 +1,4 @@
+
 export const GET_ASSIGNMENTS_START = 'responseReducer/GET_ASSIGNMENTS_START'
 export const GET_ASSIGNMENTS_SUCCESS = 'responseReducer/GET_ASSIGNMENTS_SUCCESS'
 export const GET_ASSIGNMENTS_FAILURE = 'responseReducer/GET_ASSIGNMENTS_FAILURE'
@@ -10,7 +11,7 @@ export const GET_GRADES_SUCCESS = 'responseReducer/GET_GRADES_SUCCESS'
 export const GET_GRADES_FAILURE = 'responseReducer/GET_GRADES_FAILURE'
 export const SET_RESPONSE = 'responseReducer/SET_RESPONSE'
 export const CANCEL_VIEW_GRADES = 'responseReducer/CANCEL_VIEW_GRADES'
-
+export const PREVIOUS_PAGE='responseReducer/PREVIOUS_PAGE'
 const initialState = {
     assignments: [],
     responses: [],
@@ -112,7 +113,11 @@ export default function responseReducer(state = initialState, action) {
                 viewingGrades: false
             }
 
-
+        case PREVIOUS_PAGE:
+            return {
+                ...state,
+                isTakingQuiz: false,
+            }
 
 
         default:

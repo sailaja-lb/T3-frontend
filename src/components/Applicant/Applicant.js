@@ -24,12 +24,13 @@ function Applicant({
     const username = _useSelector(state => state.userReducer.loggedInUser)
     const users = _useSelector(state => state.userReducer.users)
     const assignedUser = users.find(element => element.username === username)
-    const isTakingQuiz = _useSelector(state=>state.responseReducer.isTakingQuiz)
+//    const isTakingQuiz = _useSelector(state=>state.responseReducer.isTakingQuiz)
+    const isTakingQuiz = _useSelector(state => state.applicantReducer.isTakingQuiz)
     console.log(assignedUser)
 
-    function viewGrades() {
+/*    function viewGrades() {
         dispatch(getGrades(assignedUser.id))
-    }
+    }*/
     if (isTakingQuiz) {
         return <QuizzesForApplicantsX/>
     }
@@ -40,8 +41,8 @@ function Applicant({
     else {
         return <>
             <ViewAssignedC/>
+    {/*        <Button onClick={viewGrades}>Grades</Button>*/}
 
-            <Button onClick={viewGrades}>Grades</Button>
         </>
     }
 

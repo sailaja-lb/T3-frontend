@@ -17,7 +17,8 @@ export default function TakeQuiz({
     const users = _useSelector(state => state.userReducer.users)
     const credentials = _useSelector(state => state.userReducer.credentials)
     const assignments = _useSelector(state => state.responseReducer.assignments)
-    const quiz = _useSelector(state=>state.responseReducer.quizToTake)
+ //   const quiz = _useSelector(state=>state.responseReducer.quizToTake)
+    const quiz = _useSelector(state=>state.applicantReducer.quizTake)
     const userObj = users.find(element => element.username === credentials.username
         && element.role === credentials.role)
 

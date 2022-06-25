@@ -22,7 +22,6 @@ export default function ApplicantHeader({
         dispatch(_initiateGetAssigned())
     }
 
-
     return <div className='my-3 d-flex justify-content-between'>
         <Badge bg={'secondary'} className={'d-flex flex-column justify-content-center w-25'}>Welcome,Recruiter</Badge>
         <Button title='Create Quizzes/Questions' onClick={handleGetQuiz}

@@ -3,6 +3,7 @@ import {Button, Card, Col, Form, FormText, Row, Table} from "react-bootstrap";
 import {LOGOUT} from "../../reducers/userReducer";
 import TakeQuiz from "./TakeQuiz";
 import {initiateSubmitResponse, PREVIOUS_PAGE} from "../../reducers/applicantReducer";
+//import {PREVIOUS_PAGE} from "../../reducers/responseReducer";
 
 
 export default function QuizzesForApplicants({
@@ -14,9 +15,19 @@ export default function QuizzesForApplicants({
 
     const savecount=_useSelector(state=>state.applicantReducer.savecount)
     const assignPayload = _useSelector(state=>state.applicantReducer.assignments)
-    const questionPayload = _useSelector(state=>state.responseReducer.quizToTake)
-    console.log(questionPayload)
-    const counter = questionPayload.length
+    const questionPayload = _useSelector(state=>state.applicantReducer.quizTake.quizTemplateId)
+    const users = _useSelector(state => state.userReducer.users)
+    const assignments = _useSelector(state => state.responseReducer.assignments)
+    const quizzes = _useSelector(state => state.quizReducer.getallQuizresult)
+    const credentials = _useSelector(state => state.userReducer.credentials)
+    const userObj = users.find(element => element.username === credentials.username
+        && element.role === credentials.role)
+    const assignedTo = assignments.filter(assignment => assignment.assignedTo === userObj.id)
+    const assignedQuizzes = quizzes.filter((quiz) =>
+//        assignedTo.find(({quizTemplateId}) => quiz.quizTemplateId === quizTemplateId))
+        assignedTo.find(({quizTemplateId}) => quiz.quizTemplateId === questionPayload))
+    console.log(assignedQuizzes)
+    const counter = assignedQuizzes.length
     const dispatch = _usedispatch()
     console.log(savecount)
     console.log(counter)
@@ -42,7 +53,7 @@ export default function QuizzesForApplicants({
             PREVIOUS PAGE</Button></Col>
         </div>
 
-        {questionPayload.map((questionsToRespond, index) => <div className={'m-3'} key={index}>
+        {assignedQuizzes.map((questionsToRespond, index) => <div className={'m-3'} key={index}>
             <_TakeQuiz questionsToRespond={questionsToRespond} />
         </div>)}
 

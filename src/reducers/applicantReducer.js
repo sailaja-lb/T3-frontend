@@ -1,3 +1,5 @@
+
+
 export const CANCEL_TAKE_QUIZ = 'applicantReducer/CANCEL_TAKE_QUIZ'
 export const EDIT_APPLICANT_INPUT = 'applicantReducer/EDIT_APPLICANT_INPUT'
 export const PREVIOUS_PAGE = 'applicantReducer/PREVIOUS_PAGE'
@@ -12,8 +14,8 @@ export const GET_QUIZ_TO_RESPOND_SUCCESS = 'applicantReducer/GET_QUIZ_TO_RESPOND
 export const GET_QUIZ_TO_RESPOND_FAILURE = 'applicantReducer/GET_QUIZ_TO_RESPOND_FAILURE'
 export const GET_ASSIGNMENT_START = 'applicantReducer/GET_ASSIGNMENT_START'
 export const GET_ASSIGNMENT_SUCCESS = 'applicantReducer/GET_ASSIGNMENT_SUCCESS'
-
 export const GET_ASSIGNMENT_FAILURE = 'applicantReducer/GET_ASSIGNMENT_FAILURE'
+export const TAKE_QUIZ = 'applicantReducer/TAKE_QUIZ'
 
 const initialState = {
     applicantLoginpending: false,
@@ -21,10 +23,12 @@ const initialState = {
 //    isFollowerLoggedIn:false,
     follproc: '',
     quizToTake: [],
+    quizTake:[],
     responseToAdd: null,
     isTakeQuiz: false,
     isGetFollow: false,
-    savecount: 0
+    savecount: 0,
+    isTakingQuiz:false
 }
 
 export default function reducer(state = initialState, action) {
@@ -62,7 +66,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 applicantLoginpending: false,
-                isTakeQuiz: false,
+                isTakingQuiz: false,
                 savecount: 0,
                 //               isGetFollow: false,
             }
@@ -74,6 +78,14 @@ export default function reducer(state = initialState, action) {
                 isTakeQuiz: true,
                 quizToTake: action.payload,
             }
+
+        case TAKE_QUIZ:
+            return {
+                ...state,
+                quizTake: action.payload,
+                isTakingQuiz: true,
+            }
+
         case SAVE_QUIZ_FAILURE:
         case SUBMIT_RESPONSE_FAILURE:
         case GET_QUIZ_TO_RESPOND_FAILURE:
@@ -87,7 +99,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 responseToAdd: null,
-                isTakeQuiz:false,
+                isTakingQuiz:false,
                 savecount: 0
             }
         case EDIT_APPLICANT_INPUT:
@@ -99,7 +111,7 @@ export default function reducer(state = initialState, action) {
         case PREVIOUS_PAGE:
             return {
                 ...state,
-                isTakeQuiz: false,
+                isTakingQuiz: false,
                 //               isGetFollow: false,
                 savecount: 0,
 
@@ -180,7 +192,8 @@ export function initiateSaveResponse(_fetch = fetch) {
 
         dispatch({type: SAVE_QUIZ_START})
         //       getState().applicantReducer.responseToAdd.completed=false
-        const url = `http://localhost:8082/addResponse?assignmentId=` + assignmentId + "&questionId=" + questionId + "&questionText=" + questionText + "&response=" + responseText + "&completed=" + completed
+        const url = `http://localhost:8082/addResponse?assignmentId=` + assignmentId + "&questionId=" + questionId + "&questionText=" + questionText + "&response=" + responseText
+    //        + "&completed=" + completed
         const response = await _fetch(url)
         if (response.ok) {
             const result = await response.text()
@@ -192,6 +205,7 @@ export function initiateSaveResponse(_fetch = fetch) {
 
 export function initiateSubmitResponse(token, _fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
+
         dispatch({type: SUBMIT_RESPONSE_START})
         /*const {
             assignmentId,
@@ -200,8 +214,9 @@ export function initiateSubmitResponse(token, _fetch = fetch) {
             responseText,
             completed
         } = getState().applicantReducer.assignments*/
-        const assignmentId=1
-        const url = `http://localhost:8082/updateIsComplete?assignmentId=` + assignmentId
+        const assignmentId= getState().applicantReducer.responseToAdd.assignmentId
+        console.log(assignmentId)
+        const url = `http://localhost:8082/updateCompleteAssignment?assignmentId=` + assignmentId
         const response = await _fetch(url)
         if (response.ok) {
             const result = await response.text()
