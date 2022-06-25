@@ -22,7 +22,7 @@ export default function Recruiter({
     const isAddQuiz = _useSelector(state => state.quizReducer.isAddQuiz)
     const isGetAllQuiz = _useSelector(state => state.quizReducer.isGetAllQuiz)
     const isEditQuiz = _useSelector(state => state.quizReducer.isEditQuiz)
-
+    const isGetApplicant = _useSelector(state => state.quizReducer.isGetApplicant)
     const toggleAssignQuiz = useSelector(state => state.gradeAssignmentReducer.toggleAssignQuiz)
     const toggleGradeQuiz = useSelector(state => state.gradeAssignmentReducer.toggleGradeQuiz)
     const dispatch = useDispatch()
