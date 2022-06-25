@@ -17,6 +17,7 @@ export default function Recruiter({
                                       GetAllQuizzesC = GetAllQuizzes,
                                       EditQuizC = EditQuiz,
                                       AddQuizC = AddQuiz,
+                                      GetCompletedQuizzesC=GetCompletedQuizzes
                                   }) {
     const isAddQuiz = _useSelector(state => state.quizReducer.isAddQuiz)
     const isGetAllQuiz = _useSelector(state => state.quizReducer.isGetAllQuiz)
