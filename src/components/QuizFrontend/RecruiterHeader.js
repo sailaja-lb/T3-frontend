@@ -1,23 +1,18 @@
 import {useDispatch, useSelector} from "react-redux";
-import {Badge, Button, Card, Col, Form, Row} from "react-bootstrap";
+import {Badge, Button, Col} from "react-bootstrap";
 import {ADD_QUIZZES, initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../../reducers/quizReducer";
-import {TOGGLE_ASSIGN_QUIZ, TOGGLE_GRADE_QUIZ} from "../../reducers/lengReducer";
+import {TOGGLE_ASSIGN_QUIZ, TOGGLE_GRADE_QUIZ} from "../../reducers/gradeAssignmentReducer";
 
 
 export default function RecruiterHeader({
                                             _useDispatch = useDispatch, _useSelector = useSelector,
                                             _initiateGetAllQuizzes = initiateGetAllQuizzes,
-                                            /*        _initiateGetCompletedQuizzes=initiateGetCompletedQuizzes*/
                                         }) {
     const dispatch = _useDispatch()
 
     function handleGetAllProc() {
         dispatch(_initiateGetAllQuizzes())
     }
-
-    /*  function handleGetCompletedQuizzes() {
-          dispatch(_initiateGetCompletedQuizzes())
-      }*/
 
     return <div className='my-3 d-flex justify-content-between'>
         <Badge bg={'secondary'} className={'d-flex flex-column justify-content-center w-25'}>Welcome,Recruiter</Badge>
