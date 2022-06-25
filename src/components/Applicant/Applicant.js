@@ -35,9 +35,6 @@ function Applicant({
     if (isTakingQuiz) {
         return <QuizzesForApplicantsX/>
     }
-    if (viewingGrades === true) {
-
-
 
     else if (viewingGrades === true) {
         return <ViewGradesX/>
