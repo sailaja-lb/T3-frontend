@@ -14,7 +14,8 @@ export default function QuizzesForApplicants({
 
     const savecount=_useSelector(state=>state.applicantReducer.savecount)
     const assignPayload = _useSelector(state=>state.applicantReducer.assignments)
-    const questionPayload = _useSelector(state=>state.applicantReducer.quizToTake)
+    const questionPayload = _useSelector(state=>state.responseReducer.quizToTake)
+    console.log(questionPayload)
     const counter = questionPayload.length
     const dispatch = _usedispatch()
     console.log(savecount)

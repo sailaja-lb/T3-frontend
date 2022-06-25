@@ -101,7 +101,9 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 isTakeQuiz: false,
                 //               isGetFollow: false,
-                savecount: 0
+                savecount: 0,
+
+
             }
 
         default:

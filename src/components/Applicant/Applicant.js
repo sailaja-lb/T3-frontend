@@ -30,10 +30,9 @@ function Applicant({
     function viewGrades() {
         dispatch(getGrades(assignedUser.id))
     }
-
-/*    if (isTakingQuiz) {
+    if (isTakingQuiz) {
         return <QuizzesForApplicantsX/>
-    }*/
+    }
     if (viewingGrades === true) {
         return <ViewGradesX/>
 

@@ -62,7 +62,8 @@ export default function responseReducer(state = initialState, action) {
                     questions: action.payload.questions,
                     questionType: action.payload.questionType,
                     answer: action.payload.answer,
-                }
+                },
+                isTakingQuiz: false,
             }
 
         case SEND_RESPONSE_START:
