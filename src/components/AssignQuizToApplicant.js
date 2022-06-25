@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Form} from "react-bootstrap";
-import {ADD_ASSIGNMENT, addAssignment, TOGGLE_ASSIGN_QUIZ} from "../reducers/lengReducer";
+import {ADD_ASSIGNMENT, addAssignment, TOGGLE_ASSIGN_QUIZ} from "../reducers/gradeAssignmentReducer";
 
 function AssignQuizToApplicant() {
     const users = useSelector(state => state.userReducer.users)
     const quizzes = useSelector(state => state.quizReducer.getallQuizresult)
 
-    const uniqueIds = [];
+    let uniqueIds = [];
     const uniqueQuizzesId = quizzes.filter(element => {
         const isDuplicate = uniqueIds.includes(element.quizTemplateId);
         if (!isDuplicate) {
@@ -15,9 +15,21 @@ function AssignQuizToApplicant() {
             return true;
         }
         return false;
-    });
+    })
 
-    const [userID, setUserID] = useState(users[0]?.id)
+    const filterByApplicant = users.filter(user => user?.role === 'Applicant')
+
+    uniqueIds = [];
+    const uniqueUsersId = filterByApplicant.filter(element => {
+        const isDuplicate = uniqueIds.includes(element.username);
+        if (!isDuplicate) {
+            uniqueIds.push(element.username);
+            return true;
+        }
+        return false;
+    })
+
+    const [userID, setUserID] = useState(uniqueUsersId[0]?.id)
     const [assignQuizID, setAssignQuizID] = useState(uniqueQuizzesId[0]?.quizTemplateId)
     const dispatch = useDispatch()
 
@@ -25,6 +37,14 @@ function AssignQuizToApplicant() {
         dispatch({type: ADD_ASSIGNMENT, payload: {userID, assignQuizID}})
         dispatch(addAssignment())
     }
+
+    if (uniqueUsersId.length === 0 || uniqueQuizzesId.length === 0)
+        return <div>
+            <div className={'d-flex justify-content-end'}>
+                <Button onClick={() => dispatch({type: TOGGLE_ASSIGN_QUIZ})}>Back</Button>
+            </div>
+            There are no Applicants or Quizzes to assign
+        </div>
 
     return <div>
         <div className={'d-flex justify-content-end'}>
@@ -34,7 +54,7 @@ function AssignQuizToApplicant() {
             <Form className={'d-flex justify-content-around'}>
                 <Form.Label> Select user to assign quiz
                     <Form.Select onChange={e => setUserID(parseInt(e.target.value))}>
-                        {users.map((user, index) =>
+                        {uniqueUsersId.map((user, index) =>
                             <option value={user?.id} key={index}>{user?.username}</option>)}
                     </Form.Select>
                 </Form.Label>

@@ -15,21 +15,19 @@ export default function Recruiter({
                                       _useSelector = useSelector,
                                       RecruiterHeaderC = RecruiterHeader,
                                       GetAllQuizzesC = GetAllQuizzes,
-                                      GetCompletedQuizzesC = GetCompletedQuizzes,
                                       EditQuizC = EditQuiz,
                                       AddQuizC = AddQuiz,
                                   }) {
     const isAddQuiz = _useSelector(state => state.quizReducer.isAddQuiz)
     const isGetAllQuiz = _useSelector(state => state.quizReducer.isGetAllQuiz)
-    const isGetApplicant = _useSelector(state => state.quizReducer.isGetApplicant)
     const isEditQuiz = _useSelector(state => state.quizReducer.isEditQuiz)
 
-    const toggleAssignQuiz = useSelector(state => state.lengReducer.toggleAssignQuiz)
-    const toggleGradeQuiz = useSelector(state => state.lengReducer.toggleGradeQuiz)
+    const toggleAssignQuiz = useSelector(state => state.gradeAssignmentReducer.toggleAssignQuiz)
+    const toggleGradeQuiz = useSelector(state => state.gradeAssignmentReducer.toggleGradeQuiz)
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(initLoadAllUsers());
-    }, []);
+    });
 
     if (toggleAssignQuiz)
         return <AssignQuizToApplicant/>

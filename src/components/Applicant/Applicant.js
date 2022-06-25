@@ -7,6 +7,7 @@ import {Button} from "react-bootstrap";
 import {getGrades, VIEW_GRADES} from "../../reducers/responseReducer";
 import ApplicantHeader from "./ApplicantHeader";
 import QuizzesForApplicants from "./QuizzesForApplicants";
+import {LOGOUT} from "../../reducers/userReducer";
 
 function Applicant({
                        ViewAssignedC = ViewAssigned,
@@ -35,6 +36,10 @@ function Applicant({
         return <QuizzesForApplicantsX/>
     }
     if (viewingGrades === true) {
+
+
+
+    else if (viewingGrades === true) {
         return <ViewGradesX/>
 
     }
