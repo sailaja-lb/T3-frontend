@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, { useState } from 'react';
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {EDIT_ROLE_CANCEL, EDIT_ROLE_CHANGE, editUser} from "../reducers/userReducer";
@@ -9,8 +9,6 @@ import {Form} from "react-bootstrap";
 export default function EditUserRole({_useSelector=useSelector, _useDispatch = useDispatch}) {
     const dispatch = _useDispatch()
     const editUserId = _useSelector(state => state.userReducer.editUserId)
-    // const users = _useSelector(state => state.userReducer.users)
-    // const loggedInUser = _useSelector(state => state.userReducer.loggedInUser)
 
     function handleClose() {
         dispatch({type: EDIT_ROLE_CANCEL})

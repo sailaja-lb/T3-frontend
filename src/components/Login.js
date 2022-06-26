@@ -2,7 +2,7 @@ import {Alert, Button, Card, Form, InputGroup, Row} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {
     initiateLogin,
-    REGISTER_START, REGISTER_USER,
+    REGISTER_START,
     UPDATE_CREDENTIALS
 } from "../reducers/userReducer";
 import {BsLock, BsPerson} from "react-icons/bs";
@@ -12,7 +12,6 @@ export default function Login({_useSelector=useSelector, _useDispatch=useDispatc
     const credentials = _useSelector(state => state.userReducer.credentials)
     const successfulRegisterMessage = _useSelector(state => state.userReducer.successfulRegisterMessage)
     const loginErrorMessage = _useSelector(state => state.userReducer.loginErrorMessage)
-    
     const dispatch = _useDispatch()
 
     function updateUsername(username) {
@@ -27,7 +26,6 @@ export default function Login({_useSelector=useSelector, _useDispatch=useDispatc
     }
     function handleSubmit(event) {
         event.preventDefault()
-        // setSubmit(true)
         dispatch(initiateLogin())
     }
     function handleRegister() {
@@ -40,25 +38,25 @@ export default function Login({_useSelector=useSelector, _useDispatch=useDispatc
             {successfulRegisterMessage ? (<Alert variant={"success"}>
                 Successfully Registered. Please login</Alert>) : null}
             {loginErrorMessage ? (<Alert variant={"danger"}>
-                Failed to login</Alert>) : null}
+                Failed to login. Please try again.</Alert>) : null}
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                     <InputGroup className="mb-2">
                         <InputGroup.Text><BsPerson/></InputGroup.Text>
-                        <Form.Control placeholder='Username' onChange={e => updateUsername(e.target.value)}/>
+                        <Form.Control placeholder='Username' onChange={e => updateUsername(e.target.value)} required={true}/>
                     </InputGroup>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <InputGroup>
                         <InputGroup.Text><BsLock/></InputGroup.Text>
-                        <Form.Control placeholder='Password' onChange={e => updatePassword(e.target.value)}/>
+                        <Form.Control placeholder='Password' onChange={e => updatePassword(e.target.value)} required={true}/>
                     </InputGroup>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <div onChange={e => updateRole(e.target.value)}>
-                        <Form.Check inline label="Admin" type="radio" value="Admin" name="user" />
-                        <Form.Check inline label="Recruiter" type="radio" value="Recruiter" name="user" />
-                        <Form.Check inline label="Applicant" type="radio" value="Applicant" name="user" />
+                        <Form.Check inline label="Admin" type="radio" value="Admin" name="user" required={true}/>
+                        <Form.Check inline label="Recruiter" type="radio" value="Recruiter" name="user" required={true}/>
+                        <Form.Check inline label="Applicant" type="radio" value="Applicant" name="user" required={true}/>
                     </div>
                 </Form.Group>
                 <Row className={'p-3'}>
