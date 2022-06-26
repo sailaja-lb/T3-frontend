@@ -9,7 +9,7 @@ import UsersList from "./UsersList";
 import {useEffect} from "react";
 import EditUserRole from "./EditUserRole";
 import Recruiter from "./Recruiter";
-import Applicant from "./Applicant";
+import Applicant from "./Applicant/Applicant";
 
 
 export default function Admin({_useDispatch = useDispatch, _useSelector = useSelector, UsersListC = UsersList}) {
