@@ -45,7 +45,7 @@ export default function Admin({_useDispatch = useDispatch, _useSelector = useSel
                         </Button></Col>
                     </Row>
                     <Row>
-                        <Col xs lg="2">
+                        <Col>
                             {loading ? <Spinner animation="grow" /> : <UsersListC />}
                         </Col>
                     </Row>
