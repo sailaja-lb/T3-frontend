@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Form} from "react-bootstrap";
-import {ADD_ASSIGNMENT, addAssignment, RESET_MESSAGE, TOGGLE_ASSIGN_QUIZ} from "../reducers/gradeAssignmentReducer";
+import {ADD_ASSIGNMENT, addAssignment, TOGGLE_ASSIGN_QUIZ} from "../reducers/gradeAssignmentReducer";
 
 function AssignQuizToApplicant() {
     const users = useSelector(state => state.userReducer.users)
     const quizzes = useSelector(state => state.quizReducer.getallQuizresult)
-    const message = useSelector(state => state.gradeAssignmentReducer.message)
 
     const uniqueIds = [];
     const uniqueQuizzesId = quizzes.filter(element => {

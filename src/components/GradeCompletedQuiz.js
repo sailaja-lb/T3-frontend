@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, FormControl, Table} from "react-bootstrap";
+import {Button, Form, Table} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {UPDATE_GRADE, UPDATE_VIEW_RESPONSE, updateGradedQuiz} from "../reducers/gradeAssignmentReducer";
 
