@@ -14,8 +14,8 @@ function GradeCompletedQuizzes() {
     const responseQuestion = useSelector(state => state.gradeAssignmentReducer.responseQuestion)
     const dispatch = useDispatch()
 
-    const assigned = assignments.filter(assignment => assignment.assignmentId === chosenApplicantId)
-    if (assigned)
+    const assigned = assignments.filter(assignment => assignment?.assignedTo === chosenApplicantId)
+    if (assigned.length === 0)
         return <div>
             <div className={'d-flex justify-content-end'}>
                 <Button onClick={() => dispatch({type: CANCEL_APPLICANT_ID})}>Back</Button>
