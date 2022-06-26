@@ -6,16 +6,12 @@ import {
     UPDATE_CREDENTIALS
 } from "../reducers/userReducer";
 import {BsLock, BsPerson} from "react-icons/bs";
-import {useState} from "react";
 
 
 export default function Login({_useSelector=useSelector, _useDispatch=useDispatch}) {
     const credentials = _useSelector(state => state.userReducer.credentials)
     const successfulRegisterMessage = _useSelector(state => state.userReducer.successfulRegisterMessage)
     const loginErrorMessage = _useSelector(state => state.userReducer.loginErrorMessage)
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [submit, setSubmit] = useState(false)
     const dispatch = _useDispatch()
 
     function updateUsername(username) {
@@ -30,7 +26,6 @@ export default function Login({_useSelector=useSelector, _useDispatch=useDispatc
     }
     function handleSubmit(event) {
         event.preventDefault()
-        setSubmit(true)
         dispatch(initiateLogin())
     }
     function handleRegister() {
@@ -48,20 +43,20 @@ export default function Login({_useSelector=useSelector, _useDispatch=useDispatc
                 <Form.Group className="mb-3">
                     <InputGroup className="mb-2">
                         <InputGroup.Text><BsPerson/></InputGroup.Text>
-                        <Form.Control placeholder='Username' onChange={e => updateUsername(e.target.value)} isInvalid={submit && !username}/>
+                        <Form.Control placeholder='Username' onChange={e => updateUsername(e.target.value)} required={true}/>
                     </InputGroup>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <InputGroup>
                         <InputGroup.Text><BsLock/></InputGroup.Text>
-                        <Form.Control placeholder='Password' onChange={e => updatePassword(e.target.value)} isInvalid={submit && !password}/>
+                        <Form.Control placeholder='Password' onChange={e => updatePassword(e.target.value)} required={true}/>
                     </InputGroup>
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <div onChange={e => updateRole(e.target.value)}>
-                        <Form.Check inline label="Admin" type="radio" value="Admin" name="user" />
-                        <Form.Check inline label="Recruiter" type="radio" value="Recruiter" name="user" />
-                        <Form.Check inline label="Applicant" type="radio" value="Applicant" name="user" />
+                        <Form.Check inline label="Admin" type="radio" value="Admin" name="user" required={true}/>
+                        <Form.Check inline label="Recruiter" type="radio" value="Recruiter" name="user" required={true}/>
+                        <Form.Check inline label="Applicant" type="radio" value="Applicant" name="user" required={true}/>
                     </div>
                 </Form.Group>
                 <Row className={'p-3'}>
