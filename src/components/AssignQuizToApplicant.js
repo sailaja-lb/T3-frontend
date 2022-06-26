@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Button, Form} from "react-bootstrap";
-import {ADD_ASSIGNMENT, addAssignment, TOGGLE_ASSIGN_QUIZ} from "../reducers/gradeAssignmentReducer";
+import {ADD_ASSIGNMENT, addAssignment, RESET_MESSAGE, TOGGLE_ASSIGN_QUIZ} from "../reducers/gradeAssignmentReducer";
 
 function AssignQuizToApplicant() {
     const users = useSelector(state => state.userReducer.users)
     const quizzes = useSelector(state => state.quizReducer.getallQuizresult)
     const message = useSelector(state => state.gradeAssignmentReducer.message)
 
-    let uniqueIds = [];
+    const uniqueIds = [];
     const uniqueQuizzesId = quizzes.filter(element => {
         const isDuplicate = uniqueIds.includes(element.quizTemplateId);
         if (!isDuplicate) {
@@ -20,11 +20,11 @@ function AssignQuizToApplicant() {
 
     const filterByApplicant = users.filter(user => user?.role === 'Applicant')
 
-    uniqueIds = [];
+    const uniqueIds2 = [];
     const uniqueUsersId = filterByApplicant.filter(element => {
-        const isDuplicate = uniqueIds.includes(element.username);
+        const isDuplicate = uniqueIds2.includes(element.username);
         if (!isDuplicate) {
-            uniqueIds.push(element.username);
+            uniqueIds2.push(element.username);
             return true;
         }
         return false;
@@ -37,7 +37,6 @@ function AssignQuizToApplicant() {
     function handleAddAssignment() {
         dispatch({type: ADD_ASSIGNMENT, payload: {userID, assignQuizID}})
         dispatch(addAssignment())
-        alert(message)
     }
 
     if (uniqueUsersId.length === 0 || uniqueQuizzesId.length === 0)
@@ -57,13 +56,17 @@ function AssignQuizToApplicant() {
                 <Form.Label> Select applicant to assign quiz
                     <Form.Select onChange={e => setUserID(parseInt(e.target.value))}>
                         {uniqueUsersId?.map((user, index) =>
-                            <option value={user?.id} key={index}>{user?.username}</option>)}
+                            <option value={user?.id} key={index}>
+                                {user?.username}
+                            </option>)}
                     </Form.Select>
                 </Form.Label>
                 <Form.Label> Select quiz you like to assigned
                     <Form.Select onChange={e => setAssignQuizID(parseInt(e.target.value))}>
                         {uniqueQuizzesId?.map((quiz, index) =>
-                            <option value={quiz?.quizTemplateId} key={index}>{quiz?.quizTemplateId}</option>)}
+                            <option value={quiz?.quizTemplateId} key={index}>
+                                {quiz?.quizTemplateId}
+                            </option>)}
                     </Form.Select>
                 </Form.Label>
             </Form>

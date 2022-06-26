@@ -28,7 +28,6 @@ const initialState = {
     registerPending: false,
     loggedInUser: null,
     loggedInRole: null,
-    loggedInId: null,
     successfulRegisterMessage: false,
     loginErrorMessage: false,
     credentials: {username: '', password: '', role: ''},
@@ -61,7 +60,6 @@ export default function userReducer(state = initialState, action) {
                 token: action.payload.token,
                 loggedInUser: state.credentials.username,
                 loggedInRole: state.credentials.role,
-                loggedInId: state.credentials.id,
             }
         case LOGIN_FAILURE:
             return {

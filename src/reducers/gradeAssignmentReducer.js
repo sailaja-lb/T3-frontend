@@ -14,6 +14,8 @@ export const RESET_VIEW_RESPONSE = '/RESET_VIEW_RESPONSE'
 export const UPDATE_GRADED_QUIZ_START = '/UPDATE_GRADED_QUIZ_START'
 export const UPDATE_GRADED_QUIZ_SUCCESS = '/UPDATE_GRADED_QUIZ_SUCCESS'
 export const UPDATE_GRADED_QUIZ_FAILURE = '/UPDATE_GRADED_QUIZ_FAILURE'
+export const RESET_MESSAGE = '/RESET_MESSAGE'
+export const UPDATE_GRADE = '/UPDATE_GRADE'
 
 // init state
 const initialState = {
@@ -36,14 +38,21 @@ const initialState = {
     responseQuestion: undefined,
 
     updateGradedQuizPending: false,
-    assignmentID: null,
+    assignmentId: null,
     grade: null,
     gradedBy: null,
+    currentUserId: null,
 }
 
 // Reducer
 export default function gradeAssignmentReducer(state = initialState, action) {
     switch (action?.type) {
+        case UPDATE_GRADE:
+            return {
+                ...state, grade: action.payload.grade,
+                assignmentId: action.payload.assignmentId,
+                currentUserId: action.payload.currentUserId
+            }
         case UPDATE_GRADED_QUIZ_START:
             return {
                 ...state,
@@ -85,6 +94,8 @@ export default function gradeAssignmentReducer(state = initialState, action) {
             return {...state, message: 'Quiz assigned successful'}
         case ASSIGN_QUIZ_FAILED:
             return {...state, message: 'Quiz assigned FAILED'}
+        case RESET_MESSAGE:
+            return {...state, message: undefined}
         case CHOSEN_APPLICANT_ID:
             return {...state, chosenApplicantId: action?.id}
         case CANCEL_APPLICANT_ID:
@@ -109,10 +120,14 @@ export function addAssignment(_fetch = fetch) {
             },
             body: JSON.stringify({})
         })
-        if (response.ok)
+        if (response.ok) {
             dispatch({type: ASSIGN_QUIZ_SUCCESSFUL})
-        else
+            alert('Assigned Successful')
+        } else {
             dispatch({type: ASSIGN_QUIZ_FAILED})
+            alert('Assigned Failed')
+
+        }
     }
 }
 
@@ -127,23 +142,22 @@ export function getAssignment(_fetch = fetch) {
     }
 }
 
-// export function updateGradedQuiz(_fetch = fetch) {
-//     return async function sideEffect(dispatch, getState) {
-//         dispatch({type: UPDATE_GRADED_QUIZ_START})
-//         const assignmentId = getState().gradeAssignmentReducer.assignmentID
-//         const grade = getState().gradeAssignmentReducer.grade
-//         const gradedBy = getState().gradeAssignmentReducer.gradedBy
-//         const url = http://localhost:8082/updateGrade?assignmentId=${assignmentId}&grade=${grade}&gradedBy=${gradedBy}
-//         const response = await _fetch(url, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify({})
-//         })
-//         if (response.ok)
-//             dispatch({type: UPDATE_GRADED_QUIZ_SUCCESS})
-//         else
-//             dispatch({type: UPDATE_GRADED_QUIZ_FAILURE})
-//     }
-// }
+export function updateGradedQuiz(_fetch = fetch) {
+    return async function sideEffect(dispatch, getState) {
+        const assignmentId = getState().gradeAssignmentReducer.assignmentId
+        const grade = getState().gradeAssignmentReducer.grade
+        const gradedBy = getState().gradeAssignmentReducer.currentUserId
+        const url = `http://localhost:8082/updateGrade?assignmentId=${assignmentId}&grade=${grade}&gradedBy=${gradedBy}`
+        const response = await _fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        })
+        if (response.ok)
+            alert('Update grade Successful')
+        else
+            alert('Update grade Failed')
+    }
+}
