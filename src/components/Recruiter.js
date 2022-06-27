@@ -4,12 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {Container} from "react-bootstrap";
 import GetAllQuizzes from "./QuizFrontend/GetAllQuizzes";
 import AssignQuizToApplicant from "./AssignQuizToApplicant";
-
-import GetCompletedQuizzes from "./GetCompletedQuizzes";
 import EditQuiz from "./QuizFrontend/EditQuiz";
 import SelectApplicantQuiz from "./SelectApplicantQuiz";
 import {useEffect} from "react";
 import {initLoadAllUsers} from "../reducers/userReducer";
+import {getAssignment} from "../reducers/gradeAssignmentReducer";
 
 export default function Recruiter({
                                       _useSelector = useSelector,
@@ -27,13 +26,14 @@ export default function Recruiter({
     const toggleGradeQuiz = useSelector(state => state.gradeAssignmentReducer.toggleGradeQuiz)
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(initLoadAllUsers());
-    });
+        dispatch(initLoadAllUsers())
+        dispatch(getAssignment())
+    }, []);
 
     if (toggleAssignQuiz)
-        return <AssignQuizToApplicant/>
+        return <div className={'mt-3'}><AssignQuizToApplicant/></div>
     else if (toggleGradeQuiz)
-        return <SelectApplicantQuiz/>
+        return <div className={'mt-3'}><SelectApplicantQuiz/></div>
     else
     if (isGetApplicant){
         return <div className={'d-flex justify-content-center'}>

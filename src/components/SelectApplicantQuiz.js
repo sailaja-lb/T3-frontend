@@ -38,7 +38,7 @@ function SelectApplicantQuiz() {
             </div>
 
             <ListGroup className={'d-flex w-75'}>
-                <ListGroup.Item active> Select a user that you would like to grade.</ListGroup.Item>
+                <ListGroup.Item active> Select an applicant that you would like to grade.</ListGroup.Item>
                 {uniqueUsersId.map((user, index) =>
                     <ListGroup.Item action onClick={() =>
                         dispatch({type: CHOSEN_APPLICANT_ID, id: user?.id})} key={index}>

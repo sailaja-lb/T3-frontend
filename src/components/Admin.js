@@ -32,25 +32,24 @@ export default function Admin({_useDispatch = useDispatch, _useSelector = useSel
         <>
             {isImpersonate ?
                 <>
-                    {impersonateDetails.role === "Recruiter" ? <Recruiter/> : null}
-                    {impersonateDetails.role === "Applicant" ? <Applicant/> : null}
+                    {impersonateDetails.role === "Recruiter" ? <Recruiter /> : null}
+                    {impersonateDetails.role === "Applicant" ? <Applicant /> : null}
                 </> : <>
                     <Row className='my-3 align-items-center'>
                         <Col>
                             <Button type='button' onClick={handleRegister}>ADD USER</Button>
                         </Col>
                         <Col xs='auto'>Welcome {loggedInUser}</Col>
-                        <Col xs='auto'><Button title='Logout' onClick={() => dispatch({type: LOGOUT})}
-                                               variant={"outline-secondary"}>
+                        <Col xs='auto'><Button title='Logout' onClick={() => dispatch({type: LOGOUT})} variant={"outline-secondary"}>
                             LOGOUT
                         </Button></Col>
                     </Row>
                     <Row>
-                        <Col xs lg="2">
-                            {loading ? <Spinner animation="grow"/> : <UsersListC/>}
+                        <Col>
+                            {loading ? <Spinner animation="grow" /> : <UsersListC />}
                         </Col>
                     </Row>
-                    <EditUserRole/>
+                    <EditUserRole />
                 </>}
         </>
     )

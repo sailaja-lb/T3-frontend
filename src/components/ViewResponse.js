@@ -7,10 +7,16 @@ function ViewResponse({responsed}) {
     return <div>
         <div className={'d-flex flex-wrap justify-content-between'}>
             <Table striped bordered>
+                <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Response/Answer</th>
+                </tr>
+                </thead>
                 <tbody>
                 <tr>
-                    <td>{'Question: ' + questionText}</td>
-                    <td>{'Response: ' + response}</td>
+                    <td>{questionText}</td>
+                    <td>{response}</td>
                 </tr>
                 </tbody>
             </Table>

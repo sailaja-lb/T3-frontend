@@ -5,7 +5,6 @@ export const REGISTER_START = 'REGISTER_START'
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export const REGISTER_FAILURE = 'REGISTER_FAILURE'
 export const REGISTER_USER = 'REGISTER_USER'
-export const REGISTER_CREDENTIALS = 'REGISTER_CREDENTIALS'
 export const GET_ALL_USERS_DONE = 'GET_ALL_USERS_DONE'
 export const DELETE_USER_DONE = 'DELETE_USER_DONE'
 export const EDIT_ROLE_START = 'EDIT_ROLE_START'
@@ -14,6 +13,7 @@ export const EDIT_ROLE_CHANGE = 'EDIT_ROLE_CHANGE'
 export const EDIT_ROLE_SUCCESS = 'EDIT_ROLE_SUCCESS'
 export const UPDATE_CREDENTIALS = 'UPDATE_CREDENTIALS'
 export const CANCEL = 'CANCEL'
+export const ADMIN_CANCEL_START = 'ADMIN_CANCEL_START'
 export const ADMIN_CANCEL = 'ADMIN_CANCEL'
 export const IMPERSONATE_START = 'IMPERSONATE_START'
 export const IMPERSONATE_DONE = 'IMPERSONATE_DONE'
@@ -39,7 +39,11 @@ const initialState = {
     editUserId: null,
     newRole: null,
     isAddNewUser: false,
-    isImpersonate: false
+    isImpersonate: false,
+    impersonateDetails: {},
+    authMessage : false,
+    failRegisterMessage: false,
+    editUserRoles: []
 }
 
 export default function userReducer(state = initialState, action) {
@@ -59,7 +63,7 @@ export default function userReducer(state = initialState, action) {
                 successfulRegisterMessage: false,
                 token: action.payload.token,
                 loggedInUser: state.credentials.username,
-                loggedInRole: state.credentials.role
+                loggedInRole: state.credentials.role,
             }
         case LOGIN_FAILURE:
             return {
@@ -93,25 +97,28 @@ export default function userReducer(state = initialState, action) {
                 isRegister: true,
                 registerPending: true,
                 isLoggedIn: false,
-                // isAddNewUser: true
+                isAddNewUser: true,
+                authMessage: false,
+                failRegisterMessage: false
             }
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                isRegister: true,
+                isRegister: false,
                 registerPending: false,
                 loginPending: false,
-                isLoggedIn: false,
+                isLoggedIn: state.loggedInRole ? true : false,
                 successfulRegisterMessage: true
             }
         case REGISTER_FAILURE:
             return {
                 ...state,
                 isRegister: false,
-                registerPending: false
+                registerPending: false,
+                failRegisterMessage: true
             }
         case CANCEL:
-            return{
+            return {
                 ...state,
                 isRegister: false,
                 registerPending: false,
@@ -120,14 +127,20 @@ export default function userReducer(state = initialState, action) {
         case ADMIN_CANCEL:
             return {
                 ...state,
-                loggedInRole: state.credentials.role,
-                isLoggedIn: true
+                isLoggedIn: state.loggedInRole ? true : false,
+                isAddNewUser: false,
+                authMessage: true
 
             }
         case LOGOUT:
             return {
                 ...state,
-                isLoggedIn: false
+                isLoggedIn: false,
+                isAddNewUser: false,
+                authMessage: false,
+                loggedInRole: false,
+                isRegister: false,
+                isImpersonate: false
             }
         case GET_ALL_USERS_START:
             return {
@@ -138,15 +151,14 @@ export default function userReducer(state = initialState, action) {
         case GET_ALL_USERS_DONE:
             return {
                 ...state,
-                //users: [...state.users, {...action.user}],
-                users: action.payload.allUsers
+                users: action.payload.allUsers,
+                loading: false
             }
         case EDIT_ROLE_START:
             return {
                 ...state,
                 editUserId: action.payload.userId,
-                // editUserRole: action.payload.role
-                // newRole: state.loggedInRole
+                editUserRoles: action.payload.userRoles
             }
         case EDIT_ROLE_CHANGE:
             return {
@@ -174,8 +186,8 @@ export default function userReducer(state = initialState, action) {
         case IMPERSONATE_START:
             return {
                 ...state,
-                isImpersonate: true
-                // isLoggedIn: true
+                isImpersonate: true,
+                impersonateDetails: action.payload.user
             }
         case IMPERSONATE_DONE:
             return {
@@ -189,7 +201,7 @@ export default function userReducer(state = initialState, action) {
     }
 }
 
-export function initiateLogin(_fetch=fetch) {
+export function initiateLogin(_fetch = fetch) {
     return async function sideEffect(dispatch, getState) {
         dispatch({type: LOGIN_START})
         const {username, password, role} = getState().userReducer.credentials
@@ -203,8 +215,9 @@ export function initiateLogin(_fetch=fetch) {
     }
 }
 
-export function initiateRegister(_fetch=fetch) {
+export function initiateRegister(_fetch = fetch) {
     return async function createRegister(dispatch, getState) {
+        dispatch({type: REGISTER_START})
         const {username, password, role} = getState().userReducer.addNewUser;
         let registerUrl = ``
         if (role === "Admin") {
@@ -232,7 +245,7 @@ export function initiateRegister(_fetch=fetch) {
     }
 }
 
-export function initLoadAllUsers(_fetch=fetch) {
+export function initLoadAllUsers(_fetch = fetch) {
     return async function allUsers(dispatch, getState) {
         const token = getState().userReducer.token
         dispatch({type: GET_ALL_USERS_START})
@@ -246,11 +259,11 @@ export function initLoadAllUsers(_fetch=fetch) {
     }
 }
 
-export function editUser(_fetch=fetch) {
+export function editUser(_fetch = fetch) {
     return async function editUser(dispatch, getState) {
         const state = getState()
         const token = getState().userReducer.token
-        const user = state.userReducer.credentials
+        // const user = state.userReducer.credentials
         const id = state.userReducer.editUserId
         const newRole = state.userReducer.newRole
         // if (user.role !== newRole) {
@@ -274,7 +287,7 @@ export function editUser(_fetch=fetch) {
     }
 }
 
-export function deleteUser(userId, _fetch=fetch) {
+export function deleteUser(userId, _fetch = fetch) {
     return async function deleteUser(dispatch, getState) {
         const state = getState()
         const token = state.userReducer.token

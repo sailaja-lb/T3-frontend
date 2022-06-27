@@ -26,7 +26,7 @@ export default function RecruiterHeader({
         <Button title='Assign Quiz to Users'
                 onClick={() => {
                     dispatch(initiateGetAllQuizzes())
-                    dispatch({type: TOGGLE_ASSIGN_QUIZ})
+                    setTimeout(() => dispatch({type: TOGGLE_ASSIGN_QUIZ}), 50)
                 }}
                 variant={"outline-primary"}>Assign Quiz to Users</Button>
         <Button title='Grade Completed Quizzes'
