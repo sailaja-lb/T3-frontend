@@ -1,10 +1,10 @@
 import {useDispatch, useSelector} from "react-redux";
-import {Badge, Button, Form} from "react-bootstrap";
+import {Badge, Button} from "react-bootstrap";
 import {getAssigned, getGrades} from "../../reducers/responseReducer";
 import StaticQuiz from "./StaticQuiz";
 import {initLoadAllUsers, LOGOUT} from "../../reducers/userReducer";
 import {initiateGetAllQuizzes} from "../../reducers/quizReducer";
-import {initiateGetQuizToRespond} from "../../reducers/applicantReducer";
+import {useEffect} from "react";
 
 
 
@@ -19,7 +19,7 @@ export default function ViewAssigned({
 
     const username = _useSelector(state => state.userReducer.loggedInUser)
     const usersList = _useSelector(state => state.userReducer.users)
-    const assignedUser = usersList.find(element => element.username === username)
+    const assignedUser = usersList.find(element => element.username === username && element.role === 'Applicant')
     const users = _useSelector(state => state.userReducer.users)
 
     const assignments = _useSelector(state => state.responseReducer.assignments)
@@ -39,8 +39,11 @@ export default function ViewAssigned({
         console.log(uniqueIds)
         console.log(isDuplicate)
     console.log(quizzes)
+
+
     const credentials = _useSelector(state => state.userReducer.credentials)
     console.log(credentials)
+
     const userObj = users.find(element => element.username === credentials.username
         && element.role === credentials.role)
     console.log(userObj)
@@ -54,11 +57,16 @@ export default function ViewAssigned({
     console.log(assignedQuizzes)
 
     function handleUpdate() {
-        dispatch(getAssigned())
-        dispatch(initLoadAllUsers())
-        dispatch(initiateGetAllQuizzes())
-
+        dispatch(getAssigned());
+        dispatch(initLoadAllUsers());
+        dispatch(initiateGetAllQuizzes());
     }
+
+    useEffect(() => {
+        dispatch(getAssigned());
+        dispatch(initLoadAllUsers());
+        dispatch(initiateGetAllQuizzes());
+    }, [])
 
     function handleLogout() {
         dispatch({type: LOGOUT})
