@@ -1,10 +1,11 @@
 import {useDispatch, useSelector} from "react-redux";
-import {Badge, Button, Col, Form} from "react-bootstrap";
+import {Badge, Button, Col} from "react-bootstrap";
 import {getAssigned, getGrades} from "../../reducers/responseReducer";
 import StaticQuiz from "./StaticQuiz";
 import {IMPERSONATE_FINISH, initLoadAllUsers, LOGOUT} from "../../reducers/userReducer";
 import {initiateGetAllQuizzes} from "../../reducers/quizReducer";
 import {initiateGetQuizToRespond} from "../../reducers/applicantReducer";
+
 
 
 export default function ViewAssigned({
@@ -18,7 +19,7 @@ export default function ViewAssigned({
 
     const username = _useSelector(state => state.userReducer.loggedInUser)
     const usersList = _useSelector(state => state.userReducer.users)
-    const assignedUser = usersList.find(element => element.username === username)
+    const assignedUser = usersList.find(element => element.username === username && element.role === 'Applicant')
     const users = _useSelector(state => state.userReducer.users)
 
     const assignments = _useSelector(state => state.responseReducer.assignments)
@@ -53,16 +54,14 @@ export default function ViewAssigned({
     console.log(assignedQuizzes)
 
     function handleUpdate() {
-        dispatch(getAssigned())
-        dispatch(initLoadAllUsers())
-        dispatch(initiateGetAllQuizzes())
-
+        dispatch(getAssigned());
+        dispatch(initLoadAllUsers());
+        dispatch(initiateGetAllQuizzes());
     }
 
     function handleLogout() {
         dispatch({type: LOGOUT})
     }
-
     function viewGrades() {
         dispatch(getGrades(assignedUser.id))
     }

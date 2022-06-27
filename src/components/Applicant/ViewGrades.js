@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {CANCEL_VIEW_GRADES, getGrades} from "../../reducers/responseReducer";
-import {Button, Card} from "react-bootstrap";
+import {CANCEL_VIEW_GRADES} from "../../reducers/responseReducer";
+import {Button} from "react-bootstrap";
 import StaticGrade from "./StaticGrade";
 
 function ViewGrades({
