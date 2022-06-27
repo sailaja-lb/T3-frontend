@@ -115,7 +115,6 @@ export default function reducer(state = initialState, action) {
                 //               isGetFollow: false,
                 savecount: 0,
 
-
             }
 
         default:

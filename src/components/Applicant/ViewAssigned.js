@@ -15,7 +15,6 @@ export default function ViewAssigned({
 }) {
     const dispatch = _useDispatch()
 
-
     //TODO change const username
 
     const username = _useSelector(state => state.userReducer.loggedInUser)
