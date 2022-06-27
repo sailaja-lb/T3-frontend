@@ -9,8 +9,14 @@ export default function UsersList({_useSelector = useSelector, _useDispatch = us
     const dispatch = _useDispatch();
     const loggedInRole = _useSelector(state => state.userReducer.loggedInRole)
 
-    function handleEditRole(userId) {
-        dispatch({type: EDIT_ROLE_START, payload : {userId}})
+    function handleEditRole(user) {
+        const userRoles = [user.role]
+        users.forEach((eachUser) => {
+            if (eachUser.username === user.username) {
+                userRoles.push(eachUser.role)
+            }
+        })
+        dispatch({type: EDIT_ROLE_START, payload : {userId: user.id, userRoles}})
     }
     function handleDeleteUser(userId) {
         dispatch(deleteUser(userId))
@@ -32,7 +38,7 @@ export default function UsersList({_useSelector = useSelector, _useDispatch = us
                             <Col>{user.role}</Col>
                             <Col>
                                 <Button title='Edit' variant={"outline-secondary"} size='sm'
-                                        onClick = {e => handleEditRole(user.id)} >
+                                        onClick = {e => handleEditRole(user)} >
                                     <BsPencilSquare />
                                 </Button>
                             </Col>
