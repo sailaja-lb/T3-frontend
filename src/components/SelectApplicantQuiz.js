@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import GradeCompletedQuizzes from "./GradeCompletedQuizzes";
-import {Button, ListGroup} from "react-bootstrap";
+import {Alert, Button, ListGroup} from "react-bootstrap";
 import {CHOSEN_APPLICANT_ID, TOGGLE_GRADE_QUIZ} from "../reducers/gradeAssignmentReducer";
 
 function SelectApplicantQuiz() {
@@ -27,7 +27,9 @@ function SelectApplicantQuiz() {
             <div className={'d-flex justify-content-end'}>
                 <Button onClick={() => dispatch({type: TOGGLE_GRADE_QUIZ})}>Back</Button>
             </div>
-            There are no Applicants to Grade
+            <Alert variant={'danger'} className={'mt-3 d-flex justify-content-center'}>
+                There are no Applicants to Grade
+            </Alert>
         </div>
     else if (chosenApplicant)
         return <GradeCompletedQuizzes/>

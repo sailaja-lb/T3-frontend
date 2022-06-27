@@ -1,18 +1,17 @@
 import {useDispatch, useSelector} from "react-redux";
-import {Badge, Button, Form} from "react-bootstrap";
+import {Badge, Button, Col, Form} from "react-bootstrap";
 import {getAssigned, getGrades} from "../../reducers/responseReducer";
 import StaticQuiz from "./StaticQuiz";
-import {initLoadAllUsers, LOGOUT} from "../../reducers/userReducer";
+import {IMPERSONATE_FINISH, initLoadAllUsers, LOGOUT} from "../../reducers/userReducer";
 import {initiateGetAllQuizzes} from "../../reducers/quizReducer";
 import {initiateGetQuizToRespond} from "../../reducers/applicantReducer";
-
 
 
 export default function ViewAssigned({
                                          _useSelector = useSelector,
                                          _useDispatch = useDispatch,
                                          StaticQuizX = StaticQuiz
-}) {
+                                     }) {
     const dispatch = _useDispatch()
 
     //TODO change const username
@@ -35,9 +34,9 @@ export default function ViewAssigned({
         }
         return false;
     });
-        console.log(uniqueQuizzesId)
-        console.log(uniqueIds)
-        console.log(isDuplicate)
+    console.log(uniqueQuizzesId)
+    console.log(uniqueIds)
+    console.log(isDuplicate)
     console.log(quizzes)
     const credentials = _useSelector(state => state.userReducer.credentials)
     console.log(credentials)
@@ -63,17 +62,24 @@ export default function ViewAssigned({
     function handleLogout() {
         dispatch({type: LOGOUT})
     }
+
     function viewGrades() {
         dispatch(getGrades(assignedUser.id))
     }
-    return<div>
-    <div className='my-3 d-flex justify-content-between'>
-        <Badge bg={'secondary'} className={'d-flex flex-column justify-content-center w-25'}>Welcome,Applicant</Badge>
 
-        {<Button disabled={getQuizPending} onClick={handleUpdate}>Get Quizzes</Button>}
-        <Button onClick={viewGrades}>Grades</Button>
-        <Button onClick={handleLogout}>Logout</Button>
-    </div>
+    const impersonate = useSelector(state => state.userReducer.isImpersonate)
+
+    return <div>
+        <div className='my-3 d-flex justify-content-between'>
+            <Badge bg={'secondary'}
+                   className={'d-flex flex-column justify-content-center w-25'}>Welcome,Applicant</Badge>
+
+            {<Button disabled={getQuizPending} onClick={handleUpdate}>Get Quizzes</Button>}
+            <Button onClick={viewGrades}>Grades</Button>
+            <Button onClick={handleLogout}>Logout</Button>
+            {impersonate ? <Col xs='auto'> <Button onClick={() =>
+                dispatch({type: IMPERSONATE_FINISH})}>Done impersonate</Button> </Col> : null}
+        </div>
 
         {assignedQuizzes.map(
             (staticQuiz, index) => <div key={index}>
