@@ -5,11 +5,11 @@ import Register from "./components/Register";
 import Admin from "./components/Admin";
 import {Container} from "react-bootstrap";
 import Recruiter from "./components/Recruiter";
-//import Applicant from "./components/Applicant";
+import Applicant from "./components/Applicant/Applicant";
 
 function App({LoginC=Login, AdminC = Admin, RegisterC = Register, _useSelector = useSelector,
                  RecruiterC = Recruiter,
-//                 ApplicantC = Applicant
+                 ApplicantC = Applicant
 }) {
 
     const isLoggedIn = _useSelector(state => state.userReducer.isLoggedIn);
@@ -28,11 +28,11 @@ function App({LoginC=Login, AdminC = Admin, RegisterC = Register, _useSelector =
                 <RecruiterC/>
             </Container>
         }
-/*        else if (loggedInRole === 'Applicant') {
+        else if (loggedInRole === 'Applicant') {
             return <Container>
                 <ApplicantC/>
             </Container>
-        }*/
+        }
 
     } else if (isRegister) {
         return <div style={{

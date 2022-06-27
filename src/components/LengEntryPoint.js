@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {TOGGLE_ASSIGN_QUIZ, TOGGLE_GRADE_QUIZ} from "../reducers/lengReducer";
+import {TOGGLE_ASSIGN_QUIZ, TOGGLE_GRADE_QUIZ} from "../reducers/gradeAssignmentReducer";
 import AssignQuizToApplicant from "./AssignQuizToApplicant";
 import GradeCompletedQuizzes from "./GradeCompletedQuizzes";
 
@@ -25,3 +25,5 @@ function LengEntryPoint() {
 }
 
 export default LengEntryPoint;
+
+// this component is not needed. just needed for testing purpose
