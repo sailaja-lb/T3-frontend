@@ -5,14 +5,16 @@ import ViewGrades from "./ViewGrades";
 import TakeQuiz from "./TakeQuiz";
 import {Button} from "react-bootstrap";
 import {getGrades, VIEW_GRADES} from "../../reducers/responseReducer";
+import ApplicantHeader from "./ApplicantHeader";
+import QuizzesForApplicants from "./QuizzesForApplicants";
 import {LOGOUT} from "../../reducers/userReducer";
 
 function Applicant({
                        ViewAssignedC = ViewAssigned,
                        _useSelector = useSelector,
                        ViewGradesX = ViewGrades,
-                       TakeQuizX = TakeQuiz,
-                       _useDispatch = useDispatch
+                       _useDispatch = useDispatch,
+                       QuizzesForApplicantsX=QuizzesForApplicants
                    }) {
 
     const dispatch = useDispatch()
@@ -23,31 +25,39 @@ function Applicant({
     const username = _useSelector(state => state.userReducer.loggedInUser)
     const users = _useSelector(state => state.userReducer.users)
     const assignedUser = users.find(element => element.username === username)
-
+//    const isTakingQuiz = _useSelector(state=>state.responseReducer.isTakingQuiz)
+    const isTakingQuiz = _useSelector(state => state.applicantReducer.isTakingQuiz)
     console.log(assignedUser)
 
-    function viewGrades() {
+/*    function viewGrades() {
         dispatch(getGrades(assignedUser.id))
+    }*/
+    if (isTakingQuiz) {
+        return <QuizzesForApplicantsX/>
     }
 
-    function handleLogout() {
-        dispatch({type: LOGOUT})
-    }
-
-    if (quizInProcess) {
-        return <TakeQuizX/>
-    }
     else if (viewingGrades === true) {
         return <ViewGradesX/>
+
     }
     else {
-       return <>
-           <ViewAssignedC/>
-           <Button onClick={viewGrades}>Grades</Button>
-           <Button onClick={handleLogout}>Logout</Button>
-           </>
+        return <>
+            <ViewAssignedC/>
+    {/*        <Button onClick={viewGrades}>Grades</Button>*/}
+
+        </>
     }
-<h1>hi</h1>
+
+/*
+       return <div>
+            <ApplicantHeader/>
+        </div>
+*/
+
+ //   }
+
+
+
 
 }
 

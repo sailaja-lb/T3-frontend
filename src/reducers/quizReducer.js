@@ -1,3 +1,5 @@
+import userReducer from "./userReducer";
+
 export const ADD_QUIZZES = 'quizReducer/ADD_QUIZZES'
 export const ADD_QUIZ_START = 'quizReducer/ADD_QUIZ_START'
 export const ADD_QUIZ_SUCCESS = 'quizReducer/ADD_QUIZ_SUCCESS'
@@ -21,7 +23,10 @@ export const UPDATE_QUIZ_START = 'quizReducer/UPDATE_QUIZ_START'
 export const UPDATE_QUIZ_SUCCESS = 'quizReducer/UPDATE_QUIZ_SUCCESS'
 export const UPDATE_QUIZ_FAILURE = 'quizReducer/UPDATE_QUIZ_FAILURE'
 
+
 const initialState = {
+
+
     getallQuizresult: [],
     recruiterPending: false,
     quizToAdd: {
@@ -175,7 +180,7 @@ export default function reducer(state = initialState, action) {
         case LOGOUT_RECRUITER:
             return {
                 ...state,
-             /*   isLoggedIn: false,*/
+                isLoggedIn: false,
                 recruiterPending: false,
                 quizToAdd: '',
                 quizToEdit: '',
@@ -289,7 +294,8 @@ export function initiatedeleteQuestion(questionId,_fetch = fetch) {
         const url=`http://localhost:8081/deleteQuestion/${questionId}`
  //       const url = `http://localhost:8081/deleteQuestion?questionId=${questionId}`
         const response = await _fetch(url,{
-            method:"DELETE"})
+            method:"DELETE"
+        })
         if (response.ok) {
             const result = await response.json()
             dispatch({type: DELETE_QUESTION_SUCCESS,payload:result})

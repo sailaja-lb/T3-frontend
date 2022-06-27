@@ -7,6 +7,8 @@ import userReducer from "./reducers/userReducer";
 import quizReducer from "./reducers/quizReducer";
 import responseReducer from "./reducers/responseReducer";
 import gradeAssignmentReducer from './reducers/gradeAssignmentReducer'
+import applicantReducer from "./reducers/applicantReducer"
+
 import {Provider} from "react-redux";
 import {Container} from "react-bootstrap";
 
@@ -20,7 +22,8 @@ const handleAsync = storeAPI => next => action => {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose()
 
 const store = createStore(
-    combineReducers({userReducer, quizReducer, responseReducer, gradeAssignmentReducer: gradeAssignmentReducer}),
+    combineReducers({userReducer, quizReducer, responseReducer, applicantReducer,gradeAssignmentReducer: gradeAssignmentReducer}),
+
     composeEnhancers(applyMiddleware(handleAsync)))
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
