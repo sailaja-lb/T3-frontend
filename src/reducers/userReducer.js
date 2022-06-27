@@ -42,7 +42,8 @@ const initialState = {
     isImpersonate: false,
     impersonateDetails: {},
     authMessage : false,
-    failRegisterMessage: false
+    failRegisterMessage: false,
+    editUserRoles: []
 }
 
 export default function userReducer(state = initialState, action) {
@@ -157,6 +158,7 @@ export default function userReducer(state = initialState, action) {
             return {
                 ...state,
                 editUserId: action.payload.userId,
+                editUserRoles: action.payload.userRoles
             }
         case EDIT_ROLE_CHANGE:
             return {
