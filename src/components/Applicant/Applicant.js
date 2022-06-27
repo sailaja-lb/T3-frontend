@@ -9,7 +9,7 @@ import ApplicantHeader from "./ApplicantHeader";
 import QuizzesForApplicants from "./QuizzesForApplicants";
 import {LOGOUT} from "../../reducers/userReducer";
 
-function Applicant({
+function  Applicant({
                        ViewAssignedC = ViewAssigned,
                        _useSelector = useSelector,
                        ViewGradesX = ViewGrades,
