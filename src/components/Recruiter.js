@@ -9,6 +9,7 @@ import SelectApplicantQuiz from "./SelectApplicantQuiz";
 import {useEffect} from "react";
 import {initLoadAllUsers} from "../reducers/userReducer";
 import {getAssignment} from "../reducers/gradeAssignmentReducer";
+import GetCompletedQuizzes from "./GetCompletedQuizzes";
 
 export default function Recruiter({
                                       _useSelector = useSelector,
