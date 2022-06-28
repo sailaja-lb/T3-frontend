@@ -35,15 +35,12 @@ export default function ViewAssigned({
         }
         return false;
     });
-    console.log(uniqueQuizzesId)
-    console.log(uniqueIds)
-    console.log(isDuplicate)
-    console.log(quizzes)
+
     const credentials = _useSelector(state => state.userReducer.credentials)
-    console.log(credentials)
+
     const userObj = users.find(element => element.username === credentials.username
         && element.role === credentials.role)
-    console.log(userObj)
+
 
     const getQuizPending = _useSelector(state => state.quizReducer.recruiterPending)
 
@@ -51,7 +48,6 @@ export default function ViewAssigned({
 
     const assignedQuizzes = uniqueQuizzesId.filter((quiz) =>
         assignedTo.find(({quizTemplateId}) => quiz.quizTemplateId === quizTemplateId))
-    console.log(assignedQuizzes)
 
     function handleUpdate() {
         dispatch(getAssigned());
