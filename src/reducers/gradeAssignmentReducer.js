@@ -1,5 +1,4 @@
 // Action
-
 export const TOGGLE_ASSIGN_QUIZ = '/TOGGLE_ASSIGN_QUIZ'
 export const GET_ALL_QUIZZES = '/GET_ALL_QUIZZES'
 export const GET_ALL_COMPLETED_ASSIGN = '/GET_ALL_COMPLETED_ASSIGN'
@@ -16,7 +15,7 @@ export const UPDATE_GRADED_QUIZ_SUCCESS = '/UPDATE_GRADED_QUIZ_SUCCESS'
 export const UPDATE_GRADED_QUIZ_FAILURE = '/UPDATE_GRADED_QUIZ_FAILURE'
 export const RESET_MESSAGE = '/RESET_MESSAGE'
 export const UPDATE_GRADE = '/UPDATE_GRADE'
-
+export const DELETE_ASSIGNMENT_SUCCESS='/DELETE_ASSIGNMENT_SUCCESS'
 // init state
 const initialState = {
 
@@ -42,6 +41,7 @@ const initialState = {
     grade: null,
     gradedBy: null,
     currentUserId: null,
+    isGetAllAssignedQuizzes:null,
 }
 
 // Reducer
@@ -89,9 +89,9 @@ export default function gradeAssignmentReducer(state = initialState, action) {
         case GET_ALL_QUIZZES: // not needed
             return {...state, quizzes: action.payload}
         case GET_ALL_COMPLETED_ASSIGN:
-            return {...state, assignments: action.payload}
+            return {...state, assignments: action.payload,isGetAllAssignedQuizzes:true}
         case ASSIGN_QUIZ_SUCCESSFUL:
-            return {...state, message: 'Quiz assigned successful'}
+            return {...state,assignments: action.payload,message: 'Quiz assigned successful', isGetAllAssignedQuizzes:true}
         case ASSIGN_QUIZ_FAILED:
             return {...state, message: 'Quiz assigned FAILED'}
         case RESET_MESSAGE:
@@ -100,7 +100,8 @@ export default function gradeAssignmentReducer(state = initialState, action) {
             return {...state, chosenApplicantId: action?.id}
         case CANCEL_APPLICANT_ID:
             return {...state, chosenApplicantId: undefined}
-
+        case DELETE_ASSIGNMENT_SUCCESS:
+            return {...state,assignments: action.payload,message: 'Assignment Deleted Successfully!',isGetAllAssignedQuizzes: true}
         default:
             return {...state}
     }
@@ -121,11 +122,12 @@ export function addAssignment(_fetch = fetch) {
             body: JSON.stringify({})
         })
         if (response.ok) {
-            dispatch({type: ASSIGN_QUIZ_SUCCESSFUL})
+            const result = await response.json()
+            dispatch({type: ASSIGN_QUIZ_SUCCESSFUL, payload: result})
             alert('Assigned Successful')
         } else {
             dispatch({type: ASSIGN_QUIZ_FAILED})
-            alert('Assigned Failed')
+            alert('Failed to Assign Quiz - User has been assigned this quiz already!')
 
         }
     }
@@ -159,5 +161,19 @@ export function updateGradedQuiz(_fetch = fetch) {
             alert('Update grade Successful')
         else
             alert('Update grade Failed')
+    }
+}
+
+
+export function initiatedeleteAssignment(assignmentId,_fetch = fetch) {
+    return async function sideEffect(dispatch, getState) {
+        const url=`http://localhost:8082/deleteAssignment?assignmentId=` + assignmentId
+        //       const url = `http://localhost:8081/deleteQuestion?questionId=${questionId}`
+        const response = await _fetch(url)
+        if (response.ok) {
+            const result = await response.json()
+            dispatch({type: DELETE_ASSIGNMENT_SUCCESS,payload:result})
+        } else
+            alert('Cannot Delete Assignment')
     }
 }
