@@ -12,7 +12,7 @@ import Recruiter from "./Recruiter";
 import Applicant from "./Applicant/Applicant";
 
 
-export default function Admin({_useDispatch = useDispatch, _useSelector = useSelector, UsersListC = UsersList}) {
+export default function Admin({_useDispatch = useDispatch, _useSelector = useSelector, UsersListC = UsersList, SpinnerC = Spinner, EditUserRoleC=EditUserRole, RecruiterC = Recruiter, ApplicantC = Applicant}) {
     const dispatch = _useDispatch()
     const loggedInUser = _useSelector(state => state.userReducer.credentials.username)
     const loading = _useSelector(state => state.userReducer.loading)
@@ -32,12 +32,12 @@ export default function Admin({_useDispatch = useDispatch, _useSelector = useSel
         <>
             {isImpersonate ?
                 <>
-                    {impersonateDetails.role === "Recruiter" ? <Recruiter /> : null}
-                    {impersonateDetails.role === "Applicant" ? <Applicant /> : null}
+                    {impersonateDetails.role === "Recruiter" ? <RecruiterC /> : null}
+                    {impersonateDetails.role === "Applicant" ? <ApplicantC /> : null}
                 </> : <>
                     <Row className='my-3 align-items-center'>
                         <Col>
-                            <Button type='button' onClick={handleRegister}>ADD USER</Button>
+                            <Button type='button' title='ADD USER' onClick={handleRegister}>ADD USER</Button>
                         </Col>
                         <Col xs='auto'>Welcome {loggedInUser}</Col>
                         <Col xs='auto'><Button title='Logout' onClick={() => dispatch({type: LOGOUT})} variant={"outline-secondary"}>
@@ -46,10 +46,10 @@ export default function Admin({_useDispatch = useDispatch, _useSelector = useSel
                     </Row>
                     <Row>
                         <Col>
-                            {loading ? <Spinner animation="grow" /> : <UsersListC />}
+                            {loading ? <SpinnerC animation="grow" /> : <UsersListC />}
                         </Col>
                     </Row>
-                    <EditUserRole />
+                    <EditUserRoleC />
                 </>}
         </>
     )

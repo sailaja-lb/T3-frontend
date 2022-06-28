@@ -11,12 +11,12 @@ export default function Register({_useSelector = useSelector, _useDispatch=useDi
     const users = _useSelector(state => state.userReducer.addNewUser)
     const isAddNewUser = _useSelector(state => state.userReducer.isAddNewUser)
     const authMessage = _useSelector(state => state.userReducer.authMessage)
+    const failRegisterMessage = _useSelector(state => state.userReducer.failRegisterMessage)
 
     const dispatch = _useDispatch()
 
     function handleRegister(event) {
         event.preventDefault()
-        // setSubmit(true)
         dispatch(initiateRegister())
     }
 
@@ -33,6 +33,8 @@ export default function Register({_useSelector = useSelector, _useDispatch=useDi
 
     return <Card style={{borderWidth: 0}}>
         <Card.Body>
+            {failRegisterMessage ? (<Alert variant={"danger"}>
+                This User already exists.</Alert>) : null}
             {authMessage ? (<Alert variant={"danger"}>
                 Not Authorized. Should be a Admin</Alert>) : null}
             <Form onSubmit={handleRegister}>

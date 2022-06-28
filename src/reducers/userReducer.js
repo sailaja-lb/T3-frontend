@@ -113,8 +113,6 @@ export default function userReducer(state = initialState, action) {
         case REGISTER_FAILURE:
             return {
                 ...state,
-                isRegister: false,
-                registerPending: false,
                 failRegisterMessage: true
             }
         case CANCEL:
