@@ -12,7 +12,7 @@ export default function RecruiterHeader({
                                             _initiateGetAllQuizzes = initiateGetAllQuizzes,
                                         }) {
     const dispatch = _useDispatch()
-
+    const loggedInUser = _useSelector(state => state.userReducer.credentials.username)
     function handleGetAllProc() {
         dispatch(_initiateGetAllQuizzes())
     }
@@ -20,7 +20,7 @@ export default function RecruiterHeader({
     const impersonate = useSelector(state => state.userReducer.isImpersonate)
 
     return <div className='my-3 d-flex justify-content-between'>
-        <Badge bg={'secondary'} className={'d-flex flex-column justify-content-center w-25'}>Welcome,Recruiter</Badge>
+        <Badge bg={'secondary'} className={'d-flex flex-column justify-content-center w-25'}>Welcome,{loggedInUser}</Badge>
         <Button title='Create Quizzes/Questions' onClick={() => dispatch({type: ADD_QUIZZES})}
                 variant={"outline-primary"}>Create Quizzes/Questions</Button>
         <Button title='Get All Quizzes' onClick={handleGetAllProc}

@@ -21,7 +21,7 @@ export default function ViewAssigned({
     const usersList = _useSelector(state => state.userReducer.users)
     const assignedUser = usersList.find(element => element.username === username && element.role === 'Applicant')
     const users = _useSelector(state => state.userReducer.users)
-
+    const loggedInUser = _useSelector(state => state.userReducer.credentials.username)
     const assignments = _useSelector(state => state.responseReducer.assignments)
 
     const quizzes = _useSelector(state => state.quizReducer.getallQuizresult)
@@ -35,15 +35,12 @@ export default function ViewAssigned({
         }
         return false;
     });
-    console.log(uniqueQuizzesId)
-    console.log(uniqueIds)
-    console.log(isDuplicate)
-    console.log(quizzes)
+
     const credentials = _useSelector(state => state.userReducer.credentials)
-    console.log(credentials)
+
     const userObj = users.find(element => element.username === credentials.username
         && element.role === credentials.role)
-    console.log(userObj)
+
 
     const getQuizPending = _useSelector(state => state.quizReducer.recruiterPending)
 
@@ -51,7 +48,6 @@ export default function ViewAssigned({
 
     const assignedQuizzes = uniqueQuizzesId.filter((quiz) =>
         assignedTo.find(({quizTemplateId}) => quiz.quizTemplateId === quizTemplateId))
-    console.log(assignedQuizzes)
 
     function handleUpdate() {
         dispatch(getAssigned());
@@ -71,7 +67,7 @@ export default function ViewAssigned({
     return <div>
         <div className='my-3 d-flex justify-content-between'>
             <Badge bg={'secondary'}
-                   className={'d-flex flex-column justify-content-center w-25'}>Welcome,Applicant</Badge>
+                   className={'d-flex flex-column justify-content-center w-25'}>Welcome,{loggedInUser}</Badge>
 
             {<Button disabled={getQuizPending} onClick={handleUpdate}>Get Quizzes</Button>}
             <Button onClick={viewGrades}>Grades</Button>
