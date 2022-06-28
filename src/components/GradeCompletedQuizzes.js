@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import GradeCompletedQuiz from "./GradeCompletedQuiz";
-import {Button} from "react-bootstrap";
+import {Alert, Button} from "react-bootstrap";
 import {CANCEL_APPLICANT_ID, RESET_VIEW_RESPONSE} from "../reducers/gradeAssignmentReducer";
 import ViewResponses from "./ViewResponses";
 
@@ -20,7 +20,9 @@ function GradeCompletedQuizzes() {
             <div className={'d-flex justify-content-end'}>
                 <Button onClick={() => dispatch({type: CANCEL_APPLICANT_ID})}>Back</Button>
             </div>
-            This Applicant does not have any quizzes to grade
+            <Alert variant={'danger'} className={'mt-3 d-flex justify-content-center'}>
+                This Applicant does not have any quizzes to grade
+            </Alert>
         </div>
 
     else if (responseQuestion)

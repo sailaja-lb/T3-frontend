@@ -2,7 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {Badge, Button, Col} from "react-bootstrap";
 import {ADD_QUIZZES, initiateGetAllQuizzes, LOGOUT_RECRUITER} from "../../reducers/quizReducer";
 
-import {LOGOUT} from "../../reducers/userReducer";
+import {IMPERSONATE_DONE, IMPERSONATE_FINISH, LOGOUT} from "../../reducers/userReducer";
 
 import {TOGGLE_ASSIGN_QUIZ, TOGGLE_GRADE_QUIZ} from "../../reducers/gradeAssignmentReducer";
 
@@ -16,6 +16,8 @@ export default function RecruiterHeader({
     function handleGetAllProc() {
         dispatch(_initiateGetAllQuizzes())
     }
+
+    const impersonate = useSelector(state => state.userReducer.isImpersonate)
 
     return <div className='my-3 d-flex justify-content-between'>
         <Badge bg={'secondary'} className={'d-flex flex-column justify-content-center w-25'}>Welcome,Recruiter</Badge>
@@ -35,5 +37,7 @@ export default function RecruiterHeader({
         <Col xs='auto'><Button title='Logout' onClick={() => dispatch({type: LOGOUT})}
                                variant={"outline-secondary"}>
             LOGOUT</Button></Col>
+        {impersonate ? <Col xs='auto'> <Button onClick={() =>
+            dispatch({type: IMPERSONATE_FINISH})}>Done impersonate</Button> </Col> : null}
     </div>
 }

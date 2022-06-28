@@ -19,6 +19,7 @@ export const IMPERSONATE_START = 'IMPERSONATE_START'
 export const IMPERSONATE_DONE = 'IMPERSONATE_DONE'
 export const LOGOUT = 'LOGOUT'
 export const GET_ALL_USERS_START = 'GET_ALL_USERS_START'
+export const IMPERSONATE_FINISH = 'IMPERSONATE_FINISH'
 
 
 const initialState = {
@@ -41,7 +42,7 @@ const initialState = {
     isAddNewUser: false,
     isImpersonate: false,
     impersonateDetails: {},
-    authMessage : false,
+    authMessage: false,
     failRegisterMessage: false,
     editUserRoles: []
 }
@@ -194,6 +195,8 @@ export default function userReducer(state = initialState, action) {
                 isLoggedIn: true,
                 token: action.payload.token
             }
+        case IMPERSONATE_FINISH:
+            return {...state, isImpersonate: false}
         default:
             return {...state}
     }

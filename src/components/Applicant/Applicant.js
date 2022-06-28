@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import ViewGrades from "./ViewGrades";
 import QuizzesForApplicants from "./QuizzesForApplicants";
 
-function Applicant({
+function  Applicant({
                        ViewAssignedC = ViewAssigned,
                        _useSelector = useSelector,
                        ViewGradesX = ViewGrades,

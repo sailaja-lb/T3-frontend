@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form} from "react-bootstrap";
 import {ADD_ASSIGNMENT, addAssignment, TOGGLE_ASSIGN_QUIZ} from "../reducers/gradeAssignmentReducer";
 
 function AssignQuizToApplicant() {
@@ -43,7 +43,9 @@ function AssignQuizToApplicant() {
             <div className={'d-flex justify-content-end'}>
                 <Button onClick={() => dispatch({type: TOGGLE_ASSIGN_QUIZ})}>Back</Button>
             </div>
-            There are no Applicants or Quizzes to assign
+            <Alert variant={'danger'} className={'mt-3 d-flex justify-content-center'}>
+                There are no Applicants or Quizzes to assign
+            </Alert>
         </div>
 
     return <div>

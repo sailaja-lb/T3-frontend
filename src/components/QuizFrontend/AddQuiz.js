@@ -43,7 +43,7 @@ export default function AddQuiz({
         </Form.Control.Feedback>
         <select required
                 onChange={e => setquestionType(e.target.value)}>
-            <option value="response Type">Choose a questionType</option>
+            <option value="">Choose a questionType</option>
             <option value="Boolean">Boolean</option>
             <option value="Text">Text</option>
       {/*  <option value="Multiple Choice">Multiple Choice</option>*/}
