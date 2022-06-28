@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Alert, Button, Form} from "react-bootstrap";
-import {ADD_ASSIGNMENT, addAssignment, TOGGLE_ASSIGN_QUIZ} from "../reducers/gradeAssignmentReducer";
+import {ADD_ASSIGNMENT, addAssignment, getAssignment, TOGGLE_ASSIGN_QUIZ} from "../reducers/gradeAssignmentReducer";
+import GetAllAssignedQuizzes from "./GetAllAssignedQuizzes";
 
 function AssignQuizToApplicant() {
     const users = useSelector(state => state.userReducer.users)
     const quizzes = useSelector(state => state.quizReducer.getallQuizresult)
-
+    const isGetAllAssignedQuizzes=useSelector(state=>state.gradeAssignmentReducer.assignments)
     const uniqueIds = [];
     const uniqueQuizzesId = quizzes.filter(element => {
         const isDuplicate = uniqueIds.includes(element.quizTemplateId);
@@ -50,6 +51,7 @@ function AssignQuizToApplicant() {
 
     return <div>
         <div className={'d-flex justify-content-end'}>
+
             <Button onClick={() => dispatch({type: TOGGLE_ASSIGN_QUIZ})}>Back</Button>
         </div>
         <div>
@@ -75,6 +77,7 @@ function AssignQuizToApplicant() {
         <div className={'d-flex justify-content-center'}>
             <Button onClick={handleAddAssignment}>Assign quiz</Button>
         </div>
+        {isGetAllAssignedQuizzes && <GetAllAssignedQuizzes/>}
     </div>
 }
 
