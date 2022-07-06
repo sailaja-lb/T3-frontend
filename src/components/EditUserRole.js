@@ -36,10 +36,10 @@ export default function EditUserRole({_useSelector=useSelector, _useDispatch = u
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button title='close' variant={"secondary"} onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={handleSave} disabled={editUserRoles.length > 3}>
+                <Button title='save' variant={"primary"} onClick={handleSave} disabled={editUserRoles.length > 3}>
                     Save
                 </Button>
             </Modal.Footer>

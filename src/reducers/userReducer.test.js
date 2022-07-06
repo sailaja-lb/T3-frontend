@@ -6,7 +6,7 @@ import reducer, {
     EDIT_ROLE_START,
     EDIT_ROLE_SUCCESS,
     GET_ALL_USERS_DONE,
-    GET_ALL_USERS_START, IMPERSONATE_DONE, IMPERSONATE_START,
+    GET_ALL_USERS_START, IMPERSONATE_DONE, IMPERSONATE_START, initiateLogin, initiateRegister,
     LOGIN_FAILURE,
     LOGIN_START,
     LOGIN_SUCCESS,
@@ -87,10 +87,7 @@ it('should set registerPending to false when REGISTER_SUCCESS',() => {
 });
 it('should set registerPending false when REGISTER_FAILURE',() =>{
     const initialState = reducer();
-    initialState.registerPending = true;
     const state = reducer(initialState, {type:REGISTER_FAILURE});
-    expect(state.isRegister).toBe(false);
-    expect(state.registerPending).toBe(false);
     expect(state.failRegisterMessage).toBe(true);
 });
 it('should set registerPending,isLoggedIn,isRegister to false when CANCEL',() =>{
@@ -195,9 +192,124 @@ it('should set isImpersonate to false when IMPERSONATE_DONE', () => {
     expect(state.isLoggedIn).toBe(true);
     expect(state.token).toBe(token);
 });
-// it('should set isImpersonate to false when IMPERSONATE_FINISH',()=>{
-//     const initialState = reducer();
-//     let IMPERSONATE_FINISH;
-//     const state = reducer(initialState,{type:IMPERSONATE_FINISH});
-//     expect(state.isImpersonate).toBe(false);
-// })
+it('should dispatch REGISTER_START and REGISTER_SUCCESS when initiateRegister with good Admin creds', async ()=>{
+    const dispatch = jest.fn();
+    const getState = () => {
+        return {
+            userReducer:{
+                addNewUser:{username:'some user',password:'pass',role:'Admin'}
+            }
+        }
+    }
+    const userRegister ={username:'some user', password:'pass', role:'Admin'}
+    const url = "http://localhost:8080/user/registerAdmin"
+    let _url
+    const mockFetch = (url,method='POST',body ={userRegister})=>{
+        _url = url;
+        return new Promise(resolve => resolve({
+            ok:true,
+            json: () => new Promise(res => res(userRegister))
+        }))
+    }
+    await initiateRegister(mockFetch)(dispatch,getState)
+    expect(_url).toBe(url)
+    expect(dispatch).toHaveBeenCalledWith({type: REGISTER_SUCCESS})
+})
+it('should dispatch REGISTER_START and REGISTER_SUCCESS when initiateRegister with good Recruiter creds', async ()=>{
+    const dispatch = jest.fn();
+    const getState = () => {
+        return {
+            userReducer:{
+                addNewUser:{username:'some user',password:'pass',role:'Recruiter'}
+            }
+        }
+    }
+    const userRegister ={username:'some user', password:'pass', role:'Recruiter'}
+    const url = "http://localhost:8080/user/registerRecruiter"
+    let _url1
+    const mockFetch = (url,method='POST',body ={userRegister})=>{
+        _url1 = url;
+        return new Promise(resolve => resolve({
+            ok:true,
+            json: () => new Promise(res => res(userRegister))
+        }))
+    }
+    await initiateRegister(mockFetch)(dispatch,getState)
+    expect(_url1).toBe(url)
+    expect(dispatch).toHaveBeenCalledWith({type: REGISTER_SUCCESS})
+})
+it('should dispatch REGISTER_START and REGISTER_SUCCESS when initiateRegister with good Applicant creds', async ()=>{
+    const dispatch = jest.fn();
+    const getState = () => {
+        return {
+            userReducer:{
+                addNewUser:{username:'some user',password:'pass',role:'Applicant'}
+            }
+        }
+    }
+    const userRegister ={username:'some user', password:'pass', role:'Applicant'}
+    const url = "http://localhost:8080/user/registerApplicant"
+    let _url2
+    const mockFetch = (url,method='POST',body ={userRegister})=>{
+        _url2 = url;
+        return new Promise(resolve => resolve({
+            ok:true,
+            json: () => new Promise(res => res(userRegister))
+        }))
+    }
+    await initiateRegister(mockFetch)(dispatch,getState)
+    expect(_url2).toBe(url)
+    expect(dispatch).toHaveBeenCalledWith({type: REGISTER_SUCCESS})
+})
+it('should dispatch LOGIN_START then LOGIN_SUCCESS when initiateLogin w/ good creds', async () => {
+    const username = 'some user'
+    const password = 'pass'
+    const role = 'Admin'
+    const token = 'some token'
+    const getState = () => {
+        return {
+            userReducer:{
+                credentials:{username:'some user',password:'pass',role:'Admin'}
+            }
+        }
+    }
+    const url = `http://localhost:8080/user/login?username=${username}&password=${password}&role=${role}`
+    let _url
+
+    const mockFetch = (url) => {
+        _url = url
+        return new Promise(resolve => resolve({
+            ok: true,
+            json: () => new Promise(res => res(token))
+        }))
+    }
+
+    const dispatch = jest.fn()
+    await initiateLogin(mockFetch)(dispatch, getState)
+    expect(_url).toBe(url)
+    expect(dispatch).toHaveBeenCalledWith({type: LOGIN_START})
+    expect(dispatch).toHaveBeenCalledWith({type: LOGIN_SUCCESS, payload: {token:token}})
+});
+it('should dispatch LOGIN_START then LOGIN_FAILURE when initiateLogin w/ bad creds', async () => {
+    const username = 'some user'
+    const password = 'pass'
+    const role = 'Admin'
+    const url = `http://localhost:8080/user/login?username=${username}&password=${password}&role=${role}`
+    let _url
+
+    const mockFetch = (url) => {
+        _url = url
+        return new Promise(resolve => resolve({ok: false}))
+    }
+
+    const dispatch = jest.fn()
+    const state = {userReducer:{
+            credentials:{username:'some user',password:'pass',role:'Admin'}
+        }}
+    const getState = () => state
+    const sideEffect = initiateLogin(mockFetch)
+    await sideEffect(dispatch, getState)
+    expect(_url).toBe(url)
+    expect(dispatch).toHaveBeenCalledWith({type: LOGIN_START})
+    expect(dispatch).toHaveBeenCalledWith({type: LOGIN_FAILURE})
+})
